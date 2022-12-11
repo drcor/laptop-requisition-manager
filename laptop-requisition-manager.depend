@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1669080405 source:c:\users\drcor\temp\laptop-requisition-manager\include\elements.c
+	"elements.h"
+
+1669081183 c:\users\drcor\temp\laptop-requisition-manager\include\elements.h
+	<time.h>
+
+1669079764 source:c:\users\drcor\temp\laptop-requisition-manager\main.c
+	<stdio.h>
+	<stdlib.h>
+	"include/elements.h"
+
