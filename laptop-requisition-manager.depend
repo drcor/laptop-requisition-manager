@@ -1,12 +1,26 @@
 # depslib dependency file v1.0
-1669080405 source:c:\users\drcor\temp\laptop-requisition-manager\include\elements.c
+1670878196 source:c:\users\drcor\temp\laptop-requisition-manager\include\elements.c
 	"elements.h"
 
-1669081183 c:\users\drcor\temp\laptop-requisition-manager\include\elements.h
-	<time.h>
+1670882726 c:\users\drcor\temp\laptop-requisition-manager\include\elements.h
+	<stdint.h>
 
-1669079764 source:c:\users\drcor\temp\laptop-requisition-manager\main.c
+1670640203 source:c:\users\drcor\temp\laptop-requisition-manager\main.c
 	<stdio.h>
 	<stdlib.h>
-	"include/elements.h"
+
+1670885738 source:c:\users\drcor\temp\laptop-requisition-manager\include\date.c
+	"date.h"
+	<stdbool.h>
+
+1670885743 c:\users\drcor\temp\laptop-requisition-manager\include\date.h
+	<stdint.h>
+	<stdbool.h>
+
+1670877588 source:c:\users\drcor\temp\laptop-requisition-manager\include\laptops.c
+	"laptops.h"
+
+1670887123 c:\users\drcor\temp\laptop-requisition-manager\include\laptops.h
+	"elements.h"
+	"date.h"
 
