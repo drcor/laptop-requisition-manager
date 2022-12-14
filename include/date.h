@@ -11,4 +11,7 @@ typedef struct {
 	uint16_t year;
 } typeDate;
 
+/* Check if 'year' is a leap year */
+bool is_leap_year(uint16_t year);
+
 #endif	// DATE_H_INCLUDED
