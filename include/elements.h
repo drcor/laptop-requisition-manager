@@ -13,4 +13,7 @@ enum typeLocal {
 /* Set location from a integer */
 int set_typeLocal(enum typeLocal *location, int num);
 
+/* Check if 'number' is in range from 'min' to 'max' */
+int check_range(int number, int min, int max);
+
 #endif // ELEMENTS_H_INCLUDED
