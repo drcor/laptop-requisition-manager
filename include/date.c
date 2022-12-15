@@ -1,5 +1,6 @@
 #include "date.h"
 #include "elements.h"
+#include <stdio.h>
 #include <stdbool.h>
 
 /**
@@ -20,7 +21,6 @@ bool is_leap_year(uint16_t year) {
 		} else {
 			result = true;
 		}
-		
 	}
 
 	return result;
@@ -75,4 +75,17 @@ int validate_date(typeDate date) {
 	}
 
 	return result;
+}
+
+/**
+ * @brief Print date in text format
+ * 
+ * @param date 
+ */
+void print_date(typeDate date) {
+	if (validate_date(date) == 0) {
+		printf("%02d/%02d/%04d", date.day, date.month, date.year);
+	} else {
+		printf("ERRO: Formato de data corrumpido!\n");
+	}
 }
