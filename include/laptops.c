@@ -1,4 +1,5 @@
 #include "laptops.h"
+#include <malloc.h>
 
 /**
  * @brief Set type of cpu from a integer
@@ -51,6 +52,66 @@ int set_typeState(enum typeState *state, int num) {
 	default:
 		result = -1;
 		break;
+	}
+
+	return result;
+}
+
+/**
+ * @brief Read a N number of laptops from a file
+ * The N number is given in the first 4 bytes of the file
+ * 
+ * @param laptops 
+ * @param amount
+ * @param file 
+ * @return -1 if failed to read laptops
+ * @return 0 if success
+ */
+int read_laptop_from_file(typeLaptop *laptops, unsigned int *amount, FILE *file) {
+	int result = -1;
+
+	// Check if 'file' is valid
+	if (file != NULL) {
+		// Get the amount of laptops in the file
+		int t = fread(amount, sizeof(unsigned int), 1, file);
+
+		if (*amount != 0) {
+			// Allocate memory
+			laptops = malloc(*amount * sizeof(typeLaptop));
+
+			if (laptops != NULL) {	// failed to allocate memory
+				// Read all laptops from the file to the vector 'laptops'
+				if (fread(laptops, sizeof(typeLaptop), *amount, file) == *amount) {
+					result = 0;
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
+/**
+ * @brief Write all laptops to a file
+ * 
+ * @param laptops 
+ * @param amount 
+ * @param file 
+ * @return -1 if failed to write laptops
+ * @return 0 if success
+ */
+int write_laptop_to_file(typeLaptop *laptops, unsigned int amount, FILE *file) {
+	int result = -1;
+
+	// Check if 'file' is valid and there is any laptop to write
+	if (file != NULL) {
+		if (amount > 0) {
+			// Write amount of laptops and all laptops
+			fwrite(&amount, sizeof(unsigned int), 1, file);
+			fwrite(laptops, sizeof(typeLaptop), amount, file);
+
+			result = 0;
+		}
 	}
 
 	return result;
