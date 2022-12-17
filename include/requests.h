@@ -3,6 +3,7 @@
 
 #include "elements.h"
 #include "date.h"
+#include <stdio.h>
 
 /* Enumeration of type of user */
 enum typeUser {
@@ -34,5 +35,10 @@ typedef struct {
 	enum typeLocal devolution_local;
 	float price;
 } typeRequest;
+
+/* Read a N number of requests from a file */
+int read_request_from_file(typeRequest *requests, unsigned int *amount, FILE *file);
+/* Write a vector os requests to a file */
+int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file);
 
 #endif // REQUESTS_H_INCLUDED
