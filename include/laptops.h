@@ -39,7 +39,7 @@ typedef struct {
 
 /* Read a N number of laptops from a file */
 int read_laptop_from_file(typeLaptop *laptops, unsigned int *amount, FILE *file);
-/* Write all laptops to a file */
+/* Write a vector of laptops to a file */
 int write_laptop_to_file(typeLaptop *laptops, unsigned int amount, FILE *file);
 
 #endif // LAPTOPS_H_INCLUDED
