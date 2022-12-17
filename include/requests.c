@@ -72,11 +72,11 @@ int read_request_from_file(typeRequest *requests, unsigned int *amount, FILE *fi
 		// Get the amount of requests in the file
 		fread(amount, sizeof(unsigned int), 1, file);
 
-		if (*amount != 0) {
+		if (*amount > 0) {
 			requests = malloc(*amount * sizeof(typeRequest));	// Allocate memory
 
-			if (requests != NULL) {	// failed to allocate memory
-				// Read all reuqests from the file to the vector 'requests'
+			if (requests != NULL) {	// success to allocate memory
+				// Read all reuquests from the file to the vector 'requests'
 				if (fread(requests, sizeof(typeRequest), *amount, file) == *amount) {
 					result = 0;
 				}

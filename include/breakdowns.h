@@ -3,6 +3,7 @@
 
 #include "elements.h"
 #include "date.h"
+#include <stdio.h>
 
 /* Enumeration of breakdown types */
 enum typeBreak {
@@ -20,5 +21,10 @@ typedef struct {
 	typeDate date;
 	unsigned int duration;
 } typeBreakdown;
+
+/* Read a N number of breakdowns from a file */
+int read_breakdown_from_file(typeBreakdown *breakdowns, unsigned int *amount, FILE *file);
+/* Write vector of breakdowns to a file */
+int write_breakdown_to_file(typeBreakdown *breakdowns, unsigned int amount, FILE *file);
 
 #endif // BREAKDOWNS_H_INCLUDED
