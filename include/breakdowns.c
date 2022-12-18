@@ -1,4 +1,5 @@
 #include "breakdowns.h"
+#include <stdlib.h>
 
 /**
  * @brief Set type of breakdown from a integer
