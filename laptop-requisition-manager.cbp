@@ -31,10 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="include/elements.c">
+		<Unit filename="include/generic.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="include/elements.h" />
+		<Unit filename="include/generic.h" />
 		<Unit filename="include/laptops.c">
 			<Option compilerVar="CC" />
 		</Unit>

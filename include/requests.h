@@ -1,7 +1,7 @@
 #ifndef REQUESTS_H_INCLUDED
 #define REQUESTS_H_INCLUDED
 
-#include "elements.h"
+#include "generic.h"
 #include "date.h"
 #include <stdio.h>
 

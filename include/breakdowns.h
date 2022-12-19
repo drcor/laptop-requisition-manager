@@ -1,7 +1,7 @@
 #ifndef BREAKDOWNS_H_INCLUDED
 #define BREAKDOWNS_H_INCLUDED
 
-#include "elements.h"
+#include "generic.h"
 #include "date.h"
 #include <stdio.h>
 
