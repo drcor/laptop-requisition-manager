@@ -4,7 +4,7 @@
 #include <wchar.h>
 #include <fcntl.h>
 
-int menu();
+void menu();
 int lerInteiro (char msg[], int limMin, int limMax);
 void limparBuffer(void);
 
@@ -12,13 +12,13 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
     int opcao;
-
+    
     menu();
     
     return 0;
 }
 
-int menu(){
+void menu(){
     int opcao, opcao2;
     
         do{
