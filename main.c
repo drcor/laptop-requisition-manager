@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
-#include <ctype.h>
-#include <string.h>
+#include <wchar.h>
+#include <fcntl.h>
 
 int menu();
 int lerInteiro (char msg[], int limMin, int limMax);
@@ -13,13 +13,7 @@ int main()
     setlocale(LC_ALL, "Portuguese");
     int opcao;
 
-    opcao = menu();
-    do{
-        switch(opcao){
-            case 0:
-                break;
-        }
-    }while(opcao != 0);
+    menu();
     
     return 0;
 }
@@ -28,6 +22,7 @@ int menu(){
     int opcao, opcao2;
     
         do{
+            // This is the main menu
             printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
             printf("\u2551                MENU                 \u2551\n");
             printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
@@ -41,7 +36,7 @@ int menu(){
 
         
             switch(opcao){
-                case 1:
+                case 1: // If he chooses laptops this shows up
                     printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
                     printf("\u2551                Portáteis                 \u2551\n");
                     printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
@@ -56,7 +51,7 @@ int menu(){
                             break;
                     }
                     break;
-                case 2:
+                case 2: // If he chooses requests:
                     printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
                     printf("\u2551                 Requisições               \u2551\n");
                     printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
@@ -73,7 +68,7 @@ int menu(){
                             break;
                     }
                     break;
-                case 3:
+                case 3: // If he chooses malfunctions
                     printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
                     printf("\u2551                Avarias                 \u2551\n");
                     printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
@@ -87,18 +82,17 @@ int menu(){
                             break;
                     }
                     break;
-                    case 0:
-                        break;
+                case 4: // If he chooses statistics
+                    
+                    break;
+                case 0: // This closes the program
+                    break;
             }
         }while(opcao != 0);
 
 
 
     
-    
-    
-   
-    return opcao;
 }
 
 
