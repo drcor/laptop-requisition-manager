@@ -1,4 +1,5 @@
 #include "generic.h"
+#include <stdio.h>
 
 /**
  * @brief Set location from a integer
@@ -31,7 +32,6 @@ int set_typeLocal(enum typeLocal *location, int num) {
 	return result;
 }
 
-
 /**
  * @brief Check if 'number' is in range from 'min' to 'max'
  * 
@@ -57,4 +57,104 @@ int check_range(int number, int min, int max) {
 	}
 
 	return result;
+}
+
+/**
+ * @brief Limpa o buffer de input
+ */
+void cleanBufferStdin(void) {
+	char chr;
+	do {
+		chr = getchar();
+	} while (chr != '\n' && chr != EOF);
+}
+
+/**
+ * @brief Read a integer from the input
+ * 
+ * @param message 
+ * @param min 
+ * @param max 
+ * @return int 
+ */
+int read_integer(char *message, int min, int max) {
+	int number, control;
+
+	// Get integer number
+	do {
+		printf("%s (%d a %d) : ", message, min, max);
+		control = scanf("%d", &number);
+		cleanBufferStdin();
+
+		// Validate the input for a integer number
+		if (control == 0) {
+			printf("ATENÇÃO: Deverá inserir um número inteiro\n");
+		} else {
+			if (number < min || number > max) {
+				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+			}
+		}
+	} while (number < min || max < number || control == 0);
+
+	return number;
+}
+
+/**
+ * @brief Read a float from the input
+ * 
+ * @param message 
+ * @param min 
+ * @param max 
+ * @return float 
+ */
+float read_float(char *message, float min, float max) {
+	float number;
+	int control;
+
+	// Get float number
+	do {
+		printf("%s (%.2f a %.2f) : ", message, min, max);
+		control = scanf("%f", &number);
+		cleanBufferStdin();
+
+		// Validate the input for a float number
+		if (control == 0) {
+			printf("ATENÇÃO: Deverá inserir um número decimal (float)\n");
+		} else {
+			if (number < min || max < number) {
+				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+			}
+		}
+	} while (number < min || max < number || control == 0);
+
+	return number;
+}
+
+/**
+ * @brief Read a string from the input
+ * 
+ * @param message 
+ * @param outputString 
+ * @param maxChars 
+ */
+void read_string(char *message, char *outputString, unsigned int maxChars) {
+	int stringSize;
+
+	do {
+		printf("%s", message);
+		fgets(outputString, maxChars, stdin);
+
+		stringSize = strlen(outputString);
+
+		if (stringSize == 1) {	// Check if the user inserted a string
+			printf("ATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
+		}
+	} while (stringSize == 1);
+
+	// Clean the stdin buffer only if there are chars left
+	if (outputString[stringSize - 1] != '\n') {
+		cleanBufferStdin();
+	} else {
+		outputString[stringSize - 1] = '\0';	// Deletes the \n stored in the vector
+	}
 }
