@@ -5,6 +5,7 @@
 #include <fcntl.h>
 
 void menu();
+void menu2(int*);
 int lerInteiro (char msg[], int limMin, int limMax);
 void limparBuffer(void);
 
@@ -19,7 +20,7 @@ int main()
 }
 
 void menu(){
-    int opcao, opcao2;
+    int opcao;
     
         do{
             // This is the main menu
@@ -34,21 +35,36 @@ void menu(){
             printf("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n");
             opcao = lerInteiro("Opcão: ", 0, 4);
 
-        
-            switch(opcao){
-                case 1: // If he chooses laptops this shows up
-                    printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
-                    printf("\u2551                Portáteis                 \u2551\n");
-                    printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
-                    printf("\u2551  [1] Inserir Portáteis                   \u2551\n");
-                    printf("\u2551  [2] Listar Portáteis                    \u2551\n");
-                    printf("\u2551  [3] Alterar Localização do Portátil     \u2551\n");
-                    printf("\u2551  [0] Anterior                            \u2551\n");
-                    printf("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n");
-                    opcao2 = lerInteiro("Opcão", 0, 3);
-                    switch(opcao2){
-                        case 0:
-                            break;
+            menu2(&opcao);
+        }while(opcao != 0);
+
+
+
+     
+}
+
+
+void menu2(int *op){
+    int opcao2;
+
+    switch(*op){
+        case 1: // If he chooses laptops this shows up
+            printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
+            printf("\u2551                Portáteis                 \u2551\n");
+            printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");                
+            printf("\u2551  [1] Inserir Portáteis                   \u2551\n");
+            printf("\u2551  [2] Listar Portáteis                    \u2551\n");
+            printf("\u2551  [3] Alterar Localização do Portátil     \u2551\n");
+            printf("\u2551  [0] Anterior                            \u2551\n");
+            printf("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n");
+            opcao2 = lerInteiro("Opcão", 0, 3);
+            switch(opcao2){
+                case 1:
+                    printf("\nteste\n\n");
+                    *op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+                    break;
+                 case 0:
+                        break;
                     }
                     break;
                 case 2: // If he chooses requests:
@@ -64,6 +80,10 @@ void menu(){
                     printf("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n");
                     opcao2 = lerInteiro("Opcão", 0, 5);
                     switch(opcao2){
+                        case 1:
+                            printf("\nteste\n\n");
+                            *op = lerInteiro("Deseja continuar no programa? Sim/Não", 0, 1);  // Asks if the user wants to coninue the program               
+                            break;
                         case 0:
                             break;
                     }
@@ -78,6 +98,10 @@ void menu(){
                     printf("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n");
                     opcao2 = lerInteiro("Opcão", 0, 2);
                     switch(opcao2){
+                        case 1:
+                            printf("\nteste\n\n");
+                            *op = lerInteiro("Deseja continuar no programa? Sim/Não", 0, 1);  // Asks if the user wants to coninue the program            
+                            break;
                         case 0:
                             break;
                     }
@@ -88,11 +112,8 @@ void menu(){
                 case 0: // This closes the program
                     break;
             }
-        }while(opcao != 0);
 
 
-
-    
 }
 
 
