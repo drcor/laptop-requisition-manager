@@ -3,6 +3,7 @@
 #include <locale.h>
 #include <wchar.h>
 #include <fcntl.h>
+#include "include\generic.h"
 
 int menu(void);
 void menuPortateis(int*);

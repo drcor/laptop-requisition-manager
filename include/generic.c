@@ -1,5 +1,6 @@
 #include "generic.h"
 #include <stdio.h>
+#include <string.h>
 
 /**
  * @brief Set location from a integer
