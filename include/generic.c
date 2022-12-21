@@ -77,7 +77,7 @@ void cleanBufferStdin(void) {
  * @param max 
  * @return int 
  */
-int read_integer(char *message, int min, int max) {
+int lerInteiro(char *message, int min, int max) {
 	int number, control;
 
 	// Get integer number
@@ -107,7 +107,7 @@ int read_integer(char *message, int min, int max) {
  * @param max 
  * @return float 
  */
-float read_float(char *message, float min, float max) {
+float lerFloat(char *message, float min, float max) {
 	float number;
 	int control;
 
@@ -137,7 +137,7 @@ float read_float(char *message, float min, float max) {
  * @param outputString 
  * @param maxChars 
  */
-void read_string(char *message, char *outputString, unsigned int maxChars) {
+void lerString(char *message, char *outputString, unsigned int maxChars) {
 	int stringSize;
 
 	do {

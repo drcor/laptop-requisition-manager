@@ -10,8 +10,6 @@ void menuRequisicoes(int*);
 void menuAvarias(int*);
 void menuDados(int*);
 
-int lerInteiro (char msg[], int limMin, int limMax);
-void limparBuffer(void);
 
 int main(void){
     // Configure support for UTF-16 characters

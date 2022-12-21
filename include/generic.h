@@ -20,12 +20,12 @@ int check_range(int number, int min, int max);
 void cleanBufferStdin(void);
 
 /* Read a integer from the input */
-int read_integer(char *message, int min, int max);
+int lerInteiro(char *message, int min, int max);
 
 /* Read a float from the input */
-float read_float(char *message, float min, float max);
+float lerFloat(char *message, float min, float max);
 
 /* Read a string from the input */
-void read_string(char *message, char *outputString, unsigned int maxChars);
+void lerString(char *message, char *outputString, unsigned int maxChars);
 
 #endif // ELEMENTS_H_INCLUDED
