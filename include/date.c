@@ -84,8 +84,8 @@ int validate_date(typeDate date) {
  */
 void print_date(typeDate date) {
 	if (validate_date(date) == 0) {
-		printf("%02d/%02d/%04d", date.day, date.month, date.year);
+		wprintf(L"%02d/%02d/%04d", date.day, date.month, date.year);
 	} else {
-		printf("ERRO: Formato de data corrumpido!\n");
+		wprintf(L"ERRO: Formato de data corrumpido!\n");
 	}
 }

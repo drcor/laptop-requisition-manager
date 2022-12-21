@@ -1,6 +1,7 @@
 #include "generic.h"
 #include <stdio.h>
 #include <string.h>
+#include <wchar.h>
 
 /**
  * @brief Set location from a integer
@@ -63,7 +64,7 @@ int check_range(int number, int min, int max) {
 /**
  * @brief Limpa o buffer de input
  */
-void cleanBufferStdin(void) {
+void limparBufferStdin(void) {
 	char chr;
 	do {
 		chr = getchar();
@@ -78,21 +79,21 @@ void cleanBufferStdin(void) {
  * @param max 
  * @return int 
  */
-int lerInteiro(char *message, int min, int max) {
+int lerInteiro(wchar_t *message, int min, int max) {
 	int number, control;
 
 	// Get integer number
 	do {
-		printf("%s (%d a %d) : ", message, min, max);
+		wprintf(L"%S (%d a %d) : ", message, min, max);
 		control = scanf("%d", &number);
-		cleanBufferStdin();
+		limparBufferStdin();
 
 		// Validate the input for a integer number
 		if (control == 0) {
-			printf("ATENÇÃO: Deverá inserir um número inteiro\n");
+			wprintf(L"ATENÇÃO: Deverá inserir um número inteiro\n");
 		} else {
 			if (number < min || number > max) {
-				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+				wprintf(L"ATENÇÃO: Número inválido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -108,22 +109,22 @@ int lerInteiro(char *message, int min, int max) {
  * @param max 
  * @return float 
  */
-float lerFloat(char *message, float min, float max) {
+float lerFloat(wchar_t *message, float min, float max) {
 	float number;
 	int control;
 
 	// Get float number
 	do {
-		printf("%s (%.2f a %.2f) : ", message, min, max);
+		wprintf(L"%S (%.2f a %.2f) : ", message, min, max);
 		control = scanf("%f", &number);
-		cleanBufferStdin();
+		limparBufferStdin();
 
 		// Validate the input for a float number
 		if (control == 0) {
-			printf("ATENÇÃO: Deverá inserir um número decimal (float)\n");
+			wprintf(L"ATENÇÃO: Deverá inserir um número decimal (float)\n");
 		} else {
 			if (number < min || max < number) {
-				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+				wprintf(L"ATENÇÃO: Número inválido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -138,23 +139,23 @@ float lerFloat(char *message, float min, float max) {
  * @param outputString 
  * @param maxChars 
  */
-void lerString(char *message, char *outputString, unsigned int maxChars) {
+void lerString(wchar_t *message, char *outputString, unsigned int maxChars) {
 	int stringSize;
 
 	do {
-		printf("%s", message);
+		wprintf(L"%s", message);
 		fgets(outputString, maxChars, stdin);
 
 		stringSize = strlen(outputString);
 
 		if (stringSize == 1) {	// Check if the user inserted a string
-			printf("ATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
+			wprintf(L"ATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
 		}
 	} while (stringSize == 1);
 
 	// Clean the stdin buffer only if there are chars left
 	if (outputString[stringSize - 1] != '\n') {
-		cleanBufferStdin();
+		limparBufferStdin();
 	} else {
 		outputString[stringSize - 1] = '\0';	// Deletes the \n stored in the vector
 	}

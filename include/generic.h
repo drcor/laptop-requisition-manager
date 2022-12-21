@@ -17,15 +17,15 @@ int set_typeLocal(enum typeLocal *location, int num);
 int check_range(int number, int min, int max);
 
 /* Limpa o buffer de input */
-void cleanBufferStdin(void);
+void limparBufferStdin(void);
 
 /* Read a integer from the input */
-int lerInteiro(char *message, int min, int max);
+int lerInteiro(wchar_t *message, int min, int max);
 
 /* Read a float from the input */
-float lerFloat(char *message, float min, float max);
+float lerFloat(wchar_t *message, float min, float max);
 
 /* Read a string from the input */
-void lerString(char *message, char *outputString, unsigned int maxChars);
+void lerString(wchar_t *message, char *outputString, unsigned int maxChars);
 
 #endif // ELEMENTS_H_INCLUDED

@@ -57,7 +57,7 @@ int menu(void) {
 	wprintf(L"║  [4] Dados Estatísticos             ║\n");
 	wprintf(L"║  [0] Sair                           ║\n");
 	wprintf(L"╚═════════════════════════════════════╝\n");
-	opcao = lerInteiro("Opcão: ", 0, 4);
+	opcao = lerInteiro(L"Opcão: ", 0, 4);
 
 	return opcao;  
 }
@@ -73,12 +73,12 @@ void menuPortateis(int *op) {
 	wprintf(L"║  [3] Alterar Localização do Portátil     ║\n");
 	wprintf(L"║  [0] Anterior                            ║\n");
 	wprintf(L"╚══════════════════════════════════════════╝\n");
-	opcao2 = lerInteiro("Opcão", 0, 3);
+	opcao2 = lerInteiro(L"Opcão", 0, 3);
 
 	switch(opcao2) {
 		case 1:
 			wprintf(L"\nteste\n\n");
-			*op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+			*op = lerInteiro(L"Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
 			break;
 		case 0:
 			wprintf(L"\n\nteste 0000\n");
@@ -98,12 +98,12 @@ void menuRequisicoes(int *op) {
 	wprintf(L"║  [5] Renovar Requisição                  ║\n");
 	wprintf(L"║  [0] Anterior                            ║\n");
 	wprintf(L"╚══════════════════════════════════════════╝\n");
-	opcao2 = lerInteiro("Opcão", 0, 5);
+	opcao2 = lerInteiro(L"Opcão", 0, 5);
 
 	switch(opcao2) {
 		case 1:
 			wprintf(L"\nteste\n\n");
-			*op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+			*op = lerInteiro(L"Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
 			break;
 		case 0:
 			break;
@@ -119,12 +119,12 @@ void menuAvarias(int *op){
 	wprintf(L"║  [2] Registar Reparação                  ║\n");
 	wprintf(L"║  [0] Anterior                            ║\n");
 	wprintf(L"╚══════════════════════════════════════════╝\n");
-	opcao2 = lerInteiro("Opcão", 0, 2);
+	opcao2 = lerInteiro(L"Opcão", 0, 2);
 
 	switch(opcao2){
 		case 1:
 			wprintf(L"\nteste\n\n");
-			*op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+			*op = lerInteiro(L"Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
 			break;
 		case 0:
 			break;
