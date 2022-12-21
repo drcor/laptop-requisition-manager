@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <wchar.h>
 
 /* Date format */
 typedef struct {
@@ -17,5 +18,7 @@ bool is_leap_year(uint16_t year);
 int validate_date(typeDate date);
 /* Print date in text format */
 void print_date(typeDate date);
+/* Read date from input */
+void read_date(wchar_t *message, typeDate *date);
 
 #endif	// DATE_H_INCLUDED

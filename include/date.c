@@ -2,6 +2,7 @@
 #include "generic.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <wchar.h>
 
 /**
  * @brief Check if 'year' is a leap year
@@ -88,4 +89,26 @@ void print_date(typeDate date) {
 	} else {
 		wprintf(L"ERRO: Formato de data corrumpido!\n");
 	}
+}
+
+/**
+ * @brief Read date from input
+ * 
+ * @param message 
+ * @param date 
+ */
+void read_date(wchar_t *message, typeDate *date) {
+	int control;
+
+	// Get date
+	do {
+		wprintf(L"%S: ", message);
+		control = scanf("%hhd/%hhd/%hd", &(date->day), &(date->month), &(date->year));
+		limparBufferStdin();
+
+		// Validate the input for the date number
+		if (control == 0 || validate_date(*date) != 0) {
+			wprintf(L"ATENÇÃO: Deverá inserir uma data válida\n");
+		}
+	} while (control == 0 || validate_date(*date) != 0);
 }
