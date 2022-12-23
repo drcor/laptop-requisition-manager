@@ -102,13 +102,13 @@ void read_date(wchar_t *message, typeDate *date) {
 
 	// Get date
 	do {
-		wprintf(L"%S: ", message);
+		wprintf(L"%S (dd/mm/aaaa): ", message);
 		control = scanf("%hhd/%hhd/%hd", &(date->day), &(date->month), &(date->year));
 		limparBufferStdin();
 
 		// Validate the input for the date number
 		if (control == 0 || validate_date(*date) != 0) {
-			wprintf(L"ATENÇÃO: Deverá inserir uma data válida\n");
+			wprintf(L"ATENÇÃO: Deverá inserir uma data válida no formato dia/mês/ano\n");
 		}
 	} while (control == 0 || validate_date(*date) != 0);
 }
