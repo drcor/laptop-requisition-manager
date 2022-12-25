@@ -4,9 +4,10 @@
 #include <wchar.h>
 #include <fcntl.h>
 #include "include\generic.h"
+#include "include/laptops.h"
 
 int menu(void);
-void menuPortateis(int*);
+void menuPortateis(int *opcao, typeLaptop **laptops, unsigned int *sizeLaptops);
 void menuRequisicoes(int*);
 void menuAvarias(int*);
 void menuDados(int*);
@@ -19,6 +20,9 @@ int main(void){
 #endif	// _WIN32
 	setlocale(LC_CTYPE, "");
 
+	unsigned int sizeLaptops = 0;
+	typeLaptop *laptops = NULL;
+
 	int opcao;
 	
 	do { 
@@ -27,7 +31,7 @@ int main(void){
 			case 0:
 				break;
 			case 1:
-				menuPortateis(&opcao);
+				menuPortateis(&opcao, &laptops, &sizeLaptops);
 				break;
 			case 2:
 				menuRequisicoes(&opcao);
@@ -48,21 +52,21 @@ int menu(void) {
 	int opcao;
 			
 	// This is the main menu
-	wprintf(L"╔═════════════════════════════════════╗\n");
-	wprintf(L"║                MENU                 ║\n");
-	wprintf(L"╠═════════════════════════════════════╣\n");
-	wprintf(L"║  [1] Portáteis                      ║\n");
-	wprintf(L"║  [2] Requisições                    ║\n");
-	wprintf(L"║  [3] Avarias                        ║\n");
-	wprintf(L"║  [4] Dados Estatísticos             ║\n");
-	wprintf(L"║  [0] Sair                           ║\n");
-	wprintf(L"╚═════════════════════════════════════╝\n");
+	wprintf(L"╔══════════════════════════════════════════╗\n");
+	wprintf(L"║                   MENU                   ║\n");
+	wprintf(L"╠══════════════════════════════════════════╣\n");
+	wprintf(L"║  [1] Portáteis                           ║\n");
+	wprintf(L"║  [2] Requisições                         ║\n");
+	wprintf(L"║  [3] Avarias                             ║\n");
+	wprintf(L"║  [4] Dados Estatísticos                  ║\n");
+	wprintf(L"║  [0] Sair                                ║\n");
+	wprintf(L"╚══════════════════════════════════════════╝\n");
 	opcao = lerInteiro(L"Opcão: ", 0, 4);
 
 	return opcao;  
 }
 
-void menuPortateis(int *op) {
+void menuPortateis(int *op, typeLaptop **laptops, unsigned int *sizeLaptops) {
 	int opcao2;
 	// If he chooses laptops this shows up
 	wprintf(L"╔══════════════════════════════════════════╗\n");
@@ -77,8 +81,10 @@ void menuPortateis(int *op) {
 
 	switch(opcao2) {
 		case 1:
-			wprintf(L"\nteste\n\n");
-			*op = lerInteiro(L"Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+			insert_laptop(laptops, sizeLaptops);
+			break;
+		case 2:
+			list_laptops(*laptops, *sizeLaptops);
 			break;
 		case 0:
 			wprintf(L"\n\nteste 0000\n");
@@ -89,7 +95,7 @@ void menuPortateis(int *op) {
 void menuRequisicoes(int *op) {
 	int opcao2;
 	wprintf(L"╔══════════════════════════════════════════╗\n");
-	wprintf(L"║                 Requisições              ║\n");
+	wprintf(L"║               Requisições                ║\n");
 	wprintf(L"╠══════════════════════════════════════════╣\n");
 	wprintf(L"║  [1] Requisitar Portátil                 ║\n");
 	wprintf(L"║  [2] Listar Requisições                  ║\n");
@@ -113,7 +119,7 @@ void menuRequisicoes(int *op) {
 void menuAvarias(int *op){
 	int opcao2;
 	wprintf(L"╔══════════════════════════════════════════╗\n");
-	wprintf(L"║                Avarias                   ║\n");
+	wprintf(L"║                  Avarias                 ║\n");
 	wprintf(L"╠══════════════════════════════════════════╣\n");
 	wprintf(L"║  [1] Registar Avaria                     ║\n");
 	wprintf(L"║  [2] Registar Reparação                  ║\n");
