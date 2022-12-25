@@ -143,7 +143,7 @@ void lerString(wchar_t *message, char *outputString, unsigned int maxChars) {
 	int stringSize;
 
 	do {
-		wprintf(L"%s", message);
+		wprintf(L"%S", message);
 		fgets(outputString, maxChars, stdin);
 
 		stringSize = strlen(outputString);

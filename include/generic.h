@@ -25,7 +25,9 @@ int lerInteiro(wchar_t *message, int min, int max);
 /* Read a float from the input */
 float lerFloat(wchar_t *message, float min, float max);
 
-/* Read a string from the input */
+/* Read a string from the input 
+	TODO: ler string no formato wchar_t
+*/
 void lerString(wchar_t *message, char *outputString, unsigned int maxChars);
 
 #endif // ELEMENTS_H_INCLUDED
