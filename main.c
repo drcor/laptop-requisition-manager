@@ -86,6 +86,8 @@ void menuPortateis(int *op, typeLaptop **laptops, unsigned int *sizeLaptops) {
 		case 2:
 			list_laptops(*laptops, *sizeLaptops);
 			break;
+		case 3:
+			update_laptop(*laptops, sizeLaptops);
 		case 0:
 			wprintf(L"\n\nteste 0000\n");
 			break;

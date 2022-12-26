@@ -2,6 +2,7 @@
 #include "date.h"
 #include "generic.h"
 #include <stdlib.h>
+#include <stdint.h>
 
 /**
  * @brief Set type of cpu from a integer
@@ -172,6 +173,37 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
 	} else {
 		wprintf(L"ATENÇÃO: Não existe nenhum portátil registado!\n");
 	}
+}
+
+/**
+ * @brief Update the location of laptop
+ * 
+ * @param laptops 
+ * @param numberLaptops 
+ * @param id 
+ * @return -1 failure to update laptop location
+ * @return int postion of laptop updated 
+ */
+int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops) {
+	int aux, pos, control;
+
+	if (*laptops != NULL && numberLaptops != 0) {
+		aux = lerInteiro(L"Insira o ID do portátil: ", INT_MIN, INT_MAX);
+		pos = search_laptop_id(*laptops, numberLaptops, aux);
+
+		if (pos != -1) {
+			do {	// Read location of laptop
+				aux = lerInteiro(L"Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n: ", 0, 5);
+				control = set_typeLocal(&((*laptops[pos]).location), aux);
+
+				if (control != 0) {	// If not valid
+					wprintf(L"\nATENÇÃO: Insira uma localização válida\n");
+				}
+			} while (control != 0);
+		}
+	}
+
+	return pos;
 }
 
 /**
