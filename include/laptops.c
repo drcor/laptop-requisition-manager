@@ -143,7 +143,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 
 		(*laptops)[*numberLaptops] = laptop;
 		(*numberLaptops)++;
-		list_laptops(*laptops, *numberLaptops);
+		
 		result = 0;
 	} else {
 		*laptops = save;
