@@ -87,7 +87,7 @@ void menuPortateis(int *op, typeLaptop **laptops, unsigned int *sizeLaptops) {
 			list_laptops(*laptops, *sizeLaptops);
 			break;
 		case 3:
-			update_laptop(*laptops, sizeLaptops);
+			update_laptop_location(*laptops, sizeLaptops);
 		case 0:
 			wprintf(L"\n\nteste 0000\n");
 			break;
@@ -108,7 +108,7 @@ void menuRequisicoes(int *op) {
 	wprintf(L"╚══════════════════════════════════════════╝\n");
 	opcao2 = lerInteiro(L"Opcão", 0, 5);
 
-	switch(opcao2) {
+	switch (opcao2) {
 		case 1:
 			wprintf(L"\nteste\n\n");
 			*op = lerInteiro(L"Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
@@ -118,7 +118,7 @@ void menuRequisicoes(int *op) {
 	}      
 }
 
-void menuAvarias(int *op){
+void menuAvarias(int *op) {
 	int opcao2;
 	wprintf(L"╔══════════════════════════════════════════╗\n");
 	wprintf(L"║                  Avarias                 ║\n");
@@ -129,16 +129,15 @@ void menuAvarias(int *op){
 	wprintf(L"╚══════════════════════════════════════════╝\n");
 	opcao2 = lerInteiro(L"Opcão", 0, 2);
 
-	switch(opcao2){
+	switch (opcao2) {
 		case 1:
-			wprintf(L"\nteste\n\n");
-			*op = lerInteiro(L"Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+
 			break;
 		case 0:
 			break;
 	}
 }
 
-void menuDados(int *op){
+void menuDados(int *op) {
 
 }
