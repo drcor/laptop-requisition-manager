@@ -161,7 +161,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
  */
 /* TODO: Add extra information */
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
-	// Check if exist any laptop
+	// Check if exist any laptoptyi
 	if (laptops != NULL && numberLaptops != 0) {
 		wprintf(L"ID\tCPU\tMem.\tEstado\tLocal\tData\t\tMulta\tDescrição\n");
 		for (size_t i = 0; i < numberLaptops; i++) {

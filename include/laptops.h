@@ -45,7 +45,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops);
 /* List all laptops */
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops);
 /* Update the location of laptop */
-void update_laptop(typeLaptop **laptops, unsigned int numberLaptops);
+int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops);
 /* Read a N number of laptops from a file */
 int read_laptop_from_file(typeLaptop *laptops, unsigned int *amount, FILE *file);
 /* Write a vector of laptops to a file */
