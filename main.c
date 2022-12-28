@@ -3,7 +3,7 @@
 #include <locale.h>
 #include <wchar.h>
 #include <fcntl.h>
-#include "include\generic.h"
+#include "include/generic.h"
 #include "include/laptops.h"
 
 int menu(void);
@@ -88,6 +88,7 @@ void menuPortateis(int *op, typeLaptop **laptops, unsigned int *sizeLaptops) {
 			break;
 		case 3:
 			update_laptop_location(laptops, *sizeLaptops);
+			break;
 		case 0:
 			wprintf(L"\n\nteste 0000\n");
 			break;
