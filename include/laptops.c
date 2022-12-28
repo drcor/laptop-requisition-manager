@@ -2,7 +2,7 @@
 #include "date.h"
 #include "generic.h"
 #include <stdlib.h>
-#include <stdint.h>
+#include <limits.h>
 
 /**
  * @brief Set type of cpu from a integer
@@ -102,7 +102,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 		if (*numberLaptops < 30) {
 			// Read id
 			do {
-				laptop.id = lerInteiro(L"Insira o ID do portátil: ", 0, MAX_LAPTOPS);
+				laptop.id = lerInteiro(L"Insira o ID do portátil: ", 1, MAX_LAPTOPS);
 				control = search_laptop_id(*laptops, *numberLaptops, laptop.id);
 				if (control != -1) {
 					wprintf(L"ATENÇÃO: Não pode inserir um ID repetido\n");
@@ -188,7 +188,7 @@ int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops) {
 	int aux, pos, control;
 
 	if (*laptops != NULL && numberLaptops != 0) {
-		aux = lerInteiro(L"Insira o ID do portátil: ", INT_MIN, INT_MAX);
+		aux = lerInteiro(L"Insira o ID do portátil: ", 1, MAX_LAPTOPS);
 		pos = search_laptop_id(*laptops, numberLaptops, aux);
 
 		if (pos != -1) {
