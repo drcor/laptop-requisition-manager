@@ -22,6 +22,12 @@ typedef struct {
 	unsigned int duration;
 } typeBreakdown;
 
+/* Search for breakdown ID */
+int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id);
+/* Insert a breakdown in the vector */
+int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, unsigned int laptopId);
+/* List all breakdowns */
+void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns);
 /* Read a N number of breakdowns from a file */
 int read_breakdown_from_file(typeBreakdown *breakdowns, unsigned int *amount, FILE *file);
 /* Write vector of breakdowns to a file */

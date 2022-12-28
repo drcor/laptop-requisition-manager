@@ -1,5 +1,6 @@
 #include "breakdowns.h"
 #include <stdlib.h>
+#include <limits.h>
 
 /**
  * @brief Set type of breakdown from a integer
@@ -23,6 +24,82 @@ int set_typeBreak(enum typeBreak *breakdown_type, int num) {
 		break;
 	}
 
+	return result;
+}
+
+/**
+ * @brief Search for breakdown ID
+ * 
+ * @param breakdowns 
+ * @param numberBreakdowns 
+ * @param id 
+ * @return -1 if not found
+ * @return int position of id 
+ */
+int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id) {
+	int result = -1;
+
+	for (unsigned int i = 0; i < numberBreakdowns; i++) {
+		if (breakdowns[i].id == id) {
+			result = i;
+			i = numberBreakdowns;
+		}
+	}
+	
+	return result;
+}
+
+/**
+ * @brief Insert a breakdown in the vector
+ * 
+ * @param breakdowns 
+ * @param numberBreakdowns 
+ * @return -1 failure to insert breakdown
+ * @return 0 success to insert breakdown
+ */
+int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, unsigned int laptopId) {
+	typeBreakdown breakdown;
+	int tmp, control, result = -1;
+
+	// Allocate space for the new breakdown
+	typeBreakdown *save = *breakdowns;
+
+	*breakdowns = realloc(*breakdowns, (*numberBreakdowns + 1) * sizeof(typeBreakdown));
+	if (*breakdowns != NULL) {
+		// Read id
+		do {
+			breakdown.id = lerInteiro(L"Insira o ID do da avaria", 0, INT_MAX);
+			control = search_breakdown_id(*breakdowns, *numberBreakdowns, breakdown.id);	// TODO: search_breakdown_id()
+			if (control != -1) {
+				wprintf(L"ATENÇÃO: Não pode inserir um ID repetido\n");
+			}
+		} while (control != -1);
+
+			
+		do {	// Read type of breakdown
+			tmp = lerInteiro(L"Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);
+			control = set_typeBreak(&(breakdown.break_type), tmp);
+
+			if (control != 0) {	// If not valid
+				wprintf(L"\nATENÇÃO: Insira uma localização válida\n");
+			}
+		} while (control != 0);
+
+		// Read date of breakdown
+		read_date(L"Insira a data de avaria", &(breakdown.date));
+
+		// Store laptop ID
+		breakdown.laptop_id = laptopId;
+		
+		(*breakdowns)[*numberBreakdowns] = breakdown;
+		(*numberBreakdowns)++;
+		// list_breakdowns(*breakdowns, *numberBreakdowns);	// Debug
+		result = 0;
+	} else {
+		*breakdowns = save;
+		wprintf(L"Falha na alocação de memória!\n");
+	}
+	
 	return result;
 }
 
