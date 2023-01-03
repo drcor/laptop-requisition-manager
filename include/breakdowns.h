@@ -23,7 +23,7 @@ typedef struct {
 } typeBreakdown;
 
 /* Search for breakdown ID */
-int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id);
+int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, unsigned int id);
 /* Insert a breakdown in the vector */
 int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, unsigned int laptopId);
 /* List all breakdowns */

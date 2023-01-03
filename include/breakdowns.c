@@ -36,7 +36,7 @@ int set_typeBreak(enum typeBreak *breakdown_type, int num) {
  * @return -1 if not found
  * @return int position of id 
  */
-int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id) {
+int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, unsigned int id) {
 	int result = -1;
 
 	for (unsigned int i = 0; i < numberBreakdowns; i++) {
@@ -68,25 +68,25 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 	if (*breakdowns != NULL) {
 		// Read id
 		do {
-			breakdown.id = lerInteiro(L"Insira o ID do da avaria", 0, INT_MAX);
+			breakdown.id = lerInteiro("Insira o ID do da avaria", 0, INT_MAX);
 			control = search_breakdown_id(*breakdowns, *numberBreakdowns, breakdown.id);	// TODO: search_breakdown_id()
 			if (control != -1) {
-				wprintf(L"ATENÃ‡ÃƒO: NÃ£o pode inserir um ID repetido\n");
+				printf("ATENÇÃO: Não pode inserir um ID repetido\n");
 			}
 		} while (control != -1);
 
 			
 		do {	// Read type of breakdown
-			tmp = lerInteiro(L"Insira o tipo de avaria do portÃ¡til\n\t0 - TemporÃ¡ria\n\t1 - Permanente\n", 0, 1);
+			tmp = lerInteiro("Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);
 			control = set_typeBreak(&(breakdown.break_type), tmp);
 
 			if (control != 0) {	// If not valid
-				wprintf(L"\nATENÃ‡ÃƒO: Insira uma localizaÃ§Ã£o vÃ¡lida\n");
+				printf("\nATENÇÃO: Insira uma localização válida\n");
 			}
 		} while (control != 0);
 
 		// Read date of breakdown
-		read_date(L"Insira a data de avaria", &(breakdown.date));
+		read_date("Insira a data de avaria", &(breakdown.date));
 
 		// Store laptop ID
 		breakdown.laptop_id = laptopId;
@@ -97,7 +97,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		result = 0;
 	} else {
 		*breakdowns = save;
-		wprintf(L"Falha na alocaÃ§Ã£o de memÃ³ria!\n");
+		printf("Falha na alocação de memória!\n");
 	}
 	
 	return result;

@@ -2,7 +2,6 @@
 #include "generic.h"
 #include <stdio.h>
 #include <stdbool.h>
-#include <wchar.h>
 
 /**
  * @brief Check if 'year' is a leap year
@@ -85,9 +84,9 @@ int validate_date(typeDate date) {
  */
 void print_date(typeDate date) {
 	if (validate_date(date) == 0) {
-		wprintf(L"%02d/%02d/%04d", date.day, date.month, date.year);
+		printf("%02d/%02d/%04d", date.day, date.month, date.year);
 	} else {
-		wprintf(L"ERRO: Formato de data corrumpido!\n");
+		printf("ERRO: Formato de data corrumpido!\n");
 	}
 }
 
@@ -97,18 +96,18 @@ void print_date(typeDate date) {
  * @param message 
  * @param date 
  */
-void read_date(wchar_t *message, typeDate *date) {
+void read_date(char *message, typeDate *date) {
 	int control;
 
 	// Get date
 	do {
-		wprintf(L"%S (dd/mm/aaaa): ", message);
-		control = scanf("%hhd/%hhd/%hd", &(date->day), &(date->month), &(date->year));
+		printf("%s (dd/mm/aaaa): ", message);
+		control = scanf("%hhu/%hhu/%hu", &(date->day), &(date->month), &(date->year));
 		limparBufferStdin();
 
 		// Validate the input for the date number
 		if (control == 0 || validate_date(*date) != 0) {
-			wprintf(L"ATENÃ‡ÃƒO: DeverÃ¡ inserir uma data vÃ¡lida no formato dia/mÃªs/ano\n");
+			printf("ATENÇÃO: Deverá inserir uma data válida no formato dia/mês/ano\n");
 		}
 	} while (control == 0 || validate_date(*date) != 0);
 }
