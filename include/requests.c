@@ -84,7 +84,7 @@ void print_typeReqState(enum typeReqState req_state) {
 		printf("Ativo    ");
 		break;
 	case DONE:
-		printf("Conlcuído");
+		printf("Concluído");
 		break;
 	}
 }
