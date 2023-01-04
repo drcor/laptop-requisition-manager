@@ -13,6 +13,8 @@ enum typeUser {
 };
 /* Set type of user from a integer */
 int set_typeUser(enum typeUser *user_type, int num);
+/* Print type of user */
+void print_typeUser(enum typeUser user_type);
 
 /* Enumeration of type of requisition state */
 enum typeReqState {
@@ -21,6 +23,8 @@ enum typeReqState {
 };
 /* Set type of requisition state from a number */
 int set_typeReqState(enum typeReqState *req_state, int num);
+/* Print type of requistion state */
+void print_typeReqState(enum typeReqState req_state);
 
 /* Requests information */
 typedef struct {

@@ -238,10 +238,10 @@ void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns
 			if (pos == -1) {
 				printf("ATENÇÃO: Tem de inserir um ID existente\n");
 			}
-			if ((*breakdowns)[id].duration != -1) {
+			if ((*breakdowns)[pos].duration != -1) {
 				printf("ATENÇÃO: Insira o ID de uma avaria ainda não reparada\n");
 			}
-		} while (pos == -1 && (*breakdowns)[id].duration != -1);
+		} while (pos == -1 || (*breakdowns)[pos].duration != -1);
 		
 		// Set laptop available for requisition and set duration of reparation
 		breakdowns[pos]->duration = lerInteiro("Insira a duração da reparação", 0, 90);
@@ -266,16 +266,25 @@ void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, type
 	int pos;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
-		printf("ID\tCPU\tMem.\tEstado\tLocal\tMulta\tID\tTipo\tDuração\tData\t\tDescrição\n");
+		// printf("ID\tCPU\tMem.\tEstado\tLocal\tPreço\tID\tTipo\tDuração\tData\t\tDescrição\n");
+		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tDescrição\n");
 
 		for (unsigned int i = 0; i < numberBreakdowns; i++) {	// Get breakdow by breakdown
 			// Get position of laptop in vector of laptops
 			pos = search_laptop_id(laptops, numberLaptops, breakdowns[i].laptop_id);
-			printf("%d\ti%d\t%dGB\t", laptops[pos].id, laptops[pos].cpu, laptops[pos].memory);
-			printf("%d\t%d\t", laptops[pos].state, laptops[pos].location);
-			printf("%.2f\t%d\t%d\t", laptops[pos].price, breakdowns[i].id, breakdowns[i].break_type);
-			printf("%d\t", breakdowns[i].duration);
+			// Print breakdown data
+			printf("%d\t", breakdowns[i].id);
+			print_typeBreak(breakdowns[i].break_type);
+			printf("\t");
 			print_date(breakdowns[i].date);
+			printf("\t%d\t", breakdowns[i].duration);
+			// Print laptop data
+			printf("%d\t", laptops[pos].id);
+			print_typeCPU(laptops[pos].cpu);
+			printf("\t%dGB\t", laptops[pos].memory);
+			print_typeState(laptops[pos].state);
+			printf("\t");
+			print_typeLocal(laptops[pos].location);
 			printf("\t%s\n", laptops[pos].description);
 		}
 	} else {

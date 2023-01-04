@@ -28,6 +28,22 @@ int set_typeBreak(enum typeBreak *breakdown_type, int num) {
 }
 
 /**
+ * @brief Print type of breakdown
+ * 
+ * @param break_type 
+ */
+void print_typeBreak(enum typeBreak break_type) {
+	switch (break_type) {
+	case TEMPORARY:
+		printf("Temporário");
+		break;
+	case PERMANENT:
+		printf("Permanente");
+		break;
+	}
+}
+
+/**
  * @brief Get max id
  * 
  * @param breakdowns 

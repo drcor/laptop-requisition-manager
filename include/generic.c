@@ -34,6 +34,28 @@ int set_typeLocal(enum typeLocal *location, int num) {
 }
 
 /**
+ * @brief Print locations
+ * 
+ * @param location 
+ */
+void print_typeLocal(enum typeLocal location) {
+	switch (location) {
+	case RESIDENCES:
+		printf("Residências");
+		break;
+	case CAMPUS1:
+		printf("Campus 1");
+		break;
+	case CAMPUS2:
+		printf("Campus 2");
+		break;
+	case CAMPUS5:
+		printf("Campus 5");
+		break;
+	}
+}
+
+/**
  * @brief Check if 'number' is in range from 'min' to 'max'
  * 
  * @param number 

@@ -11,7 +11,9 @@ enum typeBreak {
 	PERMANENT	// 1
 };
 /* Set type of breakdown from a integer */
-int set_typeBreak(enum typeBreak *breakdown_type, int num);
+int set_typeBreak(enum typeBreak *break_type, int num);
+/* Print type of breakdown */
+void print_typeBreak(enum typeBreak break_type);
 
 /* Breakdowns information */
 typedef struct {

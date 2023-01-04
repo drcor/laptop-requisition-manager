@@ -30,6 +30,25 @@ int set_typeUser(enum typeUser *user_type, int num) {
 }
 
 /**
+ * @brief Print type of user
+ * 
+ * @param user_type 
+ */
+void print_typeUser(enum typeUser user_type) {
+	switch (user_type) {
+	case STUDENT:
+		printf("Aluno         ");
+		break;
+	case TEACHER:
+		printf("Docente       ");
+		break;
+	case ADMNISTRATIVE:
+		printf("Administrativo");
+		break;
+	}
+}
+
+/**
  * @brief Set type of requisition state from a number
  *
  * @param req_state
@@ -52,6 +71,21 @@ int set_typeReqState(enum typeReqState *req_state, int num) {
 	}
 
 	return result;
+}
+
+/**
+ * @brief Print type of requistion state
+ * 
+ * @param req_state 
+ */
+void print_typeReqState(enum typeReqState req_state) {
+	switch (req_state) {
+	case ACTIVE:
+		printf("Ativo    ");
+		break;
+	case DONE:
+		printf("Conlcuído");
+		break;
 }
 
 /**
