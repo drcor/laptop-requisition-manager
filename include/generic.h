@@ -25,8 +25,7 @@ int lerInteiro(char *message, int min, int max);
 /* Read a float from the input */
 float lerFloat(char *message, float min, float max);
 
-/* Read a string from the input 
-*/
+/* Read a string from the input */
 void lerString(char *message, char *outputString, unsigned int maxChars);
 
 #endif // ELEMENTS_H_INCLUDED
