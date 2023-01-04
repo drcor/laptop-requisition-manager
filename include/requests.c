@@ -86,6 +86,7 @@ void print_typeReqState(enum typeReqState req_state) {
 	case DONE:
 		printf("Conlcuído");
 		break;
+	}
 }
 
 /**
@@ -108,11 +109,11 @@ int read_request_from_file(typeRequest **requests, unsigned int *amount, FILE *f
 		fread(amount, sizeof(unsigned int), 1, file);
 
 		if (*amount > 0) {
-			requests = malloc(*amount * sizeof(typeRequest));	// Allocate memory
+			*requests = malloc(*amount * sizeof(typeRequest));	// Allocate memory
 
-			if (requests != NULL) {	// success to allocate memory
+			if (*requests != NULL) {	// success to allocate memory
 				// Read all requests from the file to the vector 'requests'
-				result = fread(requests, sizeof(typeRequest), *amount, file);
+				result = fread(*requests, sizeof(typeRequest), *amount, file);
 				
 				if ((unsigned int)result != *amount) {
 					*amount = 0;

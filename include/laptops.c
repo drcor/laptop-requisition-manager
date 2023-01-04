@@ -258,7 +258,7 @@ int read_laptop_from_file(typeLaptop **laptops, unsigned int *amount, FILE *file
 		if (*amount > 0) {
 			*laptops = malloc(*amount * sizeof(typeLaptop)); // Allocate memory
 
-			if (laptops != NULL) {	// success to allocate memory
+			if (*laptops != NULL) {	// success to allocate memory
 				// Read all laptops from the file to the vector 'laptops'
 				result = fread(*laptops, sizeof(typeLaptop), *amount, file);
 
