@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 #define MAX_LAPTOPS 	30
-#define SUBTITLE_SIZE	100
+#define DESCRIPTION_SIZE	100
 
 /* Enumeration of cpu's */
 enum typeCPU {
@@ -29,7 +29,7 @@ int set_typeState(enum typeState *state, int num);
 /* Laptop information */
 typedef struct {
 	int id;
-	char subtitle[SUBTITLE_SIZE];
+	char description[DESCRIPTION_SIZE];
 	enum typeCPU cpu;			// i3=3, i5=5, i7=7
 	int memory;		// GB
 	enum typeState state;		// available=0, taken=1, broken=2

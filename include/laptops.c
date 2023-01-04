@@ -2,7 +2,7 @@
 #include "date.h"
 #include "generic.h"
 #include <stdlib.h>
-#include <stdint.h>
+#include <limits.h>
 
 /**
  * @brief Set type of cpu from a integer
@@ -87,7 +87,8 @@ int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id) {
  * 
  * @param laptops 
  * @param numberLaptops 
- * @return pointer of vector
+ * @return -1 failure to insert breakdown
+ * @return 0 success to insert breakdown
  */
 int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 	typeLaptop laptop;
@@ -102,7 +103,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 		if (*numberLaptops < 30) {
 			// Read id
 			do {
-				laptop.id = lerInteiro(L"Insira o ID do portátil: ", 0, MAX_LAPTOPS);
+				laptop.id = lerInteiro(L"Insira o ID do portátil", 1, MAX_LAPTOPS);
 				control = search_laptop_id(*laptops, *numberLaptops, laptop.id);
 				if (control != -1) {
 					wprintf(L"ATENÇÃO: Não pode inserir um ID repetido\n");
@@ -110,7 +111,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			} while (control != -1);
 
 			do {	// Read type of CPU
-				tmp = lerInteiro(L"Insira o tipo de CPU\n\t3 - i3\n\t5 - i5\n\t7- i7\n: ", 3, 7);
+				tmp = lerInteiro(L"Insira o tipo de CPU\n\t3 - i3\n\t5 - i5\n\t7- i7\n", 3, 7);
 				control = set_typeCPU(&(laptop.cpu), tmp);
 
 				if (control != 0) {	// If not valid
@@ -119,13 +120,13 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			} while (control != 0);
 
 			// Read memory of laptop
-			laptop.memory = lerInteiro(L"Insira o valor de memoria RAM em Gigabytes: ", 0, 256);
+			laptop.memory = lerInteiro(L"Insira o valor de memoria RAM em Gigabytes", 0, 256);
 			
 			// Set state of laptop	
 			laptop.state = AVAILABLE;
 
 			do {	// Read location of laptop
-				tmp = lerInteiro(L"Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n: ", 0, 5);
+				tmp = lerInteiro(L"Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 				control = set_typeLocal(&(laptop.location), tmp);
 
 				if (control != 0) {	// If not valid
@@ -137,8 +138,8 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			read_date(L"Insira a data de aquisição", &(laptop.date));
 			// Read price
 			laptop.price = lerFloat(L"Insira o preço do portátil em €", 0.0, 10000.0);
-			// Read Subtitle
-			lerString(L"Insira a descrição do portátil: ", laptop.subtitle, SUBTITLE_SIZE);
+			// Read Description
+			lerString(L"Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
 		}
 
 		(*laptops)[*numberLaptops] = laptop;
@@ -168,7 +169,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
 			wprintf(L"%d\ti%d\t%dGB\t", laptops[i].id, laptops[i].cpu, laptops[i].memory);
 			wprintf(L"%d\t%d\t", laptops[i].state, laptops[i].location);
 			print_date(laptops[i].date);
-			wprintf(L"\t%.2f\t%s\n", laptops[i].price, laptops[i].subtitle);
+			wprintf(L"\t%.2f\t%s\n", laptops[i].price, laptops[i].description);
 		}
 	} else {
 		wprintf(L"ATENÇÃO: Não existe nenhum portátil registado!\n");
@@ -188,12 +189,12 @@ int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops) {
 	int aux, pos, control;
 
 	if (*laptops != NULL && numberLaptops != 0) {
-		aux = lerInteiro(L"Insira o ID do portátil: ", INT_MIN, INT_MAX);
+		aux = lerInteiro(L"Insira o ID do portátil", 1, MAX_LAPTOPS);
 		pos = search_laptop_id(*laptops, numberLaptops, aux);
 
 		if (pos != -1) {
 			do {	// Read location of laptop
-				aux = lerInteiro(L"Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n: ", 0, 5);
+				aux = lerInteiro(L"Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 				control = set_typeLocal(&((*laptops[pos]).location), aux);
 
 				if (control != 0) {	// If not valid
