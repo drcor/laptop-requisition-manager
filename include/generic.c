@@ -1,7 +1,6 @@
 #include "generic.h"
 #include <stdio.h>
 #include <string.h>
-#include <wchar.h>
 
 /**
  * @brief Set location from a integer
@@ -79,21 +78,21 @@ void limparBufferStdin(void) {
  * @param max 
  * @return int 
  */
-int lerInteiro(wchar_t *message, int min, int max) {
+int lerInteiro(char *message, int min, int max) {
 	int number, control;
 
 	// Get integer number
 	do {
-		wprintf(L"%S (%d a %d) : ", message, min, max);
+		printf("%s (%d a %d) : ", message, min, max);
 		control = scanf("%d", &number);
 		limparBufferStdin();
 
 		// Validate the input for a integer number
 		if (control == 0) {
-			wprintf(L"ATEN√á√ÉO: Dever√° inserir um n√∫mero inteiro\n");
+			printf("ATEN«√O: Dever· inserir um n˙mero inteiro\n");
 		} else {
 			if (number < min || number > max) {
-				wprintf(L"ATEN√á√ÉO: N√∫mero inv√°lido. Insira novamente: ");
+				printf("ATEN«√O: N˙mero inv·lido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -109,22 +108,22 @@ int lerInteiro(wchar_t *message, int min, int max) {
  * @param max 
  * @return float 
  */
-float lerFloat(wchar_t *message, float min, float max) {
+float lerFloat(char *message, float min, float max) {
 	float number;
 	int control;
 
 	// Get float number
 	do {
-		wprintf(L"%S (%.2f a %.2f) : ", message, min, max);
+		printf("%s (%.2f a %.2f) : ", message, min, max);
 		control = scanf("%f", &number);
 		limparBufferStdin();
 
 		// Validate the input for a float number
 		if (control == 0) {
-			wprintf(L"ATEN√á√ÉO: Dever√° inserir um n√∫mero decimal (float)\n");
+			printf("ATEN«√O: Dever· inserir um n˙mero decimal (float)\n");
 		} else {
 			if (number < min || max < number) {
-				wprintf(L"ATEN√á√ÉO: N√∫mero inv√°lido. Insira novamente: ");
+				printf("ATEN«√O: N˙mero inv·lido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -139,17 +138,17 @@ float lerFloat(wchar_t *message, float min, float max) {
  * @param outputString 
  * @param maxChars 
  */
-void lerString(wchar_t *message, char *outputString, unsigned int maxChars) {
+void lerString(char *message, char *outputString, unsigned int maxChars) {
 	int stringSize;
 
 	do {
-		wprintf(L"%S: ", message);
+		printf("%s: ", message);
 		fgets(outputString, maxChars, stdin);
 
 		stringSize = strlen(outputString);
 
 		if (stringSize == 1) {	// Check if the user inserted a string
-			wprintf(L"ATEN√á√ÉO: N√£o foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
+			printf("ATEN«√O: N„o foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
 		}
 	} while (stringSize == 1);
 

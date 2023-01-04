@@ -1,26 +1,56 @@
 # depslib dependency file v1.0
-1670878196 source:c:\users\drcor\temp\laptop-requisition-manager\include\generic.c
+1672606922 source:c:\users\drcor\temp\laptop-requisition-manager\include\generic.c
 	"generic.h"
+	<stdio.h>
+	<string.h>
 
-1670882726 c:\users\drcor\temp\laptop-requisition-manager\include\generic.h
+1672606938 c:\users\drcor\temp\laptop-requisition-manager\include\generic.h
 	<stdint.h>
 
-1670640203 source:c:\users\drcor\temp\laptop-requisition-manager\main.c
+1672776821 source:c:\users\drcor\temp\laptop-requisition-manager\main.c
 	<stdio.h>
 	<stdlib.h>
+	<locale.h>
+	"include/generic.h"
+	"include/laptops.h"
 
-1670885738 source:c:\users\drcor\temp\laptop-requisition-manager\include\date.c
+1672614299 source:c:\users\drcor\temp\laptop-requisition-manager\include\date.c
 	"date.h"
+	"generic.h"
+	<stdio.h>
 	<stdbool.h>
 
-1670885743 c:\users\drcor\temp\laptop-requisition-manager\include\date.h
+1672606901 c:\users\drcor\temp\laptop-requisition-manager\include\date.h
 	<stdint.h>
 	<stdbool.h>
 
-1670877588 source:c:\users\drcor\temp\laptop-requisition-manager\include\laptops.c
+1672607017 source:c:\users\drcor\temp\laptop-requisition-manager\include\laptops.c
 	"laptops.h"
+	"date.h"
+	"generic.h"
+	<stdlib.h>
+	<limits.h>
 
-1670887123 c:\users\drcor\temp\laptop-requisition-manager\include\laptops.h
+1672606693 c:\users\drcor\temp\laptop-requisition-manager\include\laptops.h
 	"generic.h"
 	"date.h"
+	<stdio.h>
+
+1672606693 source:c:\users\drcor\temp\laptop-requisition-manager\include\breakdowns.c
+	"breakdowns.h"
+	<stdlib.h>
+
+1672606693 c:\users\drcor\temp\laptop-requisition-manager\include\breakdowns.h
+	"generic.h"
+	"date.h"
+	<stdio.h>
+
+1671624778 source:c:\users\drcor\temp\laptop-requisition-manager\include\requests.c
+	"requests.h"
+	<stdlib.h>
+
+1671624778 c:\users\drcor\temp\laptop-requisition-manager\include\requests.h
+	"generic.h"
+	"date.h"
+	<stdio.h>
 
