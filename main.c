@@ -106,7 +106,7 @@ int menu(void) {
 	int opcao;
 			
 	// This is the main menu
-	printf("\n+------------------------------------------+\n");
+	printf("\n +------------------------------------------+\n");
 	printf(" |                   MENU                   |\n");
 	printf(" +------------------------------------------+\n");
 	printf(" |  [1] Portáteis                           |\n");
@@ -123,7 +123,7 @@ int menu(void) {
 void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops) {
 	int opcao2;
 	// If he chooses laptops this shows up
-	printf("\n+------------------------------------------+\n");
+	printf("\n +------------------------------------------+\n");
 	printf(" |                Portáteis                 |\n");
 	printf(" +------------------------------------------+\n");                
 	printf(" |  [1] Inserir Portáteis                   |\n");
@@ -150,7 +150,7 @@ void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops) {
 
 void menuRequisicoes() {
 	int opcao2;
-	printf("\n+------------------------------------------+\n");
+	printf("\n +------------------------------------------+\n");
 	printf(" |               Requisições                |\n");
 	printf(" +------------------------------------------+\n");
 	printf(" |  [1] Requisitar portátil                 |\n");
@@ -172,7 +172,7 @@ void menuRequisicoes() {
 
 void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int opcao2;
-	printf("\n+------------------------------------------+\n");
+	printf("\n +------------------------------------------+\n");
 	printf(" |                  Avarias                 |\n");
 	printf(" +------------------------------------------+\n");
 	printf(" |  [1] Registar Avaria                     |\n");
