@@ -38,7 +38,7 @@ int set_typeCPU(enum typeCPU *cpu, int num) {
  * @param cpu 
  */
 void print_typeCPU(enum typeCPU cpu) {
-	print("I%d", cpu);
+	printf("I%d", cpu);
 }
 
 /**
@@ -77,13 +77,13 @@ int set_typeState(enum typeState *state, int num) {
 void print_typeState(enum typeState state) {
 	switch (state) {
 	case BROKEN:
-		print("Avariado");
+		printf("Avariado");
 		break;
 	case AVAILABLE:
-		print("Disponível");
+		printf("Disponível");
 		break;
 	case TAKEN:
-		print("Requisitado");
+		printf("Requisitado");
 		break;
 	}
 }

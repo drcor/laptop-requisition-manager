@@ -106,15 +106,15 @@ int menu(void) {
 	int opcao;
 			
 	// This is the main menu
-	printf("+------------------------------------------+\n");
-	printf("|                   MENU                   |\n");
-	printf("+------------------------------------------+\n");
-	printf("|  [1] Portáteis                           |\n");
-	printf("|  [2] Requisições                         |\n");
-	printf("|  [3] Avarias                             |\n");
-	printf("|  [4] Dados Estatísticos                  |\n");
-	printf("|  [0] Sair                                |\n");
-	printf("+------------------------------------------+\n");
+	printf("\n+------------------------------------------+\n");
+	printf(" |                   MENU                   |\n");
+	printf(" +------------------------------------------+\n");
+	printf(" |  [1] Portáteis                           |\n");
+	printf(" |  [2] Requisições                         |\n");
+	printf(" |  [3] Avarias                             |\n");
+	printf(" |  [4] Dados Estatísticos                  |\n");
+	printf(" |  [0] Sair                                |\n");
+	printf(" +------------------------------------------+\n");
 	opcao = lerInteiro("Opção: ", 0, 4);
 
 	return opcao;  
@@ -150,16 +150,16 @@ void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops) {
 
 void menuRequisicoes() {
 	int opcao2;
-	printf("+------------------------------------------+\n");
-	printf("|               Requisições                |\n");
-	printf("+------------------------------------------+\n");
-	printf("|  [1] Requisitar portátil                 |\n");
-	printf("|  [2] Listar Requisições                  |\n");
-	printf("|  [3] Mostrar Requisição                  |\n");
-	printf("|  [4] Devolução de portátil Requisitado   |\n");
-	printf("|  [5] Renovar Requisição                  |\n");
-	printf("|  [0] Anterior                            |\n");
-	printf("+------------------------------------------+\n");
+	printf("\n+------------------------------------------+\n");
+	printf(" |               Requisições                |\n");
+	printf(" +------------------------------------------+\n");
+	printf(" |  [1] Requisitar portátil                 |\n");
+	printf(" |  [2] Listar Requisições                  |\n");
+	printf(" |  [3] Mostrar Requisição                  |\n");
+	printf(" |  [4] Devolução de portátil Requisitado   |\n");
+	printf(" |  [5] Renovar Requisição                  |\n");
+	printf(" |  [0] Anterior                            |\n");
+	printf(" +------------------------------------------+\n");
 	opcao2 = lerInteiro("Opção", 0, 5);
 
 	switch (opcao2) {
@@ -172,14 +172,14 @@ void menuRequisicoes() {
 
 void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int opcao2;
-	printf("+------------------------------------------+\n");
-	printf("|                  Avarias                 |\n");
-	printf("+------------------------------------------+\n");
-	printf("|  [1] Registar Avaria                     |\n");
-	printf("|  [2] Registar Reparação                  |\n");
-	printf("|  [3] Listar Avarias                      |\n");
-	printf("|  [0] Anterior                            |\n");
-	printf("+------------------------------------------+\n");
+	printf("\n+------------------------------------------+\n");
+	printf(" |                  Avarias                 |\n");
+	printf(" +------------------------------------------+\n");
+	printf(" |  [1] Registar Avaria                     |\n");
+	printf(" |  [2] Registar Reparação                  |\n");
+	printf(" |  [3] Listar Avarias                      |\n");
+	printf(" |  [0] Anterior                            |\n");
+	printf(" +------------------------------------------+\n");
 	opcao2 = lerInteiro("Opção", 0, 3);
 
 	switch (opcao2) {
@@ -230,7 +230,7 @@ void registaAvaria(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, t
 void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int pos, control, id;
 	// Check if exist laptops and breakdowns
-	if (breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
+	if (*breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
 		// Read id
 		do {
 			id = lerInteiro("Insira o ID da avaria", 1, INT_MAX);
@@ -238,7 +238,10 @@ void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns
 			if (pos == -1) {
 				printf("ATENÇÃO: Tem de inserir um ID existente\n");
 			}
-		} while (pos == -1);
+			if ((*breakdowns)[id].duration != -1) {
+				printf("ATENÇÃO: Insira o ID de uma avaria ainda não reparada\n");
+			}
+		} while (pos == -1 && (*breakdowns)[id].duration != -1);
 		
 		// Set laptop available for requisition and set duration of reparation
 		breakdowns[pos]->duration = lerInteiro("Insira a duração da reparação", 0, 90);
@@ -263,14 +266,14 @@ void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, type
 	int pos;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
-		printf("ID\tCPU\tMem.\tEstado\tLocal\tMulta\tTipo\tDuração\tData\t\tDescrição\n");
+		printf("ID\tCPU\tMem.\tEstado\tLocal\tMulta\tID\tTipo\tDuração\tData\t\tDescrição\n");
 
 		for (unsigned int i = 0; i < numberBreakdowns; i++) {	// Get breakdow by breakdown
 			// Get position of laptop in vector of laptops
 			pos = search_laptop_id(laptops, numberLaptops, breakdowns[i].laptop_id);
 			printf("%d\ti%d\t%dGB\t", laptops[pos].id, laptops[pos].cpu, laptops[pos].memory);
 			printf("%d\t%d\t", laptops[pos].state, laptops[pos].location);
-			printf("%.2f\t%d\t", laptops[pos].price, breakdowns[i].break_type);
+			printf("%.2f\t%d\t%d\t", laptops[pos].price, breakdowns[i].id, breakdowns[i].break_type);
 			printf("%d\t", breakdowns[i].duration);
 			print_date(breakdowns[i].date);
 			printf("\t%s\n", laptops[pos].description);

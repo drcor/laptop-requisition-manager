@@ -45,7 +45,7 @@ int get_max_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns) {
 				}
 			}
 		} else {
-			id = 1;
+			id = 0;
 		}
 	}
 
@@ -105,6 +105,9 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 
 		// Read date of breakdown
 		read_date("Insira a data de avaria", &(breakdown.date));
+
+		// Set duration to -1 standing for not repaired
+		breakdown.duration = -1;
 
 		// Store laptop ID and duration
 		breakdown.laptop_id = laptopId;

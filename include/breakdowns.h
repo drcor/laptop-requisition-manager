@@ -19,7 +19,7 @@ typedef struct {
 	int laptop_id;
 	enum typeBreak break_type;
 	typeDate date;
-	unsigned int duration;
+	int duration;
 } typeBreakdown;
 
 /* Get max id */
