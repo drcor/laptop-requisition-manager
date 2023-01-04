@@ -12,6 +12,8 @@ enum typeLocal {
 };
 /* Set location from a integer */
 int set_typeLocal(enum typeLocal *location, int num);
+/* Print locations */
+void print_typeLocal(enum typeLocal location);
 
 /* Check if 'number' is in range from 'min' to 'max' */
 int check_range(int number, int min, int max);
@@ -25,8 +27,7 @@ int lerInteiro(char *message, int min, int max);
 /* Read a float from the input */
 float lerFloat(char *message, float min, float max);
 
-/* Read a string from the input 
-*/
+/* Read a string from the input */
 void lerString(char *message, char *outputString, unsigned int maxChars);
 
 #endif // ELEMENTS_H_INCLUDED

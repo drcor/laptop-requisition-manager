@@ -15,7 +15,9 @@ enum typeCPU {
 	I7=7
 };
 /* Set type of cpu from a integer */
-int set_typeCPU(enum typeCPU *tmp, int num);
+int set_typeCPU(enum typeCPU *cpu, int num);
+/* Print the type of CPU */
+void print_typeCPU(enum typeCPU cpu);
 
 /* Enumeration of laptop's states */
 enum typeState {
@@ -25,6 +27,8 @@ enum typeState {
 };
 /* Set the state of laptop from a integer */
 int set_typeState(enum typeState *state, int num);
+/* Print the state of laptop */
+void print_typeState(enum typeState state);
 
 /* Laptop information */
 typedef struct {
@@ -47,7 +51,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops);
 /* Update the location of laptop */
 int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops);
 /* Read a N number of laptops from a file */
-int read_laptop_from_file(typeLaptop *laptops, unsigned int *amount, FILE *file);
+int read_laptop_from_file(typeLaptop **laptops, unsigned int *amount, FILE *file);
 /* Write a vector of laptops to a file */
 int write_laptop_to_file(typeLaptop *laptops, unsigned int amount, FILE *file);
 
