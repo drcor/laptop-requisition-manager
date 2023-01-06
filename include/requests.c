@@ -90,6 +90,28 @@ void print_typeReqState(enum typeReqState req_state) {
 }
 
 /**
+ * @brief Count number of requests with a laptop_id
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param laptopId 
+ * @return int number of requests
+ */
+int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
+	int count = 0;
+
+	if (numberRequests > 0) {
+		for (unsigned int i = 0; i < numberRequests; i++) {
+			if (requests[i].laptop_id == laptopId) {
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+/**
  * @brief Read a N number of requests from a file
  * The N number is given in the first 4 bytes of the file
  *

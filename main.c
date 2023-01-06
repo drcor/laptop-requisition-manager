@@ -6,16 +6,20 @@
 #include "include/breakdowns.h"
 #include "include/requests.h"
 
+/* Inicializa e guarda os dados dos vetores em ficheiros binários */
 void inicializarDados(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests);
 void guardarDados(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+/* Menus de opções */
 int menu(void);
-void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops);
+void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 void menuRequisicoes(void);
 void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void menuDados(void);
+/* Aplicação de funcionalidades */
 void registaAvaria(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void listaPortateis(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
 int main(void){
 	unsigned int numberLaptops = 0;
@@ -39,7 +43,7 @@ int main(void){
 			case 0:
 				break;
 			case 1:
-				menuPortateis(&laptops, &numberLaptops);
+				menuPortateis(&laptops, &numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 				break;
 			case 2:
 				menuRequisicoes();
@@ -120,7 +124,7 @@ int menu(void) {
 	return opcao;  
 }
 
-void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops) {
+void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
 	int opcao2;
 	// If he chooses laptops this shows up
 	printf("\n +------------------------------------------+\n");
@@ -139,7 +143,7 @@ void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops) {
 			break;
 		case 2:
 			printf("\n");
-			list_laptops(*laptops, *numberLaptops);
+			listaPortateis(*laptops, *numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 			printf("\n");
 			break;
 		case 3:
@@ -267,7 +271,7 @@ void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, type
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
 		// printf("ID\tCPU\tMem.\tEstado\tLocal\tPreço\tID\tTipo\tDuração\tData\t\tDescrição\n");
-		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tDescrição\n");
+		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\tDescrição\n");
 
 		for (unsigned int i = 0; i < numberBreakdowns; i++) {	// Get breakdow by breakdown
 			// Get position of laptop in vector of laptops
@@ -285,9 +289,38 @@ void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, type
 			print_typeState(laptops[pos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
-			printf("\t%s\n", laptops[pos].description);
+			printf("\t%.2f€\t%s\n", laptops[pos].price, laptops[pos].description);
 		}
 	} else {
-		printf("ATENÇÃO: não existe nenhuma avaria registada!\n");
+		printf("ATENÇÃO: Não existe nenhuma avaria registada!\n");
+	}
+}
+
+void listaPortateis(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
+	int counted;
+	// Check if exist laptops
+	if (laptops != NULL && numberLaptops > 0) {
+		printf("ID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\tN.Avar\tN.Requi\tDescrição\n");
+
+		for (unsigned int i = 0; i < numberLaptops; i++) {	// Get laptop by laptop
+			// Print laptop data
+			printf("%d\t", laptops[i].id);
+			print_typeCPU(laptops[i].cpu);
+			printf("\t%dGB\t", laptops[i].memory);
+			print_typeState(laptops[i].state);
+			printf("\t");
+			print_typeLocal(laptops[i].location);
+			printf("\t%.2f€\t", laptops[i].price);
+			
+			counted = count_breakdowns_from_laptop_id(breakdowns, numberBreakdowns, laptops[i].id);
+			printf("%d\t", counted);
+			counted = count_requests_from_laptop_id(requests, numberRequests, laptops[i].id);
+			printf("%d\t", counted);
+			// TODO: Print type of user
+			// TODO: Print deadline for each request
+			printf("%s\n", laptops[i].description);
+		}
+	} else {
+		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
 	}
 }

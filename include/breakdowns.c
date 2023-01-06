@@ -44,6 +44,28 @@ void print_typeBreak(enum typeBreak break_type) {
 }
 
 /**
+ * @brief Count number of breakdowns with a laptop_id
+ * 
+ * @param breakdowns 
+ * @param numberBreakdowns 
+ * @param laptopId 
+ * @return int number of breakdowns 
+ */
+int count_breakdowns_from_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId) {
+	int count = 0;
+
+	if (numberBreakdowns > 0) {
+		for (unsigned int i = 0; i < numberBreakdowns; i++) {
+			if (breakdowns[i].laptop_id == laptopId) {
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+/**
  * @brief Get max id
  * 
  * @param breakdowns 
