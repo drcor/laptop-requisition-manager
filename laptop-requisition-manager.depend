@@ -56,3 +56,62 @@
 	"date.h"
 	<stdio.h>
 
+1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/breakdowns.c
+	"breakdowns.h"
+	<stdlib.h>
+	<limits.h>
+
+1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/breakdowns.h
+	"generic.h"
+	"date.h"
+	<stdio.h>
+
+1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/generic.h
+	<stdint.h>
+
+1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/date.h
+	<stdint.h>
+	<stdbool.h>
+
+1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/date.c
+	"date.h"
+	"generic.h"
+	<stdio.h>
+	<stdbool.h>
+
+1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/generic.c
+	"generic.h"
+	<stdio.h>
+	<string.h>
+
+1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/laptops.c
+	"laptops.h"
+	"date.h"
+	"generic.h"
+	<stdlib.h>
+	<limits.h>
+
+1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/laptops.h
+	"generic.h"
+	"date.h"
+	<stdio.h>
+
+1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/requests.c
+	"requests.h"
+	<stdlib.h>
+
+1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/requests.h
+	"generic.h"
+	"date.h"
+	<stdio.h>
+
+1673048683 source:/home/drcorreia/Git/laptop-requisition-manager/main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<limits.h>
+	"include/generic.h"
+	"include/laptops.h"
+	"include/breakdowns.h"
+	"include/requests.h"
+

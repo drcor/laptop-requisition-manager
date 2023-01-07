@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <limits.h>
 #include "include/generic.h"
 #include "include/laptops.h"
 #include "include/breakdowns.h"
@@ -21,7 +22,7 @@ void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns
 void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void listaPortateis(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
-int main(void){
+int main(void) {
 	unsigned int numberLaptops = 0;
 	unsigned int numberBreakdowns = 0;
 	unsigned int numberRequests = 0;
@@ -31,7 +32,7 @@ int main(void){
 	int opcao;
 
 	// Set locale for Portuguese
-	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "pt_PT.utf8");
 
 	// Inicializa vetores com dados dos ficheiros
 	inicializarDados(&laptops, &numberLaptops, &breakdowns, &numberBreakdowns, &requests, &numberRequests);
@@ -64,6 +65,7 @@ int main(void){
 	
 	free(laptops);
 	free(breakdowns);
+	free(requests);
 
 	return 0;
 }
@@ -76,14 +78,20 @@ void inicializarDados(typeLaptop **laptops, unsigned int *numberLaptops, typeBre
 	// Open data files
 	laptops_file = fopen("laptops.bin", "rb");
 	breakdowns_file = fopen("breakdowns.bin", "rb");
+	requests_file = fopen("requests.bin", "rb");
 	// Read data
-	read_laptop_from_file(laptops, numberLaptops, laptops_file);
-	read_breakdown_from_file(breakdowns, numberBreakdowns, breakdowns_file);
-	read_request_from_file(requests, numberRequests, requests_file);
-	// Close files
-	fclose(laptops_file);
-	fclose(breakdowns_file);
-	fclose(requests_file);
+	if (laptops_file != NULL) {
+		read_laptop_from_file(laptops, numberLaptops, laptops_file);
+		fclose(laptops_file);
+	}
+	if (breakdowns_file != NULL) {
+		read_breakdown_from_file(breakdowns, numberBreakdowns, breakdowns_file);
+		fclose(breakdowns_file);
+	}
+	if (requests_file != NULL) {
+		read_request_from_file(requests, numberRequests, requests_file);
+		fclose(requests_file);
+	}
 }
 
 void guardarDados(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
