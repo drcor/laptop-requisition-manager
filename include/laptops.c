@@ -80,7 +80,7 @@ void print_typeState(enum typeState state) {
 		printf("Avariado");
 		break;
 	case AVAILABLE:
-		printf("DisponÃ­vel");
+		printf("Disponível");
 		break;
 	case TAKEN:
 		printf("Requisitado");
@@ -132,10 +132,10 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 		if (*numberLaptops < 30) {
 			// Read id
 			do {
-				laptop.id = lerInteiro("Insira o ID do portÃ¡til", 1, MAX_LAPTOPS);
+				laptop.id = lerInteiro("Insira o ID do portátil", 1, MAX_LAPTOPS);
 				control = search_laptop_id(*laptops, *numberLaptops, laptop.id);
 				if (control != -1) {
-					printf("ATENÃ‡ÃƒO: NÃ£o pode inserir um ID repetido\n");
+					printf("ATENÇÃO: Não pode inserir um ID repetido\n");
 				}
 			} while (control != -1);
 
@@ -144,7 +144,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 				control = set_typeCPU(&(laptop.cpu), tmp);
 
 				if (control != 0) {	// If not valid
-					printf("\nATENÃ‡ÃƒO: Insira um CPU vÃ¡lido\n");
+					printf("\nATENÇÃO: Insira um CPU válido\n");
 				}
 			} while (control != 0);
 
@@ -155,20 +155,20 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			laptop.state = AVAILABLE;
 
 			do {	// Read location of laptop
-				tmp = lerInteiro("Insira a localizaÃ§Ã£o do portÃ¡til\n\t0 - ResidÃªncias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+				tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 				control = set_typeLocal(&(laptop.location), tmp);
 
 				if (control != 0) {	// If not valid
-					printf("\nATENÃ‡ÃƒO: Insira uma localizaÃ§Ã£o vÃ¡lida\n");
+					printf("\nATENÇÃO: Insira uma localização válida\n");
 				}
 			} while (control != 0);
 
 			// Read date of aquisition
-			read_date("Insira a data de aquisiÃ§Ã£o", &(laptop.date));
+			read_date("Insira a data de aquisição", &(laptop.date));
 			// Read price
-			laptop.price = lerFloat("Insira o preÃ§o do portÃ¡til em â‚¬", 0.0, 10000.0);
+			laptop.price = lerFloat("Insira o preço do portátil em €", 0.0, 10000.0);
 			// Read Description
-			lerString("Insira a descriÃ§Ã£o do portÃ¡til", laptop.description, DESCRIPTION_SIZE);
+			lerString("Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
 		}
 
 		(*laptops)[*numberLaptops] = laptop;
@@ -177,7 +177,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 		result = 0;
 	} else {
 		*laptops = save;
-		printf("Falha na alocaÃ§Ã£o de memÃ³ria!\n");
+		printf("Falha na alocação de memória!\n");
 	}
 
 	return result;
@@ -193,7 +193,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
 	// Check if exist any laptoptyi
 	if (laptops != NULL && numberLaptops > 0) {
-		printf("ID\tCPU\tMem.\tEstado\tLocal\tData\t\tMulta\tDescriÃ§Ã£o\n");
+		printf("ID\tCPU\tMem.\tEstado\tLocal\tData\t\tMulta\tDescrição\n");
 		for (size_t i = 0; i < numberLaptops; i++) {
 			printf("%d\ti%d\t%dGB\t", laptops[i].id, laptops[i].cpu, laptops[i].memory);
 			printf("%d\t%d\t", laptops[i].state, laptops[i].location);
@@ -201,7 +201,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
 			printf("\t%.2f\t%s\n", laptops[i].price, laptops[i].description);
 		}
 	} else {
-		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhum portÃ¡til registado!\n");
+		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
 	}
 }
 
@@ -218,16 +218,16 @@ int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops) {
 	int aux, pos, control;
 
 	if (*laptops != NULL && numberLaptops != 0) {
-		aux = lerInteiro("Insira o ID do portÃ¡til", 1, MAX_LAPTOPS);
+		aux = lerInteiro("Insira o ID do portátil", 1, MAX_LAPTOPS);
 		pos = search_laptop_id(*laptops, numberLaptops, aux);
 
 		if (pos != -1) {
 			do {	// Read location of laptop
-				aux = lerInteiro("Insira a localizaÃ§Ã£o do portÃ¡til\n\t0 - ResidÃªncias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+				aux = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 				control = set_typeLocal(&((*laptops[pos]).location), aux);
 
 				if (control != 0) {	// If not valid
-					printf("\nATENÃ‡ÃƒO: Insira uma localizaÃ§Ã£o vÃ¡lida\n");
+					printf("\nATENÇÃO: Insira uma localização válida\n");
 				}
 			} while (control != 0);
 		}
