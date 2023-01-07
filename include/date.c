@@ -107,7 +107,7 @@ void read_date(char *message, typeDate *date) {
 
 		// Validate the input for the date number
 		if (control == 0 || validate_date(*date) != 0) {
-			printf("ATENO: Dever inserir uma data vlida no formato dia/ms/ano\n");
+			printf("ATENÃ‡ÃƒO: DeverÃ¡ inserir uma data vÃ¡lida no formato dia/mÃªs/ano\n");
 		}
 	} while (control == 0 || validate_date(*date) != 0);
 }

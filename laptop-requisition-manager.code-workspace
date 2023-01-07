@@ -5,6 +5,6 @@
 		}
 	],
 	"settings": {
-		"files.encoding": "windows1252"
+		"files.encoding": "utf8"
 	}
 }

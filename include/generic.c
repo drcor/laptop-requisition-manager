@@ -34,6 +34,28 @@ int set_typeLocal(enum typeLocal *location, int num) {
 }
 
 /**
+ * @brief Print locations
+ * 
+ * @param location 
+ */
+void print_typeLocal(enum typeLocal location) {
+	switch (location) {
+	case RESIDENCES:
+		printf("ResidÃªncias");
+		break;
+	case CAMPUS1:
+		printf("Campus 1");
+		break;
+	case CAMPUS2:
+		printf("Campus 2");
+		break;
+	case CAMPUS5:
+		printf("Campus 5");
+		break;
+	}
+}
+
+/**
  * @brief Check if 'number' is in range from 'min' to 'max'
  * 
  * @param number 
@@ -89,10 +111,10 @@ int lerInteiro(char *message, int min, int max) {
 
 		// Validate the input for a integer number
 		if (control == 0) {
-			printf("ATENÇÃO: Deverá inserir um número inteiro\n");
+			printf("ATENÃ‡ÃƒO: DeverÃ¡ inserir um nÃºmero inteiro\n");
 		} else {
 			if (number < min || number > max) {
-				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+				printf("ATENÃ‡ÃƒO: NÃºmero invÃ¡lido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -120,10 +142,10 @@ float lerFloat(char *message, float min, float max) {
 
 		// Validate the input for a float number
 		if (control == 0) {
-			printf("ATENÇÃO: Deverá inserir um número decimal (float)\n");
+			printf("ATENÃ‡ÃƒO: DeverÃ¡ inserir um nÃºmero decimal (float)\n");
 		} else {
 			if (number < min || max < number) {
-				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+				printf("ATENÃ‡ÃƒO: NÃºmero invÃ¡lido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -148,7 +170,7 @@ void lerString(char *message, char *outputString, unsigned int maxChars) {
 		stringSize = strlen(outputString);
 
 		if (stringSize == 1) {	// Check if the user inserted a string
-			printf("ATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
+			printf("ATENÃ‡ÃƒO: NÃ£o foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
 		}
 	} while (stringSize == 1);
 
