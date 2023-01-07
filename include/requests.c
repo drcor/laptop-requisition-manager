@@ -84,7 +84,7 @@ void print_typeReqState(enum typeReqState req_state) {
 		printf("Ativo    ");
 		break;
 	case DONE:
-		printf("Concluído");
+		printf("ConcluÃ­do");
 		break;
 	}
 }
@@ -117,12 +117,12 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
  *
  * @param requests
  * @param amount
- * @param file
- * @return 1 if failed to read requests
- * @return 0 if success
+ * @param file 
+ * @return -1 if failed to read requests
+ * @return int if success
  */
 int read_request_from_file(typeRequest **requests, unsigned int *amount, FILE *file) {
-	int result = 1;
+	int result = -1;
 
 	// Check if 'file' is valid
 	if (file != NULL) {

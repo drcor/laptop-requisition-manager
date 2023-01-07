@@ -35,7 +35,7 @@ int set_typeBreak(enum typeBreak *breakdown_type, int num) {
 void print_typeBreak(enum typeBreak break_type) {
 	switch (break_type) {
 	case TEMPORARY:
-		printf("Temporário");
+		printf("TemporÃ¡rio");
 		break;
 	case PERMANENT:
 		printf("Permanente");
@@ -133,11 +133,11 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		breakdown.id = get_max_id(*breakdowns, *numberBreakdowns) + 1;
 
 		do {	// Read type of breakdown
-			tmp = lerInteiro("Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);
+			tmp = lerInteiro("Insira o tipo de avaria do portÃ¡til\n\t0 - TemporÃ¡ria\n\t1 - Permanente\n", 0, 1);
 			control = set_typeBreak(&(breakdown.break_type), tmp);
 
 			if (control != 0) {	// If not valid
-				printf("\nATENÇÃO: Insira uma localização válida\n");
+				printf("\nATENÃ‡ÃƒO: Insira uma localizaÃ§Ã£o vÃ¡lida\n");
 			}
 		} while (control != 0);
 
@@ -156,7 +156,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		result = 0;
 	} else {
 		*breakdowns = save;
-		printf("Falha na alocação de memória!\n");
+		printf("Falha na alocaÃ§Ã£o de memÃ³ria!\n");
 	}
 	
 	return result;
@@ -190,7 +190,7 @@ int delete_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 			result = 0;
 		} else {
 			*breakdowns = save;
-			printf("Falha na alocação de memória!\n");
+			printf("Falha na alocaÃ§Ã£o de memÃ³ria!\n");
 		}
 	}
 
@@ -204,11 +204,11 @@ int delete_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
  * @param breakdowns 
  * @param amount 
  * @param file 
- * @return 1 if failed to read breakdowns
- * @return 0 if success
+ * @return -1 if failed to read breakdowns
+ * @return int if success
  */
 int read_breakdown_from_file(typeBreakdown **breakdowns, unsigned int *amount, FILE *file) {
-	int result = 1;
+	int result = -1;
 
 	// Check if 'file' is valid
 	if (file != NULL) {
@@ -221,7 +221,7 @@ int read_breakdown_from_file(typeBreakdown **breakdowns, unsigned int *amount, F
 
 			if (*breakdowns != NULL) {	// success to allocate memory
 				// Read all breakdowns from the file to the vector 'breakdowns'
-				fread(*breakdowns, sizeof(typeBreakdown), *amount, file);
+				result = fread(*breakdowns, sizeof(typeBreakdown), *amount, file);
 
 				if ((unsigned int)result != *amount) {
 					*amount = 0;
