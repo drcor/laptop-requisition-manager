@@ -5,11 +5,15 @@ Laptop requisition manager is a C application for dealing with laptop requisitio
 ## Build
 
 Open project on CodeBlocks and compile.
+Or run de command:
+```sh
+$ make
+```
 
 ## Usage
 
-```bash
-> laptop-manager.exe
+```sh
+$ laptop-manager.exe
 ```
 
 
