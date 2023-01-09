@@ -112,6 +112,63 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
 }
 
 /**
+ * @brief Insert a request in the vector
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param laptopId 
+ * @return int 
+ */
+int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId){
+	typeRequest request;
+	int aux = 0, result = -1;
+
+	// Backup in case something goes wrong
+	typeRequest *save = *requests;
+
+	*requests = realloc(*requests, (*numberRequests + 1) * sizeof(typeRequest));
+	if(*requests != NULL){
+		// Inserts product code, already validated.
+		// TODO: verificar code
+		lerString("Insira o código do produto", request.code, 10);
+
+		// Inserts client name
+		lerString("Insira o nome do cliente", request.user_name, 60);
+
+		// Inserts user type
+		aux = lerInteiro("Insira o tipo de cliente (0 - Estudante, 1 - Professor, 2 - Admininstração)", 0, 2);
+		set_typeUser(&(request.user_type), aux);
+
+		// Inserts request date
+		read_date("Insira a data da requisição", &(request.requisition_date));
+
+		// Inserts delivery date
+		read_date("Insira a data de entrega", &(request.devolution_date));
+
+		// Insert location of devolution
+		do {    
+            aux = lerInteiro("Insira o local de devolução\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+            aux = set_typeLocal(&(request.devolution_local), aux);
+
+            if (aux != 0) {    // If not valid
+                printf("\nATENÇÃO: Insira uma localização válida\n");
+           }
+        } while (aux != 0);
+
+		// Store laptop ID
+		request.laptop_id = laptopId;
+
+		(*requests)[*numberRequests] = request;
+		result = 0;
+	} else{
+		*requests = save;
+		printf("Falha na alocação de memória!\n");
+	}
+	
+	return result;
+}
+
+/**
  * @brief Read a N number of requests from a file
  * The N number is given in the first 4 bytes of the file
  *
