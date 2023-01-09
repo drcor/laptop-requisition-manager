@@ -48,8 +48,6 @@ int get_max_laptop_id(typeLaptop *laptops, unsigned int numberLaptops);
 int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id);
 /* Insert a laptop in the vector */
 int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops);
-/* List all laptops */
-void list_laptops(typeLaptop *laptops, unsigned int numberLaptops);
 /* Update the location of laptop */
 int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops);
 /* Read a N number of laptops from a file */

@@ -202,28 +202,6 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 }
 
 /**
- * @brief List all laptops
- *
- * @param laptops
- * @param numberLaptops
- */
-/* TODO: Add extra information */
-void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
-	// Check if exist any laptoptyi
-	if (laptops != NULL && numberLaptops > 0) {
-		printf("ID\tCPU\tMem.\tEstado\tLocal\tData\t\tMulta\tDescrição\n");
-		for (size_t i = 0; i < numberLaptops; i++) {
-			printf("%d\ti%d\t%dGB\t", laptops[i].id, laptops[i].cpu, laptops[i].memory);
-			printf("%d\t%d\t", laptops[i].state, laptops[i].location);
-			print_date(laptops[i].date);
-			printf("\t%.2f\t%s\n", laptops[i].price, laptops[i].description);
-		}
-	} else {
-		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
-	}
-}
-
-/**
  * @brief Update the location of laptop
  *
  * @param laptops

@@ -152,7 +152,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		
 		(*breakdowns)[*numberBreakdowns] = breakdown;
 		(*numberBreakdowns)++;
-		// list_breakdowns(*breakdowns, *numberBreakdowns);	// Debug
+		
 		result = 0;
 	} else {
 		*breakdowns = save;
