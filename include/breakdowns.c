@@ -105,7 +105,7 @@ int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns
 	for (unsigned int i = 0; i < numberBreakdowns; i++) {
 		if (breakdowns[i].id == id) {
 			result = i;
-			i = numberBreakdowns;
+			i = numberBreakdowns;	// Force loop to end
 		}
 	}
 	
@@ -129,7 +129,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 
 	*breakdowns = realloc(*breakdowns, (*numberBreakdowns + 1) * sizeof(typeBreakdown));
 	if (*breakdowns != NULL) {
-		// Save id
+		// Define breakdown id
 		breakdown.id = get_max_breakdown_id(*breakdowns, *numberBreakdowns) + 1;
 
 		do {	// Read type of breakdown

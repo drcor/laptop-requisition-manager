@@ -8,19 +8,19 @@
 #include "include/requests.h"
 
 /* Inicializa e guarda os dados dos vetores em ficheiros binários */
-void inicializarDados(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests);
-void guardarDados(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+void initialize_data(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests);
+void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 /* Menus de opções */
 int menu(void);
-void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
-void menuRequisicoes(void);
-void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
-void menuDados(void);
+void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+void menu_requests(void);
+void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void menu_statistics(void);
 /* Aplicação de funcionalidades */
-void registaAvaria(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
-void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
-void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
-void listaPortateis(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void register_repair(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
 int main(void) {
 	unsigned int numberLaptops = 0;
@@ -35,7 +35,7 @@ int main(void) {
 	setlocale(LC_ALL, "Portuguese");
 
 	// Inicializa vetores com dados dos ficheiros
-	inicializarDados(&laptops, &numberLaptops, &breakdowns, &numberBreakdowns, &requests, &numberRequests);
+	initialize_data(&laptops, &numberLaptops, &breakdowns, &numberBreakdowns, &requests, &numberRequests);
 	
 	// Apresenta o menu principal de opções
 	do {
@@ -44,16 +44,16 @@ int main(void) {
 			case 0:
 				break;
 			case 1:
-				menuPortateis(&laptops, &numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
+				menu_laptops(&laptops, &numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 				break;
 			case 2:
-				menuRequisicoes();
+				menu_requests();
 				break;
 			case 3:
-				menuAvarias(&breakdowns, &numberBreakdowns, laptops, numberLaptops);
+				menu_breakdowns(&breakdowns, &numberBreakdowns, laptops, numberLaptops);
 				break;
 			case 4:
-				menuDados();
+				menu_statistics();
 				break;
 			default:
 				printf("ATENÇÃO: Insira uma opção válida\n");
@@ -61,7 +61,7 @@ int main(void) {
 	   }
 	} while(opcao != 0);
 
-	guardarDados(laptops, numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
+	save_data(laptops, numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 	
 	free(laptops);
 	free(breakdowns);
@@ -70,7 +70,7 @@ int main(void) {
 	return 0;
 }
 
-void inicializarDados(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests) {
+void initialize_data(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests) {
 	// Initialize vector with data from files
 	FILE *laptops_file = NULL;
 	FILE *breakdowns_file = NULL;
@@ -100,7 +100,7 @@ void inicializarDados(typeLaptop **laptops, unsigned int *numberLaptops, typeBre
 	}
 }
 
-void guardarDados(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
+void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
 	// Save vector data to files
 	FILE *laptops_file = NULL;
 	FILE *breakdowns_file = NULL;
@@ -138,7 +138,7 @@ int menu(void) {
 	return opcao;  
 }
 
-void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
+void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
 	int opcao2;
 	// If he chooses laptops this shows up
 	printf("\n +------------------------------------------+\n");
@@ -157,7 +157,7 @@ void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakd
 			break;
 		case 2:
 			printf("\n");
-			listaPortateis(*laptops, *numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
+			list_laptops(*laptops, *numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 			printf("\n");
 			break;
 		case 3:
@@ -166,7 +166,7 @@ void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakd
 	}
 }
 
-void menuRequisicoes() {
+void menu_requests() {
 	int opcao2;
 	printf("\n +------------------------------------------+\n");
 	printf(" |               Requisições                |\n");
@@ -188,7 +188,7 @@ void menuRequisicoes() {
 		}
 }
 
-void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
+void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int opcao2;
 	printf("\n +------------------------------------------+\n");
 	printf(" |                  Avarias                 |\n");
@@ -202,18 +202,18 @@ void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typ
 
 	switch (opcao2) {
 		case 1:
-			registaAvaria(breakdowns, numberBreakdowns, laptops, numberLaptops);
+			register_breakdown(breakdowns, numberBreakdowns, laptops, numberLaptops);
 			break;
 		case 2:
-			registaReparacao(breakdowns, numberBreakdowns, laptops, numberLaptops);
+			register_repair(breakdowns, numberBreakdowns, laptops, numberLaptops);
 			break;
 		case 3:
-			listaAvarias(*breakdowns, *numberBreakdowns, laptops, numberLaptops);
+			list_breakdowns(*breakdowns, *numberBreakdowns, laptops, numberLaptops);
 			break;
 	}
 }
 
-void menuDados() {
+void menu_statistics() {
 
 }
 
@@ -225,7 +225,7 @@ void menuDados() {
  * @param laptops 
  * @param numberLaptops 
  */
-void registaAvaria(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
+void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int pos, control, id;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
@@ -245,7 +245,7 @@ void registaAvaria(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, t
 	}
 }
 
-void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
+void register_repair(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int pos, control, id;
 	// Check if exist laptops and breakdowns
 	if (*breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
@@ -280,7 +280,7 @@ void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns
  * @param laptops 
  * @param numberLaptops 
  */
-void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
+void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int pos;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
@@ -310,7 +310,7 @@ void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, type
 	}
 }
 
-void listaPortateis(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
+void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
 	int counted;
 	// Check if exist laptops
 	if (laptops != NULL && numberLaptops > 0) {

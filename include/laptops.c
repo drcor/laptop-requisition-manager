@@ -128,7 +128,7 @@ int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id) {
 	for (unsigned int i = 0; i < numberLaptops; i++) {
 		if (laptops[i].id == id) {
 			result = i;
-			i = numberLaptops;
+			i = numberLaptops;	// Force loop to end
 		}
 	}
 
@@ -154,14 +154,8 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 	if (*laptops != NULL) {
 		// Check if vector is full
 		if (*numberLaptops < 30) {
-			// Read id
-			do {
-				laptop.id = lerInteiro("Insira o ID do portátil", 1, MAX_LAPTOPS);
-				control = search_laptop_id(*laptops, *numberLaptops, laptop.id);
-				if (control != -1) {
-					printf("ATENÇÃO: Não pode inserir um ID repetido\n");
-				}
-			} while (control != -1);
+			// Define laptop id
+			laptop.id = get_max_laptop_id(*laptops, *numberLaptops) + 1;
 
 			do {	// Read type of CPU
 				tmp = lerInteiro("Insira o tipo de CPU\n\t3 - i3\n\t5 - i5\n\t7 - i7\n", 3, 7);
