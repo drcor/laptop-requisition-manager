@@ -66,13 +66,13 @@ int count_breakdowns_from_laptop_id(typeBreakdown *breakdowns, unsigned int numb
 }
 
 /**
- * @brief Get max id
+ * @brief Get max breakdown id
  * 
  * @param breakdowns 
  * @param numberBreakdowns 
  * @return int max id 
  */
-int get_max_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns) {
+int get_max_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns) {
 	int id = -1;
 
 	if (breakdowns != NULL) {
@@ -130,7 +130,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 	*breakdowns = realloc(*breakdowns, (*numberBreakdowns + 1) * sizeof(typeBreakdown));
 	if (*breakdowns != NULL) {
 		// Save id
-		breakdown.id = get_max_id(*breakdowns, *numberBreakdowns) + 1;
+		breakdown.id = get_max_breakdown_id(*breakdowns, *numberBreakdowns) + 1;
 
 		do {	// Read type of breakdown
 			tmp = lerInteiro("Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);

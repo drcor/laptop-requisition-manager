@@ -26,8 +26,8 @@ typedef struct {
 
 /* Count number of breakdowns with a laptop_id */
 int count_breakdowns_from_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId);
-/* Get max id */
-int get_max_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns);
+/* Get max breakdown id */
+int get_max_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns);
 /* Search for breakdown ID */
 int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id);
 /* Insert a breakdown in the vector */

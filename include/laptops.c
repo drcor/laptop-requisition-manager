@@ -88,6 +88,30 @@ void print_typeState(enum typeState state) {
 	}
 }
 
+/**
+ * @brief Get max laptop id
+ * 
+ * @param laptops 
+ * @param numberLaptops 
+ * @return int 
+ */
+int get_max_laptop_id(typeLaptop *laptops, unsigned int numberLaptops) {
+	int id = -1;
+
+	if (laptops != NULL) {
+		if (numberLaptops > 0) {
+			for (unsigned int i = 0; i < numberLaptops; i++) {
+				if (laptops[i].id > id) {
+					id = laptops[i].id;
+				}
+			}
+		} else {
+			id = 0;
+		}
+	}
+
+	return id;
+}
 
 /**
  * @brief Search for laptop ID
