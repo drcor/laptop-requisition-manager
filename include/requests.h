@@ -5,6 +5,9 @@
 #include "date.h"
 #include <stdio.h>
 
+#define CODE_SIZE 5
+#define USERNAME_SIZE 60
+
 /* Enumeration of type of user */
 enum typeUser {
 	STUDENT,		// 0
@@ -47,7 +50,7 @@ int read_request_from_file(typeRequest **requests, unsigned int *amount, FILE *f
 /* Write a vector os requests to a file */
 int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file);
 // Searches if the code already request already exists (-1 if not)
-char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code);
+int search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code[CODE_SIZE]);
 // Insert a request
 void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId);
 #endif // REQUESTS_H_INCLUDED
