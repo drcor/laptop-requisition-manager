@@ -133,15 +133,13 @@ void insert_request(typeRequest **requests, unsigned int *numberRequests, int la
 		// Inserts product code, already validated.
 		do{
 			lerString("Insira o cùdigo do produto", code, 10);
-			aux = search_request_by_code(*requests, *numberRequests, code);
-			if (aux == -1) {
+			aux = search_request_by_code(*requests, *numberRequests, *code);
+			if(aux != 0){
 				strcpy(request.code, code);
-			} else {
+			}else{
 				printf("O cùdigo introduzido jù existe!\n");
 			}
-		} while (aux != -1);
-
-		// Insert laptop's id
+		}while(aux == 0);
 		
 
 		// Inserts client name
@@ -163,6 +161,16 @@ void insert_request(typeRequest **requests, unsigned int *numberRequests, int la
 		// Inserts delivery date
 		// DATE IS AUTOMATICALLY SET BY THE DEADLINE, no need for this
 		//read_date("Insira a data de entrega", &(request.devolution_date));
+
+		// Insert location of devolution
+		do {    
+            aux = lerInteiro("Insira o local de devoluùùo\n\t0 - Residùncias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+            aux = set_typeLocal(&(request.devolution_local), aux);
+
+            if (aux != 0) {    // If not valid
+                printf("\nATENùùO: Insira uma localizaùùo vùlida\n");
+           }
+        } while (aux != 0);
 
 		// Store laptop ID
 		request.laptop_id = laptopId;
@@ -251,12 +259,12 @@ int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file
 	return result;
 }
 
-int search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code[CODE_SIZE]) {
-	int result = -1;
+char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code){
+	int result = 1;
 
 	for (unsigned int i = 0; i < numberRequests; i++) {
-		if (strcmp(requests[i].code, code) == 0) {
-			result = i;
+		if (strcmp(requests[i].code, &code) == 0) {
+			result = 0;
 			i = numberRequests;
 		}
 	}
