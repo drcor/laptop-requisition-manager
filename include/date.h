@@ -19,5 +19,7 @@ int validate_date(typeDate date);
 void print_date(typeDate date);
 /* Read date from input */
 void read_date(char *message, typeDate *date);
+/* Compare two typeDates */
+int compare_date(typeDate date1, typeDate date2);
 
 #endif	// DATE_H_INCLUDED

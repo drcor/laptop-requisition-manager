@@ -111,3 +111,26 @@ void read_date(char *message, typeDate *date) {
 		}
 	} while (control == 0 || validate_date(*date) != 0);
 }
+
+/**
+ * @brief Compare two typeDates
+ * 
+ * @param date1 
+ * @param date2 
+ * @return -1 date1 > date2
+ * @return 0 date1 = date2
+ * @return 1 date1 < date2 
+ */
+int compare_date(typeDate date1, typeDate date2) {
+	int result = 0;
+
+	result = compare_numbers((int)date1.year, (int)date2.year);
+	if (result == 0) {	// if years are equal, check months
+		result = compare_numbers((int)date1.month, (int)date2.month);
+		if (result == 0) {	// if months are equal, check days
+			result = compare_numbers((int)date1.day, (int)date2.day);
+		}
+	}
+	
+	return result;
+}
