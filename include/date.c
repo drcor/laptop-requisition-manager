@@ -134,3 +134,81 @@ int compare_date(typeDate date1, typeDate date2) {
 	
 	return result;
 }
+
+/**
+ * @brief Calculate total number of days since 2020
+ * 
+ * @param date 
+ * @return int 
+ */
+int count_days(typeDate date) {
+	int total = 0;
+	uint16_t year;
+	uint8_t month;
+
+	// Add days in years
+	for (year = BEGIN_DATE; year < date.year; year++) {
+		if (is_leap_year(year)) {
+			total += 366;
+		} else {
+			total += 365;
+		}
+	}
+
+	// Add days in months
+	for (month = 1; month < date.month; month++) {
+		switch (month) {
+			// If month have 31 days
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				// add 31 days
+				total = 31;
+				break;
+			// If month have 30 days
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				// add 30 days
+				total = 30;
+				break;
+			case 2:
+				total = is_leap_year(date.year) ? 29 : 28;	// february
+				break;
+			default:
+				break;
+		}
+	}
+
+	// Add days in last month
+	total += date.day;
+
+	return total;
+}
+
+/**
+ * @brief Calculate number of days between two dates
+ * 
+ * @param date1 
+ * @param date2 
+ * @return int 
+ */
+int diff_date(typeDate date1, typeDate date2) {
+	int result, total1 = 0, total2 = 0;
+
+	total1 = count_days(date1);
+	total2 = count_days(date2);
+
+	if (compare_date(date1, date2) == 1) {
+		result = total2 - total1;
+	} else {
+		result = total1 - total2;
+	}
+
+	return result;
+}
