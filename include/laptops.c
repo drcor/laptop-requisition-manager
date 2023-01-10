@@ -153,7 +153,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 	*laptops = realloc(*laptops, (*numberLaptops + 1) * sizeof(typeLaptop));
 	if (*laptops != NULL) {
 		// Check if vector is full
-		if (*numberLaptops < 30) {
+		if (*numberLaptops < MAX_LAPTOPS) {
 			// Define laptop id
 			laptop.id = get_max_laptop_id(*laptops, *numberLaptops) + 1;
 
@@ -187,12 +187,15 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			laptop.price = lerFloat("Insira o preço do portátil em €", 0.0, 10000.0);
 			// Read Description
 			lerString("Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
+		
+			(*laptops)[*numberLaptops] = laptop;
+			(*numberLaptops)++;
+
+			result = 0;
+		} else {
+			printf("ATENÇÃO: Já atingiu o limite de máximo de portáteis\n");
 		}
 
-		(*laptops)[*numberLaptops] = laptop;
-		(*numberLaptops)++;
-
-		result = 0;
 	} else {
 		*laptops = save;
 		printf("Falha na alocação de memória!\n");
