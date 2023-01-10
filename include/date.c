@@ -167,7 +167,7 @@ int count_days(typeDate date) {
 			case 10:
 			case 12:
 				// add 31 days
-				total = 31;
+				total += 31;
 				break;
 			// If month have 30 days
 			case 4:
@@ -175,10 +175,10 @@ int count_days(typeDate date) {
 			case 9:
 			case 11:
 				// add 30 days
-				total = 30;
+				total += 30;
 				break;
 			case 2:
-				total = is_leap_year(date.year) ? 29 : 28;	// february
+				total += is_leap_year(date.year) ? 29 : 28;	// february
 				break;
 			default:
 				break;
