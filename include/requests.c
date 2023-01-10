@@ -120,7 +120,7 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
  * @param laptopId 
  * @return int 
  */
-void insert_code(typeRequest **requests, unsigned int *numberRequests, int laptopId){
+void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId){
 	typeRequest request;
 	int aux = 0, result = -1;
 	char code;
@@ -134,21 +134,19 @@ void insert_code(typeRequest **requests, unsigned int *numberRequests, int lapto
 		do{
 			lerString("Insira o código do produto", &code, 10);
 			aux = search_request_by_code(*requests, *numberRequests, code);
-			if(aux != -1){
-				strcpy(&request.code, &code);
+			if(aux != 0){
+				strcpy(request.code, &code);
 			}else{
 				printf("O código introduzido já existe!\n");
 			}
-		}while(aux == -1);	
-
-		// Insert laptop's id
-		
+		}while(aux == 0);
+			
 
 		// Inserts client name
 		lerString("Insira o nome do cliente", request.user_name, 60);
 
 		// Inserts user type
-		aux = lerInteiro("Insira o tipo de cliente (0 - Estudante, 1 - Professor, 2 - Admininstração)", 0, 2);
+		aux = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - Admininstração\n", 0, 2);
 		set_typeUser(&(request.user_type), aux);
 
 		// User chooses deadline
@@ -185,21 +183,21 @@ void insert_code(typeRequest **requests, unsigned int *numberRequests, int lapto
 	}
 }
 
-/*int list_request(typeRequest **requests, unsigned int numberRequest){
+void list_request(typeRequest *requests, unsigned int numberRequests){
 	printf("\nRequisições:\n");
 	// Check if there are requests
-	if (requests != NULL && numberRequest > 0) {
-		printf("ID\tCode\tNome\tUtilizador\tData\t\tDevolução\tDescrição\n");
-		for (size_t i = 0; i < numberLaptops; i++) {
-			printf("%d\ti%d\t%dGB\t", laptops[i].id, laptops[i].cpu, laptops[i].memory);
-			printf("%d\t%d\t", laptops[i].state, laptops[i].location);
-			print_date(laptops[i].date);
-			printf("\t%.2f\t%s\n", laptops[i].price, laptops[i].description);
+	if (requests != NULL && numberRequests > 0) {
+		printf("ID\tCode\tNome\tUtilizador\tData\t\tDevolução\tLocal\tMulta\n");
+		for (int i = 0; i < numberRequests; i++) {
+			printf("%d\t%c\t%c\t", requests[i].laptop_id, requests[i].code, requests[i].user_name);
+			printf("%d\t", requests[i].user_type);
+			print_date(requests[i].requisition_date);
+			printf("%d dias\t%d\t%d euros", requests[i].deadline, requests[i].devolution_local, requests[i].price);
 		}
 	} else {
-		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
+		printf("ATENÇÃO: Não existe nenhuma requisição registada!\n");
 	}
-}*/
+}
 
 /**
  * @brief Read a N number of requests from a file
@@ -261,12 +259,12 @@ int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file
 	return result;
 }
 
-char search_code(typeRequest *requests, unsigned int numberRequests, char code){
-	int result = -1;
+char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code){
+	int result = 1;
 
 	for (unsigned int i = 0; i < numberRequests; i++) {
 		if (strcmp(requests[i].code, &code) == 0) {
-			result = i;
+			result = 0;
 			i = numberRequests;
 		}
 	}

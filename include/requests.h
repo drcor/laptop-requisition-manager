@@ -50,4 +50,7 @@ int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file
 char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code);
 // Insert a request
 void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId);
+// List requests
+void list_request(typeRequest *requests, unsigned int numberRequests);
+
 #endif // REQUESTS_H_INCLUDED

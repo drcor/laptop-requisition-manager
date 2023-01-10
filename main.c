@@ -187,6 +187,8 @@ void menuRequisicoes(typeLaptop *laptops, unsigned int numberLaptops, typeBreakd
 			registerRequest(requests, numberRequests, laptops, numberLaptops);		
 			// *op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
 			break;
+		case 2:
+			list_request(*requests, *numberRequests);
 		}
 }
 
@@ -275,16 +277,33 @@ void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns
 }
 
 void registerRequest(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops){
-	int aux, laptopId;
-	do{
-		laptopId = lerInteiro("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
-		aux = search_laptop_id(laptops, numberLaptops, laptopId);
-		if(aux != -1){
-			insert_request(requests, numberRequests, laptopId);
-		}else{
-			printf("Erro! Id de laptop inválido.\n");
-		}
-	}while(aux == -1);	
+	int aux, laptopId, control;
+	if (laptops != NULL && numberLaptops > 0){
+		do{
+			laptopId = lerInteiro("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
+			aux = search_laptop_id(laptops, numberLaptops, laptopId);
+			if(aux != -1){
+				// If the laptop is available
+				if(laptops[laptopId].state == 0){
+					insert_request(requests, numberRequests, laptopId);
+				}
+				else{
+					printf("Erro! Este laptop não está disponível.\n");
+					aux = -1;
+				}
+			}else{
+				printf("Erro! Id de laptop inválido.\n");
+			}
+		}while(aux == -1);
+		// Setting laptop's state to taken
+		do {
+			control = set_typeState(&((laptops[laptopId]).state), 1);
+
+			if (control != 0) {
+				printf("\nATENÇÃO: Insira um estado válido\n");
+			}
+		} while (control != 0);	
+	}
 }
 
 /**
