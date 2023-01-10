@@ -85,7 +85,7 @@ void print_typeReqState(enum typeReqState req_state) {
 		printf("Ativo    ");
 		break;
 	case DONE:
-		printf("ConcluÌdo");
+		printf("Concluùdo");
 		break;
 	}
 }
@@ -120,10 +120,10 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
  * @param laptopId 
  * @return int 
  */
-void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId){
+void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId) {
 	typeRequest request;
 	int aux = 0, result = -1;
-	char code;
+	char code[CODE_SIZE];
 
 	// Backup in case something goes wrong
 	typeRequest *save = *requests;
@@ -132,45 +132,37 @@ void insert_request(typeRequest **requests, unsigned int *numberRequests, int la
 	if(*requests != NULL){
 		// Inserts product code, already validated.
 		do{
-			lerString("Insira o cÛdigo do produto", &code, 10);
+			lerString("Insira o cùdigo do produto", code, 10);
 			aux = search_request_by_code(*requests, *numberRequests, code);
-			if(aux != 0){
-				strcpy(request.code, &code);
-			}else{
-				printf("O cÛdigo introduzido j· existe!\n");
+			if (aux == -1) {
+				strcpy(request.code, code);
+			} else {
+				printf("O cùdigo introduzido jù existe!\n");
 			}
-		}while(aux == 0);
-			
+		} while (aux != -1);
+
+		// Insert laptop's id
+		
 
 		// Inserts client name
 		lerString("Insira o nome do cliente", request.user_name, 60);
 
 		// Inserts user type
-		aux = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - AdmininstraÁ„o\n", 0, 2);
+		aux = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - Admininstraùùo\n", 0, 2);
 		set_typeUser(&(request.user_type), aux);
 
 		// User chooses deadline
-		request.deadline = lerInteiro("Insira a data de devoluÁ„o do port·til: ", 1, 30);
+		request.deadline = lerInteiro("Insira o prazo de devoluùùo do portùtil em dias: ", 1, 30);
 
 		// Set the requisition state
 		set_typeReqState(&(request.requisition_state), 0);
 
 		// Inserts request date
-		read_date("Insira a data da requisiÁ„o", &(request.requisition_date));
+		read_date("Insira a data da requisiùùo", &(request.requisition_date));
 
 		// Inserts delivery date
 		// DATE IS AUTOMATICALLY SET BY THE DEADLINE, no need for this
 		//read_date("Insira a data de entrega", &(request.devolution_date));
-
-		// Insert location of devolution
-		do {    
-            aux = lerInteiro("Insira o local de devoluÁ„o\n\t0 - ResidÍncias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
-            aux = set_typeLocal(&(request.devolution_local), aux);
-
-            if (aux != 0) {    // If not valid
-                printf("\nATEN«√O: Insira uma localizaÁ„o v·lida\n");
-           }
-        } while (aux != 0);
 
 		// Store laptop ID
 		request.laptop_id = laptopId;
@@ -179,15 +171,15 @@ void insert_request(typeRequest **requests, unsigned int *numberRequests, int la
 		result = 0;
 	} else{
 		*requests = save;
-		printf("Falha na alocaÁ„o de memÛria!\n");
+		printf("Falha na alocaùùo de memùria!\n");
 	}
 }
 
 void list_request(typeRequest *requests, unsigned int numberRequests){
-	printf("\nRequisiÁıes:\n");
+	printf("\nRequisiùùes:\n");
 	// Check if there are requests
 	if (requests != NULL && numberRequests > 0) {
-		printf("ID\tCode\tNome\tUtilizador\tData\t\tDevoluÁ„o\tLocal\tMulta\n");
+		printf("ID\tCode\tNome\tUtilizador\tData\t\tDevoluùùo\tLocal\tMulta\n");
 		for (int i = 0; i < numberRequests; i++) {
 			printf("%d\t%c\t%c\t", requests[i].laptop_id, requests[i].code, requests[i].user_name);
 			printf("%d\t", requests[i].user_type);
@@ -195,7 +187,7 @@ void list_request(typeRequest *requests, unsigned int numberRequests){
 			printf("%d dias\t%d\t%d euros", requests[i].deadline, requests[i].devolution_local, requests[i].price);
 		}
 	} else {
-		printf("ATEN«√O: N„o existe nenhuma requisiÁ„o registada!\n");
+		printf("ATENùùO: Nùo existe nenhuma requisiùùo registada!\n");
 	}
 }
 
@@ -259,12 +251,12 @@ int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file
 	return result;
 }
 
-char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code){
-	int result = 1;
+int search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code[CODE_SIZE]) {
+	int result = -1;
 
 	for (unsigned int i = 0; i < numberRequests; i++) {
-		if (strcmp(requests[i].code, &code) == 0) {
-			result = 0;
+		if (strcmp(requests[i].code, code) == 0) {
+			result = i;
 			i = numberRequests;
 		}
 	}
