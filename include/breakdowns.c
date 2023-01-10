@@ -51,7 +51,7 @@ void print_typeBreak(enum typeBreak break_type) {
  * @param laptopId 
  * @return int number of breakdowns 
  */
-int count_breakdowns_from_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId) {
+int count_breakdowns_by_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId) {
 	int count = 0;
 
 	if (numberBreakdowns > 0) {

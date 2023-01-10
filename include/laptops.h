@@ -10,9 +10,9 @@
 
 /* Enumeration of cpu's */
 enum typeCPU {
-	I3=3,
-	I5=5,
-	I7=7
+	I3=3,		// 3
+	I5=5,		// 5
+	I7=7		// 7
 };
 /* Set type of cpu from a integer */
 int set_typeCPU(enum typeCPU *cpu, int num);
@@ -21,9 +21,9 @@ void print_typeCPU(enum typeCPU cpu);
 
 /* Enumeration of laptop's states */
 enum typeState {
-	AVAILABLE,
-	TAKEN,
-	BROKEN
+	AVAILABLE,	// 0
+	TAKEN,		// 1
+	BROKEN		// 2
 };
 /* Set the state of laptop from a integer */
 int set_typeState(enum typeState *state, int num);
@@ -34,12 +34,12 @@ void print_typeState(enum typeState state);
 typedef struct {
 	int id;
 	char description[DESCRIPTION_SIZE];
-	enum typeCPU cpu;			// i3=3, i5=5, i7=7
-	int memory;		// GB
-	enum typeState state;		// available=0, taken=1, broken=2
-	enum typeLocal location;	// RESIDENCES=0,CAMPUS1=1,CAMPUS2=2,CAMPUS5=5
+	enum typeCPU cpu;
+	int memory;			// GB
+	enum typeState state;
+	enum typeLocal location;
 	typeDate date;
-	float price;
+	float price;		// euros
 } typeLaptop;
 
 /* Get max laptop id */

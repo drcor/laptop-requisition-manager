@@ -25,7 +25,7 @@ typedef struct {
 } typeBreakdown;
 
 /* Count number of breakdowns with a laptop_id */
-int count_breakdowns_from_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId);
+int count_breakdowns_by_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId);
 /* Get max breakdown id */
 int get_max_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns);
 /* Search for breakdown ID */
