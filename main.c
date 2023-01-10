@@ -10,6 +10,7 @@
 /* Initialize and save the vectors data in binary */
 void initialize_data(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests);
 void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops, int pos);
 /* Options menus */
 int menu(void);
 void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
@@ -20,7 +21,7 @@ void menu_statistics(void);
 void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void register_repair(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void register_devolution(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
-void renovate_request(typeRequest *requests, unsigned int numberRequests);
+void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
@@ -75,9 +76,9 @@ int main(void) {
 // Read binary files to vectors
 void initialize_data(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeRequest **requests, unsigned int *numberRequests) {
 	// Initialize vector with data from files
-	FILE *laptops_file = NULL;
-	FILE *breakdowns_file = NULL;
-	FILE *requests_file = NULL;
+	FILE *laptops_file;
+	FILE *breakdowns_file;
+	FILE *requests_file;
 	// Open data files
 	laptops_file = fopen("laptops.bin", "rb");
 	breakdowns_file = fopen("breakdowns.bin", "rb");
@@ -106,9 +107,9 @@ void initialize_data(typeLaptop **laptops, unsigned int *numberLaptops, typeBrea
 // Save vectors to binary files
 void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
 	// Save vector data to files
-	FILE *laptops_file = NULL;
-	FILE *breakdowns_file = NULL;
-	FILE *requests_file = NULL;
+	FILE *laptops_file;
+	FILE *breakdowns_file;
+	FILE *requests_file;
 	// Open data files
 	laptops_file = fopen("laptops.bin", "wb");
 	breakdowns_file = fopen("breakdowns.bin", "wb");
@@ -121,6 +122,66 @@ void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *b
 	fclose(laptops_file);
 	fclose(breakdowns_file);
 	fclose(requests_file);
+}
+
+/**
+ * @brief Save a request to a log file
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param laptops 
+ * @param numberLaptops 
+ */
+void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops, int pos) {
+	FILE *log_file;
+	int laptop_pos;
+	
+	if (requests != NULL && numberRequests > 0 && laptops != NULL && numberLaptops > 0) {
+		log_file = fopen("requests.log", "a");
+		if (log_file != NULL) {
+			// Print devolution date
+			fprintf(log_file, "%02d/%02d/%04d\t", requests[pos].devolution_date.day, requests[pos].devolution_date.month, requests[pos].devolution_date.year);
+			fprintf(log_file, "Código: %s\t ID portátil: %d\t", requests[pos].code, requests[pos].laptop_id);
+			fprintf(log_file, "Nome utilizador: %s\t", requests[pos].user_name);
+			// Print type of user
+			switch (requests[pos].user_type) {
+			case STUDENT:
+				fprintf(log_file, "Tipo utilizador: Estudante\t\t");
+				break;
+			case TEACHER:
+				fprintf(log_file, "Tipo utilizador: Professor\t\t");
+				break;
+			case ADMNISTRATIVE:
+				fprintf(log_file, "Tipo utilizador: Técnico Administrativo\t");
+			}
+
+			fprintf(log_file, "Prazo: %d\t", requests[pos].deadline);
+			fprintf(log_file, "Estado: Concluído\t");
+			fprintf(log_file, "Data requisição: %02d/%02d/%04d\t", requests[pos].requisition_date.day, requests[pos].requisition_date.month, requests[pos].requisition_date.year);
+			switch (requests[pos].devolution_local) {
+			case RESIDENCES:
+				fprintf(log_file, "Local de devolução: Residências\t");
+				break;
+			case CAMPUS1:
+				fprintf(log_file, "Local de devolução: Campus 1\t");
+				break;
+			case CAMPUS2:
+				fprintf(log_file, "Local de devolução: Campus 2\t");
+				break;
+			case CAMPUS5:
+				fprintf(log_file, "Local de devolução: Campus 5\t");
+				break;
+			}
+			fprintf(log_file, "Multa: %.2f\t", requests[pos].price);
+			// Print laptop data
+			laptop_pos = search_laptop_id(laptops, numberLaptops, requests[pos].laptop_id);
+			fprintf(log_file, "Processador: i%d\t", laptops[laptop_pos].cpu);
+			fprintf(log_file, "Memória RAM: %dGB\r\n", laptops[laptop_pos].memory);
+
+			fclose(log_file);
+		}
+
+	}
 }
 
 // Show main menu options
@@ -238,7 +299,7 @@ void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdow
 		// Read id
 		do {
 			id = lerInteiro("Insira o ID do portátil avariado", 1, MAX_LAPTOPS);
-			pos = search_laptop_id(laptops, numberLaptops, id);	// TODO: search_breakdown_id()
+			pos = search_laptop_id(laptops, numberLaptops, id);
 			if (pos == -1) {
 				printf("ATENÇÃO: Tem de inserir um ID existente\n");
 			}
@@ -352,7 +413,7 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
  * @param requests 
  * @param numberRequests 
  */
-void renovate_request(typeRequest *requests, unsigned int numberRequests) {
+void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
 	char code[CODE_SIZE];
 	int pos;
 	// Check if exist requests
@@ -370,6 +431,8 @@ void renovate_request(typeRequest *requests, unsigned int numberRequests) {
 
 		// Add 7 days to deadline
 		requests[pos].deadline += 7;
+
+		save_request_to_log(requests, numberRequests, laptops, numberLaptops, pos);
 	} else {
 		printf("ATENÇÃO: Não existe nenhuma requisição registada!\n");
 	}
