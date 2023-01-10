@@ -83,6 +83,28 @@ int check_range(int number, int min, int max) {
 }
 
 /**
+ * @brief Compare two numbers
+ * 
+ * @param number1 
+ * @param number2 
+ * @return -1 number1 > number2
+ * @return 0 number1 = number2
+ * @return 1 number1 < number2 
+ */
+int compare_numbers(int number1, int number2) {
+	int result = 0;
+	if (number1 > number2) {
+		result = -1;
+	} else {
+		if (number1 < number2) {
+			result = 1;
+		}
+	}
+
+	return result;
+}
+
+/**
  * @brief Limpa o buffer de input
  */
 void limparBufferStdin(void) {
