@@ -1,5 +1,6 @@
 #include "requests.h"
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief Set type of user from a integer
@@ -119,9 +120,10 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
  * @param laptopId 
  * @return int 
  */
-int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId){
+void insert_code(typeRequest **requests, unsigned int *numberRequests, int laptopId){
 	typeRequest request;
 	int aux = 0, result = -1;
+	char code;
 
 	// Backup in case something goes wrong
 	typeRequest *save = *requests;
@@ -129,8 +131,18 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 	*requests = realloc(*requests, (*numberRequests + 1) * sizeof(typeRequest));
 	if(*requests != NULL){
 		// Inserts product code, already validated.
-		// TODO: verificar code
-		lerString("Insira o código do produto", request.code, 10);
+		do{
+			lerString("Insira o código do produto", &code, 10);
+			aux = search_request_by_code(*requests, *numberRequests, code);
+			if(aux != -1){
+				strcpy(&request.code, &code);
+			}else{
+				printf("O código introduzido já existe!\n");
+			}
+		}while(aux == -1);	
+
+		// Insert laptop's id
+		
 
 		// Inserts client name
 		lerString("Insira o nome do cliente", request.user_name, 60);
@@ -139,11 +151,18 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 		aux = lerInteiro("Insira o tipo de cliente (0 - Estudante, 1 - Professor, 2 - Admininstração)", 0, 2);
 		set_typeUser(&(request.user_type), aux);
 
+		// User chooses deadline
+		request.deadline = lerInteiro("Insira a data de devolução do portátil: ", 1, 30);
+
+		// Set the requisition state
+		set_typeReqState(&(request.requisition_state), 0);
+
 		// Inserts request date
 		read_date("Insira a data da requisição", &(request.requisition_date));
 
 		// Inserts delivery date
-		read_date("Insira a data de entrega", &(request.devolution_date));
+		// DATE IS AUTOMATICALLY SET BY THE DEADLINE, no need for this
+		//read_date("Insira a data de entrega", &(request.devolution_date));
 
 		// Insert location of devolution
 		do {    
@@ -164,9 +183,23 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 		*requests = save;
 		printf("Falha na alocação de memória!\n");
 	}
-	
-	return result;
 }
+
+/*int list_request(typeRequest **requests, unsigned int numberRequest){
+	printf("\nRequisições:\n");
+	// Check if there are requests
+	if (requests != NULL && numberRequest > 0) {
+		printf("ID\tCode\tNome\tUtilizador\tData\t\tDevolução\tDescrição\n");
+		for (size_t i = 0; i < numberLaptops; i++) {
+			printf("%d\ti%d\t%dGB\t", laptops[i].id, laptops[i].cpu, laptops[i].memory);
+			printf("%d\t%d\t", laptops[i].state, laptops[i].location);
+			print_date(laptops[i].date);
+			printf("\t%.2f\t%s\n", laptops[i].price, laptops[i].description);
+		}
+	} else {
+		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
+	}
+}*/
 
 /**
  * @brief Read a N number of requests from a file
@@ -223,6 +256,19 @@ int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file
 		// Write amount and the requests
 		fwrite(&amount, sizeof(unsigned int), 1, file);
 		result = fwrite(requests, sizeof(typeRequest), amount, file);
+	}
+
+	return result;
+}
+
+char search_code(typeRequest *requests, unsigned int numberRequests, char code){
+	int result = -1;
+
+	for (unsigned int i = 0; i < numberRequests; i++) {
+		if (strcmp(requests[i].code, &code) == 0) {
+			result = i;
+			i = numberRequests;
+		}
 	}
 
 	return result;

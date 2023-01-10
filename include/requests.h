@@ -46,5 +46,8 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
 int read_request_from_file(typeRequest **requests, unsigned int *amount, FILE *file);
 /* Write a vector os requests to a file */
 int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file);
-
+// Searches if the code already request already exists (-1 if not)
+char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code);
+// Insert a request
+void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId);
 #endif // REQUESTS_H_INCLUDED

@@ -13,12 +13,13 @@ void guardarDados(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 /* Menus de opções */
 int menu(void);
 void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
-void menuRequisicoes(void);
+void menuRequisicoes(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest **requests, unsigned int *numberRequests);
 void menuAvarias(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void menuDados(void);
 /* Aplicação de funcionalidades */
 void registaAvaria(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void registerRequest(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void listaAvarias(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void listaPortateis(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
@@ -47,7 +48,7 @@ int main(void) {
 				menuPortateis(&laptops, &numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 				break;
 			case 2:
-				menuRequisicoes();
+				menuRequisicoes(laptops, numberLaptops, breakdowns, numberBreakdowns, &requests, &numberRequests);
 				break;
 			case 3:
 				menuAvarias(&breakdowns, &numberBreakdowns, laptops, numberLaptops);
@@ -135,7 +136,7 @@ int menu(void) {
 	printf(" +------------------------------------------+\n");
 	opcao = lerInteiro("Opção: ", 0, 4);
 
-	return opcao;  
+	return opcao; 
 }
 
 void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
@@ -166,8 +167,9 @@ void menuPortateis(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakd
 	}
 }
 
-void menuRequisicoes() {
-	int opcao2;
+void menuRequisicoes(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest **requests, unsigned int *numberRequests) {
+	int opcao2, laptopId, aux;
+
 	printf("\n +------------------------------------------+\n");
 	printf(" |               Requisições                |\n");
 	printf(" +------------------------------------------+\n");
@@ -182,7 +184,7 @@ void menuRequisicoes() {
 
 	switch (opcao2) {
 		case 1:
-			printf("\nteste\n\n");
+			registerRequest(requests, numberRequests, laptops, numberLaptops);		
 			// *op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
 			break;
 		}
@@ -270,6 +272,19 @@ void registaReparacao(typeBreakdown **breakdowns, unsigned int *numberBreakdowns
 		// 	laptops[pos].state = AVAILABLE;
 		// }
 	}
+}
+
+void registerRequest(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops){
+	int aux, laptopId;
+	do{
+		laptopId = lerInteiro("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
+		aux = search_laptop_id(laptops, numberLaptops, laptopId);
+		if(aux != -1){
+			insert_request(requests, numberRequests, laptopId);
+		}else{
+			printf("Erro! Id de laptop inválido.\n");
+		}
+	}while(aux == -1);	
 }
 
 /**
