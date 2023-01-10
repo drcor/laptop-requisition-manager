@@ -97,7 +97,7 @@ void print_typeReqState(enum typeReqState req_state) {
  * @param laptopId 
  * @return int number of requests
  */
-int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
+int count_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
 	int count = 0;
 
 	if (numberRequests > 0) {
@@ -109,6 +109,28 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
 	}
 
 	return count;
+}
+
+/**
+ * @brief List requests by laptop_id
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param laptopId 
+ * @param preMessage 
+ */
+void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId, char *preMessage) {
+	if (requests != NULL && numberRequests > 0) {
+		printf("%sCode\tTipo user\tPrazo\n", preMessage);
+		for (unsigned int pos = 0; pos < numberRequests; pos++) {
+			if (requests[pos].laptop_id == laptopId) {
+				printf("%s", preMessage);	// Print message before request data
+				printf("%s\t", requests[pos].code);
+				print_typeUser(requests[pos].user_type);
+				printf("\t%d\n", requests[pos].deadline);
+			}
+		}
+	}
 }
 
 /**
