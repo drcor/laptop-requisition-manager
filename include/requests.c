@@ -182,16 +182,16 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 			lerString("Insira o código do produto", request.code, CODE_SIZE);
 			control = search_request_by_code(*requests, *numberRequests, request.code);
 			
-			if(control >= 0) {
+			if (control > -1) {
 				printf("\nATENÇÃO: O código introduzido já está registado\n");
 			}
-		} while (control == 0);
+		} while (control > -1);
 		
 		// Set client name
 		lerString("Insira o nome do cliente", request.user_name, USERNAME_SIZE);
 
 		// Set type of user
-		tmp = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - Admininstração\n", 0, 2);
+		tmp = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Docente\n\t2 - Técnico Administrativo\n", 0, 2);
 		set_typeUser(&(request.user_type), tmp);
 
 		// User chooses deadline
@@ -222,24 +222,25 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 	// Check if there are requests
 	if (requests != NULL && numberRequests > 0) {
 		printf("\nRequisições:\n");
-		printf("Code\tLID\tData requi.\tEstado\t\tPrazo\tLocal devolução\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
+		printf("Code\tLID\tEstado\t\tPrazo\tLocal devol.\tData requi.\tData devol.\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
 
 		for (pos = 0; pos < numberRequests; pos++) {
 			printf("%s\t%d\t", requests[pos].code, requests[pos].laptop_id);
-			print_date(requests[pos].requisition_date);
-			printf("\t");
 			print_typeReqState(requests[pos].requisition_state);
 			printf("\t%d\t", requests[pos].deadline);
 			print_typeLocal(requests[pos].devolution_local);
+			printf("\t");
+			print_date(requests[pos].requisition_date);
+			printf("\t");
 			// Print duration of requisition
 			if (requests[pos].requisition_state == DONE) {
-				// TODO: Fix issue days 23139787
+				print_date(requests[pos].devolution_date);
 				days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
 				printf("\t%d\t", days);
 			} else {
-				printf("\t ---\t");
+				printf(" ---\t\t ---\t");
 			}
-			printf("\t    %.2f €\t", requests[pos].price);
+			printf("\t   %.2f €\t", requests[pos].price);
 			print_typeUser(requests[pos].user_type);
 			printf("\t%s\n", requests[pos].user_name);
 		}
@@ -258,13 +259,15 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
  */
 void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId, char *preMessage) {
 	if (requests != NULL && numberRequests > 0) {
-		printf("%sCode\tTipo user\tPrazo\n", preMessage);
+		printf("%sCode\tTipo cliente\tPrazo\tEstado\n", preMessage);
 		for (unsigned int pos = 0; pos < numberRequests; pos++) {
 			if (requests[pos].laptop_id == laptopId) {
 				printf("%s", preMessage);	// Print message before request data
-				printf("%s\t", requests[pos].code);
+				printf(" %s\t", requests[pos].code);
 				print_typeUser(requests[pos].user_type);
-				printf("\t%d\n", requests[pos].deadline);
+				printf("\t%d\t", requests[pos].deadline);
+				print_typeReqState(requests[pos].requisition_state);
+				printf("\n");
 			}
 		}
 	}
