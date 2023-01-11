@@ -85,7 +85,7 @@ void print_typeReqState(enum typeReqState req_state) {
 		printf("Ativo    ");
 		break;
 	case DONE:
-		printf("Concluùdo");
+		printf("ConcluÌdo");
 		break;
 	}
 }
@@ -98,7 +98,7 @@ void print_typeReqState(enum typeReqState req_state) {
  * @param laptopId 
  * @return int number of requests
  */
-int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
+int count_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
 	int count = 0;
 
 	if (numberRequests > 0) {
@@ -113,89 +113,113 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
 }
 
 /**
+ * @brief Search request by code
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param code 
+ * @return -1 if not found
+ * @return int position of id
+ */
+int search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code[CODE_SIZE]){
+	int result = -1;
+	unsigned int pos;
+
+	for (pos = 0; pos < numberRequests; pos++) {
+		if (strcmp(requests[pos].code, code) == 0) {
+			result = pos;
+			pos = numberRequests;
+		}
+	}
+
+	return result;
+}
+
+/**
  * @brief Insert a request in the vector
  * 
  * @param requests 
  * @param numberRequests 
  * @param laptopId 
- * @return int 
+ * @return -1 failure to insert request
+ * @return 0 success to insert request
  */
-void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId) {
+int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisition_date) {
 	typeRequest request;
-	int aux = 0, result = -1;
-	char code[CODE_SIZE];
+	int tmp, control, result = -1;
 
 	// Backup in case something goes wrong
 	typeRequest *save = *requests;
 
 	*requests = realloc(*requests, (*numberRequests + 1) * sizeof(typeRequest));
-	if(*requests != NULL){
+	if (*requests != NULL) {
 		// Inserts product code, already validated.
-		do{
-			lerString("Insira o cùdigo do produto", code, 10);
-			aux = search_request_by_code(*requests, *numberRequests, *code);
-			if(aux != 0){
-				strcpy(request.code, code);
-			}else{
-				printf("O cùdigo introduzido jù existe!\n");
+		do {
+			lerString("Insira o cÛdigo do produto", request.code, CODE_SIZE);
+			control = search_request_by_code(*requests, *numberRequests, request.code);
+			
+			if(control >= 0) {
+				printf("\nATEN«√O: O cÛdigo introduzido j· est· registado\n");
 			}
-		}while(aux == 0);
+		} while (control == 0);
 		
+		// Set client name
+		lerString("Insira o nome do cliente", request.user_name, USERNAME_SIZE);
 
-		// Inserts client name
-		lerString("Insira o nome do cliente", request.user_name, 60);
-
-		// Inserts user type
-		aux = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - Admininstraùùo\n", 0, 2);
-		set_typeUser(&(request.user_type), aux);
+		// Set type of user
+		tmp = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - AdmininstraÁ„o\n", 0, 2);
+		set_typeUser(&(request.user_type), tmp);
 
 		// User chooses deadline
-		request.deadline = lerInteiro("Insira o prazo de devoluùùo do portùtil em dias: ", 1, 30);
+		request.deadline = lerInteiro("Insira o prazo de devoluÁ„o do port·til em dias: ", 1, DEADLINE_LIMIT);
 
-		// Set the requisition state
-		set_typeReqState(&(request.requisition_state), 0);
-
-		// Inserts request date
-		read_date("Insira a data da requisiùùo", &(request.requisition_date));
-
-		// Inserts delivery date
-		// DATE IS AUTOMATICALLY SET BY THE DEADLINE, no need for this
-		//read_date("Insira a data de entrega", &(request.devolution_date));
-
-		// Insert location of devolution
-		do {    
-            aux = lerInteiro("Insira o local de devoluùùo\n\t0 - Residùncias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
-            aux = set_typeLocal(&(request.devolution_local), aux);
-
-            if (aux != 0) {    // If not valid
-                printf("\nATENùùO: Insira uma localizaùùo vùlida\n");
-           }
-        } while (aux != 0);
-
-		// Store laptop ID
+		// Set the requisition state to active and store laptop ID
+		request.requisition_date = requisition_date;
+		request.requisition_state = ACTIVE;
 		request.laptop_id = laptopId;
+		request.price = 0.0;
+		request.devolution_local = NONE;
 
 		(*requests)[*numberRequests] = request;
+		(*numberRequests)++;
 		result = 0;
-	} else{
+	} else {
 		*requests = save;
-		printf("Falha na alocaùùo de memùria!\n");
+		printf("ERRO: Falha na alocaÁ„o de memÛria!\n");
 	}
+
+	return result;
 }
 
-void list_request(typeRequest *requests, unsigned int numberRequests){
-	printf("\nRequisiùùes:\n");
+void list_request(typeRequest *requests, unsigned int numberRequests) {
+	unsigned int pos;
+	int days;
+
+	printf("\nRequisiÁıes:\n");
 	// Check if there are requests
 	if (requests != NULL && numberRequests > 0) {
-		printf("ID\tCode\tNome\tUtilizador\tData\t\tDevoluùùo\tLocal\tMulta\n");
-		for (int i = 0; i < numberRequests; i++) {
-			printf("%d\t%c\t%c\t", requests[i].laptop_id, requests[i].code, requests[i].user_name);
-			printf("%d\t", requests[i].user_type);
-			print_date(requests[i].requisition_date);
-			printf("%d dias\t%d\t%d euros", requests[i].deadline, requests[i].devolution_local, requests[i].price);
+		printf("Code\tLID\tData requi.\tEstado\t\tPrazo\tLocal devoluÁ„o\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
+
+		for (pos = 0; pos < numberRequests; pos++) {
+			printf("%s\t%d\t", requests[pos].code, requests[pos].laptop_id);
+			print_date(requests[pos].requisition_date);
+			printf("\t");
+			print_typeReqState(requests[pos].requisition_state);
+			printf("\t%d\t", requests[pos].deadline);
+			print_typeLocal(requests[pos].devolution_local);
+			// Print duration of requisition
+			if (requests[pos].requisition_state == DONE) {
+				days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
+				printf("\t%d\t", days);
+			} else {
+				printf("\t ---\t");
+			}
+			printf("\t    %.2f Ä\t", requests[pos].price);
+			print_typeUser(requests[pos].user_type);
+			printf("\t%s\n", requests[pos].user_name);
 		}
 	} else {
-		printf("ATENùùO: Nùo existe nenhuma requisiùùo registada!\n");
+		printf("\nATEN«√O: N„o existe nenhuma requisiÁ„o registada!\n");
 	}
 }
 
@@ -254,19 +278,6 @@ int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file
 		// Write amount and the requests
 		fwrite(&amount, sizeof(unsigned int), 1, file);
 		result = fwrite(requests, sizeof(typeRequest), amount, file);
-	}
-
-	return result;
-}
-
-char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code){
-	int result = 1;
-
-	for (unsigned int i = 0; i < numberRequests; i++) {
-		if (strcmp(requests[i].code, &code) == 0) {
-			result = 0;
-			i = numberRequests;
-		}
 	}
 
 	return result;

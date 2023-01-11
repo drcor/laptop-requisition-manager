@@ -7,6 +7,7 @@
 
 #define CODE_SIZE 5
 #define USERNAME_SIZE 60
+#define DEADLINE_LIMIT 30
 
 /* Enumeration of type of user */
 enum typeUser {
@@ -31,9 +32,9 @@ void print_typeReqState(enum typeReqState req_state);
 
 /* Requests information */
 typedef struct {
-	char code[10];
+	char code[CODE_SIZE];
 	int laptop_id;
-	char user_name[60];
+	char user_name[USERNAME_SIZE];
 	enum typeUser user_type;
 	typeDate requisition_date;
 	unsigned short deadline;
@@ -44,16 +45,16 @@ typedef struct {
 } typeRequest;
 
 /* Count number of requests with a laptop_id */
-int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId);
+int count_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId);
+/* Search request by code */
+int search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code[CODE_SIZE]);
+/* Insert a request in the vector */
+int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisition_date);
+/* List all requests */
+void list_request(typeRequest *requests, unsigned int numberRequests);
 /* Read a N number of requests from a file */
 int read_request_from_file(typeRequest **requests, unsigned int *amount, FILE *file);
 /* Write a vector os requests to a file */
 int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file);
-// Searches if the code already request already exists (-1 if not)
-char search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code);
-// Insert a request
-void insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId);
-// List requests
-void list_request(typeRequest *requests, unsigned int numberRequests);
 
 #endif // REQUESTS_H_INCLUDED
