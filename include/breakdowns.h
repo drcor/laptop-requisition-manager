@@ -31,7 +31,7 @@ int get_max_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdown
 /* Search for breakdown ID */
 int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id);
 /* Insert a breakdown in the vector */
-int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, int laptopId);
+int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, int laptopId, typeDate date);
 /* Delete a breakdown from vector */
 int delete_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, int id);
 /* Read a N number of breakdowns from a file */

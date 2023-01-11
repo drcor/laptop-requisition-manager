@@ -123,7 +123,7 @@ int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns
  * @return -1 failure to insert breakdown
  * @return 0 success to insert breakdown
  */
-int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, int laptopId) {
+int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, int laptopId, typeDate date) {
 	typeBreakdown breakdown;
 	int tmp, control, result = -1;
 
@@ -145,7 +145,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		} while (control != 0);
 
 		// Read date of breakdown
-		read_date("Insira a data de avaria", &(breakdown.date));
+		breakdown.date = date;
 
 		// Set duration to -1 standing for not repaired
 		breakdown.duration = -1;
