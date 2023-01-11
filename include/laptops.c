@@ -100,11 +100,12 @@ void print_typeState(enum typeState state) {
  */
 int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id) {
 	int result = -1;
+	unsigned int pos;
 
-	for (unsigned int i = 0; i < numberLaptops; i++) {
-		if (laptops[i].id == id) {
-			result = i;
-			i = numberLaptops;
+	for (pos = 0; pos < numberLaptops; pos++) {
+		if (laptops[pos].id == id) {
+			result = pos;
+			pos = numberLaptops;
 		}
 	}
 
@@ -135,7 +136,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 				laptop.id = lerInteiro("Insira o ID do portátil", 1, MAX_LAPTOPS);
 				control = search_laptop_id(*laptops, *numberLaptops, laptop.id);
 				if (control != -1) {
-					printf("ATENÇÃO: Não pode inserir um ID repetido\n");
+					printf("\nATENÇÃO: Não pode inserir um ID repetido\n");
 				}
 			} while (control != -1);
 
@@ -177,7 +178,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 		result = 0;
 	} else {
 		*laptops = save;
-		printf("Falha na alocação de memória!\n");
+		printf("ERRO: Falha na alocação de memória!\n");
 	}
 
 	return result;
@@ -201,7 +202,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops) {
 			printf("\t%.2f\t%s\n", laptops[i].price, laptops[i].description);
 		}
 	} else {
-		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
+		printf("\nATENÇÃO: Não existe nenhum portátil registado!\n");
 	}
 }
 
