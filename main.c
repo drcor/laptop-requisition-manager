@@ -16,7 +16,7 @@ int menu(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops
 void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
-void menu_statistics(void);
+void menu_statistics(typeLaptop *laptops, unsigned int numberLaptops, typeRequest *requests, unsigned int numberRequests);
 /* Declaration of menus functionalities */
 void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void register_repair(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
@@ -57,7 +57,7 @@ int main(void) {
 				menu_breakdowns(&breakdowns, &numberBreakdowns, laptops, numberLaptops);
 				break;
 			case 4:
-				menu_statistics();
+				menu_statistics(laptops, numberLaptops, requests, numberRequests);
 				break;
 			default:
 				printf("\nATENÇÃO: Insira uma opção válida\n");
@@ -234,14 +234,16 @@ void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdo
 
 	switch(opcao2) {
 		case 1:
+			printf("\nRegistar Portátil:\n");
 			insert_laptop(laptops, numberLaptops);
 			break;
 		case 2:
-			printf("\n");
+			printf("\nLista de Portáteis:\n");
 			list_laptops(*laptops, *numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 			printf("\n");
 			break;
 		case 3:
+			printf("\nAtualizar localização:\n");
 			update_laptop_location(laptops, *numberLaptops);
 			break;
 	}
@@ -265,18 +267,23 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 
 	switch (opcao2) {
 		case 1:
+			printf("\nRegistar Requisição:\n");
 			register_request(requests, numberRequests, laptops, numberLaptops);
 			break;
 		case 2:
+			printf("\nLista de requisições:\n");
 			list_request(*requests, *numberRequests);
 			break;
 		case 3:
+			printf("\nVer informações de uma requisição:\n");
 			// show 1 request
 			break;
 		case 4:
+			printf("\nRenovar Requisição:\n");
 			renovate_request(*requests, *numberRequests);
 			break;
 		case 5:
+			printf("\nRegistar Devolução:\n");
 			register_devolution(*requests, *numberRequests, laptops, numberLaptops);
 			break;
 		}
@@ -297,20 +304,103 @@ void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 
 	switch (opcao2) {
 		case 1:
+			printf("\nRegistar Avaria:\n");
 			register_breakdown(breakdowns, numberBreakdowns, laptops, numberLaptops);
 			break;
 		case 2:
+			printf("\nRegistar Reparação:\n");
 			register_repair(*breakdowns, *numberBreakdowns, laptops, numberLaptops);
 			break;
 		case 3:
+			printf("\nLista de Avarias:\n");
 			list_breakdowns(*breakdowns, *numberBreakdowns, laptops, numberLaptops);
 			break;
 	}
 }
 
 // Statistics menu
-void menu_statistics() {
+void menu_statistics(typeLaptop *laptops, unsigned int numberLaptops, typeRequest *requests, unsigned int numberRequests) {
+	float medCoast=0, perI3=0, perI5=0, perI7=0;
+	unsigned int pos, counter=0, numStudents=0, numTeachers=0, numAdministratives=0, min;
+	typeDate maxDate = {0,0,0};
 
+	printf("\nDados estatísticos:\n");
+	// - [ ]  percentagem de portáteis com cada tipo de processador
+	for (pos = 0; pos < numberLaptops; pos++) {
+		switch (laptops[pos].cpu) {
+		case I3:
+			perI3++;
+			break;
+		case I5:
+			perI5++;
+			break;
+		case I7:
+			perI7++;
+			break;
+		}
+	}
+
+	perI3 = perI3 * 100 / numberLaptops;
+	perI5 = perI5 * 100 / numberLaptops;
+	perI7 = perI7 * 100 / numberLaptops;
+	printf(" Percentagem de CPUs em portáteis:\n\tI3=%.1f%%\tI5=%.1f%%\tI7=%.1f%%\n", perI3, perI5, perI7);
+	
+	// Calculate medium coast of payed fines
+	for (pos = 0; pos < numberRequests; pos++) {
+		if (requests[pos].price > 0.0) {	// sum only if bigger than 0
+			medCoast += requests[pos].price;
+			counter++;
+		}
+	}
+	medCoast = (float)medCoast / counter;
+	printf("\n Custo médio de multas pagas: %.2f €\n", medCoast);
+
+	// Type of users with smaller number of requests
+	for (pos = 0; pos < numberRequests; pos++) {
+		switch (requests[pos].user_type) {
+		case STUDENT:
+			numStudents++;
+			break;
+		case TEACHER:
+			numTeachers++;
+			break;
+		case ADMNISTRATIVE:
+			numAdministratives++;
+			break;
+		}
+		// Calculate most recent date
+		if (compare_date(maxDate, requests[pos].devolution_date) == 1) {	// if devolution_date is more recent than maxDate
+			maxDate = requests[pos].devolution_date;
+		}
+	}
+	min = numStudents;
+	if (min > numTeachers) {
+		min = numTeachers;
+	} else {
+		if (min > numAdministratives) {
+			min = numAdministratives;
+		}
+	}
+
+	printf("\n Tipo(s) de utente(s) com a menor quantidade de requisições efetuadas:\n");
+	if (min == numStudents) {
+		printf("  - Alunos\n");
+	}
+	if (min == numTeachers) {
+		printf("  - Docentes\n");
+	}
+	if (min == numAdministratives) {
+		printf("  - Técnicos Administrativos\n");
+	}
+	
+	// Print most recent dates equal to maxDate
+	printf("\n As devoluções mais recentes têm o código:\n");
+	for (pos = 0; pos < numberRequests; pos++) {
+		if (compare_date(maxDate, requests[pos].devolution_date) == 0) {
+			printf("  - %s\n", requests[pos].code);
+		}
+	}
+	
 }
 
 
@@ -534,7 +624,6 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 	unsigned int pos;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
-		printf("\nAvarias:\n");
 		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\t\tDescrição\n");
 
 		for (pos = 0; pos < numberBreakdowns; pos++) {	// Get breakdow by breakdown
@@ -575,7 +664,6 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 	unsigned int pos;
 	// Check if exist laptops
 	if (laptops != NULL && numberLaptops > 0) {
-		printf("\nPortáteis:\n");
 		printf("ID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\t\tN.Avar\tN.Requi\tDescrição\n");
 
 		for (pos = 0; pos < numberLaptops; pos++) {	// Get laptop by laptop
