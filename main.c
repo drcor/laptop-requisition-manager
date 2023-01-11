@@ -59,7 +59,7 @@ int main(void) {
 				menu_statistics();
 				break;
 			default:
-				printf("ATENÇÃO: Insira uma opção válida\n");
+				printf("ATENÃ‡ÃƒO: Insira uma opÃ§Ã£o vÃ¡lida\n");
 				break;
 	   }
 	} while(opcao != 0);
@@ -141,7 +141,7 @@ void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typ
 		if (log_file != NULL) {
 			// Print devolution date
 			fprintf(log_file, "%02d/%02d/%04d\t", requests[pos].devolution_date.day, requests[pos].devolution_date.month, requests[pos].devolution_date.year);
-			fprintf(log_file, "Código: %s\t ID portátil: %d\t", requests[pos].code, requests[pos].laptop_id);
+			fprintf(log_file, "CÃ³digo: %s\t ID portÃ¡til: %d\t", requests[pos].code, requests[pos].laptop_id);
 			fprintf(log_file, "Nome utilizador: %s\t", requests[pos].user_name);
 			// Print type of user
 			switch (requests[pos].user_type) {
@@ -152,31 +152,31 @@ void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typ
 				fprintf(log_file, "Tipo utilizador: Professor\t\t");
 				break;
 			case ADMNISTRATIVE:
-				fprintf(log_file, "Tipo utilizador: Técnico Administrativo\t");
+				fprintf(log_file, "Tipo utilizador: TÃ©cnico Administrativo\t");
 			}
 
 			fprintf(log_file, "Prazo: %d\t", requests[pos].deadline);
-			fprintf(log_file, "Estado: Concluído\t");
-			fprintf(log_file, "Data requisição: %02d/%02d/%04d\t", requests[pos].requisition_date.day, requests[pos].requisition_date.month, requests[pos].requisition_date.year);
+			fprintf(log_file, "Estado: ConcluÃ­do\t");
+			fprintf(log_file, "Data requisiÃ§Ã£o: %02d/%02d/%04d\t", requests[pos].requisition_date.day, requests[pos].requisition_date.month, requests[pos].requisition_date.year);
 			switch (requests[pos].devolution_local) {
 			case RESIDENCES:
-				fprintf(log_file, "Local de devolução: Residências\t");
+				fprintf(log_file, "Local de devoluÃ§Ã£o: ResidÃªncias\t");
 				break;
 			case CAMPUS1:
-				fprintf(log_file, "Local de devolução: Campus 1\t");
+				fprintf(log_file, "Local de devoluÃ§Ã£o: Campus 1\t");
 				break;
 			case CAMPUS2:
-				fprintf(log_file, "Local de devolução: Campus 2\t");
+				fprintf(log_file, "Local de devoluÃ§Ã£o: Campus 2\t");
 				break;
 			case CAMPUS5:
-				fprintf(log_file, "Local de devolução: Campus 5\t");
+				fprintf(log_file, "Local de devoluÃ§Ã£o: Campus 5\t");
 				break;
 			}
 			fprintf(log_file, "Multa: %.2f\t", requests[pos].price);
 			// Print laptop data
 			laptop_pos = search_laptop_id(laptops, numberLaptops, requests[pos].laptop_id);
 			fprintf(log_file, "Processador: i%d\t", laptops[laptop_pos].cpu);
-			fprintf(log_file, "Memória RAM: %dGB\r\n", laptops[laptop_pos].memory);
+			fprintf(log_file, "MemÃ³ria RAM: %dGB\r\n", laptops[laptop_pos].memory);
 
 			fclose(log_file);
 		}
@@ -190,13 +190,13 @@ int menu(void) {
 	printf("\n +------------------------------------------+\n");
 	printf(" |                   MENU                   |\n");
 	printf(" +------------------------------------------+\n");
-	printf(" |  [1] Portáteis                           |\n");
-	printf(" |  [2] Requisições                         |\n");
+	printf(" |  [1] PortÃ¡teis                           |\n");
+	printf(" |  [2] RequisiÃ§Ãµes                         |\n");
 	printf(" |  [3] Avarias                             |\n");
-	printf(" |  [4] Dados Estatísticos                  |\n");
+	printf(" |  [4] Dados EstatÃ­sticos                  |\n");
 	printf(" |  [0] Sair                                |\n");
 	printf(" +------------------------------------------+\n");
-	opcao = lerInteiro("Opção: ", 0, 4);
+	opcao = lerInteiro("OpÃ§Ã£o: ", 0, 4);
 
 	return opcao;  
 }
@@ -205,14 +205,14 @@ int menu(void) {
 void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
 	int opcao2;
 	printf("\n +------------------------------------------+\n");
-	printf(" |                Portáteis                 |\n");
+	printf(" |                PortÃ¡teis                 |\n");
 	printf(" +------------------------------------------+\n");
-	printf(" |  [1] Inserir Portáteis                   |\n");
-	printf(" |  [2] Listar Portáteis                    |\n");
-	printf(" |  [3] Alterar Localização do portátil     |\n");
+	printf(" |  [1] Inserir PortÃ¡teis                   |\n");
+	printf(" |  [2] Listar PortÃ¡teis                    |\n");
+	printf(" |  [3] Alterar LocalizaÃ§Ã£o do portÃ¡til     |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
-	opcao2 = lerInteiro("Opção", 0, 3);
+	opcao2 = lerInteiro("OpÃ§Ã£o", 0, 3);
 
 	switch(opcao2) {
 		case 1:
@@ -233,21 +233,21 @@ void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdo
 void menu_requests() {
 	int opcao2;
 	printf("\n +------------------------------------------+\n");
-	printf(" |               Requisições                |\n");
+	printf(" |               RequisiÃ§Ãµes                |\n");
 	printf(" +------------------------------------------+\n");
-	printf(" |  [1] Requisitar portátil                 |\n");
-	printf(" |  [2] Listar Requisições                  |\n");
-	printf(" |  [3] Mostrar Requisição                  |\n");
-	printf(" |  [4] Devolução de portátil Requisitado   |\n");
-	printf(" |  [5] Renovar Requisição                  |\n");
+	printf(" |  [1] Requisitar portÃ¡til                 |\n");
+	printf(" |  [2] Listar RequisiÃ§Ãµes                  |\n");
+	printf(" |  [3] Mostrar RequisiÃ§Ã£o                  |\n");
+	printf(" |  [4] DevoluÃ§Ã£o de portÃ¡til Requisitado   |\n");
+	printf(" |  [5] Renovar RequisiÃ§Ã£o                  |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
-	opcao2 = lerInteiro("Opção", 0, 5);
+	opcao2 = lerInteiro("OpÃ§Ã£o", 0, 5);
 
 	switch (opcao2) {
 		case 1:
 			printf("\nteste\n\n");
-			// *op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+			// *op = lerInteiro("Deseja continuar no programa? NÃ£o/Sim", 0, 1);  // Asks if the user wants to coninue the program               
 			break;
 		}
 }
@@ -259,11 +259,11 @@ void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 	printf(" |                  Avarias                 |\n");
 	printf(" +------------------------------------------+\n");
 	printf(" |  [1] Registar Avaria                     |\n");
-	printf(" |  [2] Registar Reparação                  |\n");
+	printf(" |  [2] Registar ReparaÃ§Ã£o                  |\n");
 	printf(" |  [3] Listar Avarias                      |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
-	opcao2 = lerInteiro("Opção", 0, 3);
+	opcao2 = lerInteiro("OpÃ§Ã£o", 0, 3);
 
 	switch (opcao2) {
 		case 1:
@@ -298,10 +298,10 @@ void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdow
 	if (breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
 		// Read id
 		do {
-			id = lerInteiro("Insira o ID do portátil avariado", 1, MAX_LAPTOPS);
+			id = lerInteiro("Insira o ID do portÃ¡til avariado", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, id);
 			if (pos == -1) {
-				printf("ATENÇÃO: Tem de inserir um ID existente\n");
+				printf("ATENÃ‡ÃƒO: Insira o ID de um laptop existente\n");
 			}
 		} while (pos == -1);
 
@@ -310,9 +310,9 @@ void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdow
 			laptops[pos].state = BROKEN;
 		}
 
-		printf("Registo de avaria concluído com sucesso\n");
+		printf("Registo de avaria concluÃ­do com sucesso\n");
 	} else {
-		printf("ATENÇÃO: Não existe nenhum avaria registada!\n");
+		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhum avaria registada!\n");
 	}
 }
 
@@ -333,21 +333,21 @@ void register_repair(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 			id = lerInteiro("Insira o ID da avaria", 1, INT_MAX);
 			pos = search_breakdown_id(breakdowns, numberBreakdowns, id);
 			if (pos == -1) {
-				printf("ATENÇÃO: Tem de inserir um ID existente\n");
+				printf("ATENÃ‡ÃƒO: Tem de inserir um ID existente\n");
 			}
 			if (breakdowns[pos].duration != -1) {
-				printf("ATENÇÃO: Insira o ID de uma avaria ainda não reparada\n");
+				printf("ATENÃ‡ÃƒO: Insira o ID de uma avaria ainda nÃ£o reparada\n");
 			}
 		} while (pos == -1 || breakdowns[pos].duration != -1);
 		
 		// Set laptop available for requisition and set duration of reparation
-		breakdowns[pos].duration = lerInteiro("Insira a duração da reparação", 0, 90);
+		breakdowns[pos].duration = lerInteiro("Insira a duraÃ§Ã£o da reparaÃ§Ã£o", 0, 90);
 		control = search_laptop_id(laptops, numberLaptops, breakdowns[pos].laptop_id);
 		laptops[control].state = AVAILABLE;
 
-		printf("Registo de reparação concluído com sucesso\n");
+		printf("Registo de reparaÃ§Ã£o concluÃ­do com sucesso\n");
 	} else {
-		printf("ATENÇÃO: Não existe nenhuma avaria registada!\n");
+		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhuma avaria registada!\n");
 	}
 }
 
@@ -365,30 +365,30 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
 	// Check if exist breakdowns
 	if (requests != NULL && numberRequests > 0) {
 		do {	// Get request code
-			lerString("Insira o código da requisição", code, CODE_SIZE-1);
+			lerString("Insira o cÃ³digo da requisiÃ§Ã£o", code, CODE_SIZE-1);
 			pos = search_request_by_code(requests, numberRequests, code);
 			if (pos == -1) {
-				printf("ATENÇÃO: Tem de inserir o código de uma requisição existente\n");
+				printf("ATENÃ‡ÃƒO: Tem de inserir o cÃ³digo de uma requisiÃ§Ã£o existente\n");
 			}
 			if (requests[pos].requisition_state == DONE) {
-				printf("ATENÇÃO: Insira o código de uma requisição ainda não concluída\n");
+				printf("ATENÃ‡ÃƒO: Insira o cÃ³digo de uma requisiÃ§Ã£o ainda nÃ£o concluÃ­da\n");
 			}
 		} while (pos == -1 || requests[pos].requisition_state == DONE);
 
 		do {	// Read devolution date
-			read_date("Insira a data de devolução do portátil", &devolution_date);
+			read_date("Insira a data de devoluÃ§Ã£o do portÃ¡til", &devolution_date);
 			control = compare_date(requests[pos].requisition_date, devolution_date);
 			if (control == -1) {	// if devolution_date is smaller than requisition_date
-				printf("ATENÇÃO: Insira uma date igual ou superior à data de requisição\n");
+				printf("ATENÃ‡ÃƒO: Insira uma date igual ou superior Ã  data de requisiÃ§Ã£o\n");
 			}
 		} while (control == -1);	// while devolution_date is smaller than requisition_date
 
 		do {	// Read location of devolution
-			tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+			tmp = lerInteiro("Insira a localizaÃ§Ã£o do portÃ¡til\n\t0 - ResidÃªncias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 			control = set_typeLocal(&(requests[pos].devolution_local), tmp);
 		
 			if (control != 0) {	// If not valid
-				printf("\nATENÇÃO: Insira uma localização válida\n");
+				printf("\nATENÃ‡ÃƒO: Insira uma localizaÃ§Ã£o vÃ¡lida\n");
 			}
 		} while (control != 0);
 
@@ -401,9 +401,9 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
 		control = search_laptop_id(laptops, numberLaptops, requests[pos].laptop_id);
 		laptops[control].state = AVAILABLE;
 
-		printf("Registo de devolução concluído com sucesso\n");
+		printf("Registo de devoluÃ§Ã£o concluÃ­do com sucesso\n");
 	} else {
-		printf("ATENÇÃO: Não existe nenhuma requisição registada!\n");
+		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhuma requisiÃ§Ã£o registada!\n");
 	}
 }
 
@@ -419,13 +419,13 @@ void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLa
 	// Check if exist requests
 	if (requests != NULL && numberRequests > 0) {
 		do {	// Get request code
-			lerString("Insira o código da requisição", code, CODE_SIZE-1);
+			lerString("Insira o cÃ³digo da requisiÃ§Ã£o", code, CODE_SIZE-1);
 			pos = search_request_by_code(requests, numberRequests, code);
 			if (pos == -1) {
-				printf("ATENÇÃO: Tem de inserir o código de uma requisição existente\n");
+				printf("ATENÃ‡ÃƒO: Tem de inserir o cÃ³digo de uma requisiÃ§Ã£o existente\n");
 			}
 			if (requests[pos].requisition_state == DONE) {
-				printf("ATENÇÃO: Insira o código de uma requisição ainda não concluída\n");
+				printf("ATENÃ‡ÃƒO: Insira o cÃ³digo de uma requisiÃ§Ã£o ainda nÃ£o concluÃ­da\n");
 			}
 		} while (pos == -1 || requests[pos].requisition_state == DONE);
 
@@ -434,7 +434,7 @@ void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLa
 
 		save_request_to_log(requests, numberRequests, laptops, numberLaptops, pos);
 	} else {
-		printf("ATENÇÃO: Não existe nenhuma requisição registada!\n");
+		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhuma requisiÃ§Ã£o registada!\n");
 	}
 }
 
@@ -450,8 +450,8 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 	unsigned int pos;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
-		// printf("ID\tCPU\tMem.\tEstado\tLocal\tPreço\tID\tTipo\tDuração\tData\t\tDescrição\n");
-		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\tDescrição\n");
+		// printf("ID\tCPU\tMem.\tEstado\tLocal\tPreÃ§o\tID\tTipo\tDuraÃ§Ã£o\tData\t\tDescriÃ§Ã£o\n");
+		printf("ID\tTipo avaria\tData avaria\tDuraÃ§.\tLID\tCPU\tMemor.\tEstado\t\tLocalizaÃ§Ã£o\tPreÃ§o\tDescriÃ§Ã£o\n");
 
 		for (pos = 0; pos < numberBreakdowns; pos++) {	// Get breakdow by breakdown
 			// Get position of laptop in vector of laptops
@@ -469,10 +469,10 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 			print_typeState(laptops[pos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
-			printf("\t%.2f€\t%s\n", laptops[pos].price, laptops[pos].description);
+			printf("\t%.2fÂ€\t%s\n", laptops[pos].price, laptops[pos].description);
 		}
 	} else {
-		printf("ATENÇÃO: Não existe nenhuma avaria registada!\n");
+		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhuma avaria registada!\n");
 	}
 }
 
@@ -491,7 +491,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 	unsigned int pos;
 	// Check if exist laptops
 	if (laptops != NULL && numberLaptops > 0) {
-		printf("ID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\tN.Avar\tN.Requi\tDescrição\n");
+		printf("ID\tCPU\tMemor.\tEstado\t\tLocalizaÃ§Ã£o\tPreÃ§o\tN.Avar\tN.Requi\tDescriÃ§Ã£o\n");
 
 		for (pos = 0; pos < numberLaptops; pos++) {	// Get laptop by laptop
 			// Print laptop data
@@ -501,7 +501,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 			print_typeState(laptops[pos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
-			printf("\t%.2f€\t", laptops[pos].price);
+			printf("\t%.2fÂ€\t", laptops[pos].price);
 			
 			counted = count_breakdowns_by_laptop_id(breakdowns, numberBreakdowns, laptops[pos].id);
 			printf("%d\t", counted);
@@ -514,6 +514,6 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 			list_requests_by_laptop_id(requests, numberRequests, laptops[pos].id, "\t");
 		}
 	} else {
-		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
+		printf("ATENÃ‡ÃƒO: NÃ£o existe nenhum portÃ¡til registado!\n");
 	}
 }
