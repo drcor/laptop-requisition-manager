@@ -53,10 +53,11 @@ void print_typeBreak(enum typeBreak break_type) {
  */
 int count_breakdowns_by_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId) {
 	int count = 0;
+	unsigned int pos;
 
 	if (numberBreakdowns > 0) {
-		for (unsigned int i = 0; i < numberBreakdowns; i++) {
-			if (breakdowns[i].laptop_id == laptopId) {
+		for (pos = 0; pos < numberBreakdowns; pos++) {
+			if (breakdowns[pos].laptop_id == laptopId) {
 				count++;
 			}
 		}
@@ -74,12 +75,13 @@ int count_breakdowns_by_laptop_id(typeBreakdown *breakdowns, unsigned int number
  */
 int get_max_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns) {
 	int id = -1;
+	unsigned int pos;
 
 	if (breakdowns != NULL) {
 		if (numberBreakdowns > 0) {
-			for (unsigned int i = 0; i < numberBreakdowns; i++) {
-				if (breakdowns[i].id > id) {
-					id = breakdowns[i].id;
+			for (pos = 0; pos < numberBreakdowns; pos++) {
+				if (breakdowns[pos].id > id) {
+					id = breakdowns[pos].id;
 				}
 			}
 		} else {

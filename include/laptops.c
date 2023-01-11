@@ -38,7 +38,7 @@ int set_typeCPU(enum typeCPU *cpu, int num) {
  * @param cpu 
  */
 void print_typeCPU(enum typeCPU cpu) {
-	printf("I%d", cpu);
+	printf("i%d", cpu);
 }
 
 /**
@@ -97,12 +97,13 @@ void print_typeState(enum typeState state) {
  */
 int get_max_laptop_id(typeLaptop *laptops, unsigned int numberLaptops) {
 	int id = -1;
+	unsigned int pos;
 
 	if (laptops != NULL) {
 		if (numberLaptops > 0) {
-			for (unsigned int i = 0; i < numberLaptops; i++) {
-				if (laptops[i].id > id) {
-					id = laptops[i].id;
+			for (pos = 0; pos < numberLaptops; pos++) {
+				if (laptops[pos].id > id) {
+					id = laptops[pos].id;
 				}
 			}
 		} else {

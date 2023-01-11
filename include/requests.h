@@ -52,9 +52,11 @@ int search_request_by_code(typeRequest *requests, unsigned int numberRequests, c
 int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisition_date);
 /* List all requests */
 void list_request(typeRequest *requests, unsigned int numberRequests);
+/* List requests by laptop_id */
+void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId, char *preMessage);
 /* Read a N number of requests from a file */
 int read_request_from_file(typeRequest **requests, unsigned int *amount, FILE *file);
-/* Write a vector os requests to a file */
+/* Write a vector of requests to a file */
 int write_request_to_file(typeRequest *requests, unsigned int amount, FILE *file);
 
 #endif // REQUESTS_H_INCLUDED

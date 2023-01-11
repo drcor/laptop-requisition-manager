@@ -100,10 +100,11 @@ void print_typeReqState(enum typeReqState req_state) {
  */
 int count_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
 	int count = 0;
+	unsigned int pos;
 
 	if (numberRequests > 0) {
-		for (unsigned int i = 0; i < numberRequests; i++) {
-			if (requests[i].laptop_id == laptopId) {
+		for (pos = 0; pos < numberRequests; pos++) {
+			if (requests[pos].laptop_id == laptopId) {
 				count++;
 			}
 		}
@@ -195,9 +196,9 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 	unsigned int pos;
 	int days;
 
-	printf("\nRequisições:\n");
 	// Check if there are requests
 	if (requests != NULL && numberRequests > 0) {
+		printf("\nRequisições:\n");
 		printf("Code\tLID\tData requi.\tEstado\t\tPrazo\tLocal devolução\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
 
 		for (pos = 0; pos < numberRequests; pos++) {
@@ -209,6 +210,7 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 			print_typeLocal(requests[pos].devolution_local);
 			// Print duration of requisition
 			if (requests[pos].requisition_state == DONE) {
+				// TODO: Fix issue days 23139787
 				days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
 				printf("\t%d\t", days);
 			} else {
@@ -220,6 +222,28 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 		}
 	} else {
 		printf("\nATENÇÃO: Não existe nenhuma requisição registada!\n");
+	}
+}
+
+/**
+ * @brief List requests by laptop_id
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param laptopId 
+ * @param preMessage 
+ */
+void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId, char *preMessage) {
+	if (requests != NULL && numberRequests > 0) {
+		printf("%sCode\tTipo user\tPrazo\n", preMessage);
+		for (unsigned int pos = 0; pos < numberRequests; pos++) {
+			if (requests[pos].laptop_id == laptopId) {
+				printf("%s", preMessage);	// Print message before request data
+				printf("%s\t", requests[pos].code);
+				print_typeUser(requests[pos].user_type);
+				printf("\t%d\n", requests[pos].deadline);
+			}
+		}
 	}
 }
 

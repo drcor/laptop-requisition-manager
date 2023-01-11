@@ -15,19 +15,16 @@ enum typeLocal {
 int set_typeLocal(enum typeLocal *location, int num);
 /* Print locations */
 void print_typeLocal(enum typeLocal location);
-
 /* Check if 'number' is in range from 'min' to 'max' */
 int check_range(int number, int min, int max);
-
+/* Compare two numbers */
+int compare_numbers(int number1, int number2);
 /* Limpa o buffer de input */
 void limparBufferStdin(void);
-
 /* Read a integer from the input */
 int lerInteiro(char *message, int min, int max);
-
 /* Read a float from the input */
 float lerFloat(char *message, float min, float max);
-
 /* Read a string from the input */
 void lerString(char *message, char *outputString, unsigned int maxChars);
 
