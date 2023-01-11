@@ -91,6 +91,29 @@ void print_typeReqState(enum typeReqState req_state) {
 }
 
 /**
+ * @brief Count active requests
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @return int 
+ */
+int count_requests_active(typeRequest *requests, unsigned int numberRequests) {
+	int count = 0;
+	unsigned int pos;
+
+	if (requests != NULL && numberRequests > 0) {
+		for (pos = 0; pos < numberRequests; pos++) {
+			if (requests[pos].requisition_state == ACTIVE) {
+				count++;
+			}
+		}
+		
+	}
+
+	return count;
+}
+
+/**
  * @brief Count number of requests with a laptop_id
  * 
  * @param requests 

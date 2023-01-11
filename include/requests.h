@@ -44,6 +44,8 @@ typedef struct {
 	float price;
 } typeRequest;
 
+/* Count active requests */
+int count_requests_active(typeRequest *requests, unsigned int numberRequests);
 /* Count number of requests with a laptop_id */
 int count_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId);
 /* Search request by code */
