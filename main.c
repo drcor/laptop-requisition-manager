@@ -12,7 +12,7 @@ void initialize_data(typeLaptop **laptops, unsigned int *numberLaptops, typeBrea
 void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops, int pos);
 /* Options menus */
-int menu(void);
+int menu(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
@@ -22,7 +22,7 @@ void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdow
 void register_repair(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void register_devolution(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void register_request(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
-void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
+void renovate_request(typeRequest *requests, unsigned int numberRequests);
 void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
@@ -43,7 +43,7 @@ int main(void) {
 	
 	// Show main menu
 	do {
-		opcao = menu();
+		opcao = menu(requests, numberRequests, laptops, numberLaptops);
 		switch (opcao) {
 			case 0:
 				break;
@@ -142,45 +142,48 @@ void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typ
 		if (log_file != NULL) {
 			// Print devolution date
 			fprintf(log_file, "%02d/%02d/%04d\t", requests[pos].devolution_date.day, requests[pos].devolution_date.month, requests[pos].devolution_date.year);
-			fprintf(log_file, "Código: %s\t ID portátil: %d\t", requests[pos].code, requests[pos].laptop_id);
-			fprintf(log_file, "Nome utilizador: %s\t", requests[pos].user_name);
+			fprintf(log_file, "Código:%s\t IDportátil:%d\t", requests[pos].code, requests[pos].laptop_id);
 			// Print type of user
+			fprintf(log_file, "TipoCliente:");
 			switch (requests[pos].user_type) {
 			case STUDENT:
-				fprintf(log_file, "Tipo utilizador: Estudante\t\t");
+				fprintf(log_file, "Estudante\t\t");
 				break;
 			case TEACHER:
-				fprintf(log_file, "Tipo utilizador: Professor\t\t");
+				fprintf(log_file, "Docente\t\t");
 				break;
 			case ADMNISTRATIVE:
-				fprintf(log_file, "Tipo utilizador: Técnico Administrativo\t");
+				fprintf(log_file, "Técnico Administrativo\t");
 			}
 
-			fprintf(log_file, "Prazo: %d\t", requests[pos].deadline);
-			fprintf(log_file, "Estado: Concluído\t");
-			fprintf(log_file, "Data requisição: %02d/%02d/%04d\t", requests[pos].requisition_date.day, requests[pos].requisition_date.month, requests[pos].requisition_date.year);
+			fprintf(log_file, "Prazo:%d\t", requests[pos].deadline);
+			fprintf(log_file, "Estado:Concluído\t");
+			fprintf(log_file, "DataRequisição:%02d/%02d/%04d\t", requests[pos].requisition_date.day, requests[pos].requisition_date.month, requests[pos].requisition_date.year);
+			
+			fprintf(log_file, "Local de devolução:");
 			switch (requests[pos].devolution_local) {
 			case NONE:
-				fprintf(log_file, "Local de devolução: ----\t");
+				fprintf(log_file, "----\t");
 				break;
 			case RESIDENCES:
-				fprintf(log_file, "Local de devolução: Residências\t");
+				fprintf(log_file, "Residências\t");
 				break;
 			case CAMPUS1:
-				fprintf(log_file, "Local de devolução: Campus 1\t");
+				fprintf(log_file, "Campus 1\t");
 				break;
 			case CAMPUS2:
-				fprintf(log_file, "Local de devolução: Campus 2\t");
+				fprintf(log_file, "Campus 2\t");
 				break;
 			case CAMPUS5:
-				fprintf(log_file, "Local de devolução: Campus 5\t");
+				fprintf(log_file, "Campus 5\t");
 				break;
 			}
-			fprintf(log_file, "Multa: %.2f\t", requests[pos].price);
+			fprintf(log_file, "Multa:%.2f\t", requests[pos].price);
 			// Print laptop data
 			laptop_pos = search_laptop_id(laptops, numberLaptops, requests[pos].laptop_id);
-			fprintf(log_file, "Processador: i%d\t", laptops[laptop_pos].cpu);
-			fprintf(log_file, "Memória RAM: %dGB\r\n", laptops[laptop_pos].memory);
+			fprintf(log_file, "Processador:i%d\t", laptops[laptop_pos].cpu);
+			fprintf(log_file, "MemóriaRAM:%dGB\t", laptops[laptop_pos].memory);
+			fprintf(log_file, "NomeUtilizador:%s\t\n", requests[pos].user_name);
 
 			fclose(log_file);
 		}
@@ -189,17 +192,28 @@ void save_request_to_log(typeRequest *requests, unsigned int numberRequests, typ
 }
 
 // Show main menu options
-int menu(void) {
-	int opcao;
-	printf("\n +------------------------------------------+\n");
-	printf(" |                   MENU                   |\n");
-	printf(" +------------------------------------------+\n");
-	printf(" |  [1] Portáteis                           |\n");
-	printf(" |  [2] Requisições                         |\n");
-	printf(" |  [3] Avarias                             |\n");
-	printf(" |  [4] Dados Estatísticos                  |\n");
-	printf(" |  [0] Sair                                |\n");
-	printf(" +------------------------------------------+\n");
+int menu(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
+	int opcao, active_requests, available_laptops;
+
+	available_laptops = count_laptops_availale(laptops, numberLaptops);
+	active_requests = count_requests_active(requests, numberRequests);
+
+	printf("\n +----------------------------------------------------+\n");
+	printf(" |                        MENU                        |\n");
+	printf(" +----------------------------------------------------+\n");
+	// - [ ]  quantidade de portáteis existentes
+	// - [ ]  quantidade de portáteis disponíveis
+	printf(" | Nº portáteis:   %3d  Nº portáteis disponiveis: %3d |\n", numberLaptops, available_laptops);
+	// - [ ]  quantidade total de requisições efetuadas
+	// - [ ]  quantidade de requisições ativas
+	printf(" | Nº requisições: %3d  Nº requisições ativas:    %3d |\n", numberRequests, active_requests);
+	printf(" +----------------------------------------------------+\n");
+	printf(" |  [1] Portáteis                                     |\n");
+	printf(" |  [2] Requisições                                   |\n");
+	printf(" |  [3] Avarias                                       |\n");
+	printf(" |  [4] Dados Estatísticos                            |\n");
+	printf(" |  [0] Sair                                          |\n");
+	printf(" +----------------------------------------------------+\n");
 	opcao = lerInteiro("Opção: ", 0, 4);
 
 	return opcao; 
@@ -243,8 +257,8 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 	printf(" |  [1] Requisitar portátil                 |\n");
 	printf(" |  [2] Listar Requisições                  |\n");
 	printf(" |  [3] Mostrar Requisição                  |\n");
-	printf(" |  [4] Devolução de portátil Requisitado   |\n");
-	printf(" |  [5] Renovar Requisição                  |\n");
+	printf(" |  [4] Renovar Requisição                  |\n");
+	printf(" |  [5] Devolução de portátil Requisitado   |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
 	opcao2 = lerInteiro("Opção", 0, 5);
@@ -260,10 +274,10 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 			// show 1 request
 			break;
 		case 4:
-			register_devolution(*requests, *numberRequests, laptops, numberLaptops);
+			renovate_request(*requests, *numberRequests);
 			break;
 		case 5:
-			renovate_request(*requests, *numberRequests, laptops, numberLaptops);
+			register_devolution(*requests, *numberRequests, laptops, numberLaptops);
 			break;
 		}
 }
@@ -310,18 +324,30 @@ void menu_statistics() {
  */
 void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
 	int pos, control, id;
+	typeDate date;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
 		// Read id
 		do {
 			id = lerInteiro("Insira o ID do portátil avariado", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, id);
-			if (pos == -1) {
-				printf("ATENÇÃO: Insira o ID de um laptop existente\n");
+			if (pos == -1 || laptops[pos].state != AVAILABLE) {	// if laptop ID dont exist or is not available
+				printf("ATENÇÃO: Insira o ID de um laptop existente e disponível\n");
 			}
-		} while (pos == -1);
+		} while (pos == -1 || laptops[pos].state != AVAILABLE);	// while laptop ID dont exist or is not available
 
-		control = insert_breakdown(breakdowns, numberBreakdowns, id);
+		// Get request date
+		do {
+			read_date("Insira a data de avaria", &(date));
+
+			control = compare_date(laptops[pos].date, date);
+
+			if (control == -1) {	// if date is smaller than laptop date
+				printf("\nATENÇÃO: A data tem de ser igual ou superior à data de aquisição do portátil\n");
+			}
+		} while (control == -1);	// while date is smaller than laptop date
+
+		control = insert_breakdown(breakdowns, numberBreakdowns, id, date);
 		if (control == 0) {
 			laptops[pos].state = BROKEN;
 		}
@@ -385,12 +411,12 @@ void register_request(typeRequest **requests, unsigned int *numberRequests, type
 		do {
 			read_date("Insira a data de requisição", &(requisition_date));
 
-			pos = compare_date(laptops[laptop_id].date, requisition_date);
+			control = compare_date(laptops[pos].date, requisition_date);
 
-			if (pos == -1) {	// if date is smaller than laptop date
+			if (control == -1) {	// if date is smaller than laptop date
 				printf("\nATENÇÃO: A data tem de ser igual ou superior à data de aquisição do portátil\n");
 			}
-		} while (pos == -1);	// while date is smaller than laptop date
+		} while (control == -1);	// while date is smaller than laptop date
 
 		control = insert_request(requests, numberRequests, laptop_id, requisition_date);
 		if (control == 0) {
@@ -433,6 +459,7 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
 				printf("ATENÇÃO: Insira uma data igual ou superior à data de requisição\n");
 			}
 		} while (control == -1);	// while devolution_date is smaller than requisition_date
+		requests[pos].devolution_date = devolution_date;
 
 		do {	// Read location of devolution
 			tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
@@ -443,17 +470,22 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
 			}
 		} while (control != 0);
 
-		// Set request as done
-		requests[pos].requisition_state = DONE;
 		// Calculate fine
 		holded_days = diff_date(requests[pos].requisition_date, devolution_date);
 		tmp = holded_days - requests[pos].deadline;
-		requests[pos].price = tmp * 10;
-		printf("\nMULTA: %.2f €\n", requests[pos].price);
+		if (tmp >= 0) {
+			requests[pos].price = tmp * 10;
+			printf("\nMULTA: %.2f €\n", requests[pos].price);
+		}
+
+		// Set request as done
+		requests[pos].requisition_state = DONE;
 
 		// Set laptop available
 		control = search_laptop_id(laptops, numberLaptops, requests[pos].laptop_id);
 		laptops[control].state = AVAILABLE;
+
+		save_request_to_log(requests, numberRequests, laptops, numberLaptops, pos);
 
 		printf("Registo de devolução concluído com sucesso\n");
 	} else {
@@ -467,7 +499,7 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
  * @param requests 
  * @param numberRequests 
  */
-void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
+void renovate_request(typeRequest *requests, unsigned int numberRequests) {
 	char code[CODE_SIZE];
 	int pos;
 	// Check if exist requests
@@ -485,8 +517,6 @@ void renovate_request(typeRequest *requests, unsigned int numberRequests, typeLa
 
 		// Add 7 days to deadline
 		requests[pos].deadline += 7;
-
-		save_request_to_log(requests, numberRequests, laptops, numberLaptops, pos);
 	} else {
 		printf("ATENÇÃO: Não existe nenhuma requisição registada!\n");
 	}
@@ -523,7 +553,7 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 			print_typeState(laptops[pos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
-			printf("\\t    %.2f €\\t%s\n", laptops[pos].price, laptops[pos].description);
+			printf("\t   %.2f €\t%s\n", laptops[pos].price, laptops[pos].description);
 		}
 	} else {
 		printf("\nATENÇÃO: Não existe nenhuma avaria registada!\n");
@@ -556,7 +586,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 			print_typeState(laptops[pos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
-			printf("\t    %.2f €\t", laptops[pos].price);
+			printf("\t   %.2f €\t", laptops[pos].price);
 			
 			counted = count_breakdowns_by_laptop_id(breakdowns, numberBreakdowns, laptops[pos].id);
 			printf("%d\t", counted);
@@ -567,7 +597,8 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 			// TODO: Print type of user
 			// TODO: Print deadline for each request
 			if (counted > 0) {
-				list_requests_by_laptop_id(requests, numberRequests, laptops[pos].id, "\t");
+				printf("     +----\n");
+				list_requests_by_laptop_id(requests, numberRequests, laptops[pos].id, "     | ");
 				printf("\n");
 			}
 		}
