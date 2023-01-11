@@ -168,9 +168,10 @@ int search_request_by_code(typeRequest *requests, unsigned int numberRequests, c
  * @return -1 failure to insert request
  * @return 0 success to insert request
  */
-int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisition_date) {
+int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisitionDate) {
 	typeRequest request;
 	int tmp, control, result = -1;
+	typeDate devolutionDate = {0,0,0};
 
 	// Backup in case something goes wrong
 	typeRequest *save = *requests;
@@ -198,11 +199,12 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 		request.deadline = lerInteiro("Insira o prazo de devolução do portátil em dias: ", 1, DEADLINE_LIMIT);
 
 		// Set the requisition state to active and store laptop ID
-		request.requisition_date = requisition_date;
+		request.requisition_date = requisitionDate;
 		request.requisition_state = ACTIVE;
 		request.laptop_id = laptopId;
 		request.price = 0.0;
 		request.devolution_local = NONE;
+		request.devolution_date = devolutionDate;
 
 		(*requests)[*numberRequests] = request;
 		(*numberRequests)++;
@@ -221,7 +223,6 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 
 	// Check if there are requests
 	if (requests != NULL && numberRequests > 0) {
-		printf("\nRequisições:\n");
 		printf("Code\tLID\tEstado\t\tPrazo\tLocal devol.\tData requi.\tData devol.\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
 
 		for (pos = 0; pos < numberRequests; pos++) {
