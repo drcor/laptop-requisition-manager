@@ -164,12 +164,10 @@ int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id) {
  * 
  * @param laptops 
  * @param numberLaptops 
- * @return -1 failure to insert breakdown
- * @return 0 success to insert breakdown
  */
-int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
+void insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 	typeLaptop laptop;
-	int tmp, control, result = -1;
+	int tmp, control;
 
 	// Allocate space for the new laptop
 	typeLaptop *save = *laptops;
@@ -215,17 +213,14 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			(*laptops)[*numberLaptops] = laptop;
 			(*numberLaptops)++;
 
-			result = 0;
+			printf("Registo de portátil concluído com sucesso\n");
 		} else {
 			printf("ATENÇÃO: Já atingiu o limite de máximo de portáteis\n");
 		}
-
 	} else {
 		*laptops = save;
 		printf("ERRO: Falha na alocação de memória!\n");
 	}
-
-	return result;
 }
 
 /**
@@ -234,10 +229,8 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
  * @param laptops
  * @param numberLaptops
  * @param id
- * @return -1 failure to update laptop location
- * @return int postion of laptop updated
  */
-int update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops) {
+void update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops) {
 	int tmp, pos, control;
 
 	if (laptops != NULL && numberLaptops != 0) {
@@ -258,9 +251,9 @@ int update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops) {
 				printf("\nATENÇÃO: Insira uma localização válida\n");
 			}
 		} while (control != 0);
+		
+		printf("Atualização da localização do portátil concluída com sucesso\n");
 	}
-
-	return pos;
 }
 
 /**

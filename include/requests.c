@@ -196,7 +196,7 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 		set_typeUser(&(request.user_type), tmp);
 
 		// User chooses deadline
-		request.deadline = lerInteiro("Insira o prazo de devolução do portátil em dias: ", 1, DEADLINE_LIMIT);
+		request.deadline = lerInteiro("Insira o prazo de devolução do portátil em dias", 1, DEADLINE_LIMIT);
 
 		// Set the requisition state to active and store laptop ID
 		request.requisition_date = requisitionDate;
@@ -209,6 +209,8 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 		(*requests)[*numberRequests] = request;
 		(*numberRequests)++;
 		result = 0;
+
+		printf("Registo de requisição concluído com sucesso\n");
 	} else {
 		*requests = save;
 		printf("ERRO: Falha na alocação de memória!\n");
@@ -241,7 +243,7 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 			} else {
 				printf(" ---\t\t ---\t");
 			}
-			printf("\t   %.2f $\t", requests[pos].price);
+			printf("\t  %5.2f $\t", requests[pos].price);
 			print_typeUser(requests[pos].user_type);
 			printf("\t%s\n", requests[pos].user_name);
 		}
