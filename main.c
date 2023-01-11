@@ -376,10 +376,10 @@ void register_request(typeRequest **requests, unsigned int *numberRequests, type
 			laptop_id = lerInteiro("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, laptop_id);
 			
-			if (pos == -1) {
-				printf("\nATENÇÃO: Insira o ID de um laptop existente\n");
+			if (pos == -1 || laptops[pos].state != AVAILABLE) {
+				printf("\nATENÇÃO: Insira o ID de um laptop existente e disponível\n");
 			}
-		} while (pos == -1);
+		} while (pos == -1 || laptops[pos].state != AVAILABLE);
 
 		// Get request date
 		do {
