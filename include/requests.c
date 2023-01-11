@@ -250,6 +250,47 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 	}
 }
 
+void list_one_request(typeRequest *requests, unsigned int *numberRequests){
+	int pos, days;
+	typeRequest request;
+	
+	if (requests != NULL && numberRequests > 0){
+		do {
+			lerString("Insira o código do produto", request.code, CODE_SIZE);
+			pos = search_request_by_code(requests, *numberRequests, request.code);
+				
+			if (pos == -1) {
+				printf("\nATENÇÃO: O código introduzido é inválido!\n");
+			}
+			else{
+				printf("%s\t%d\t", requests[pos].code, requests[pos].laptop_id);
+				print_typeReqState(requests[pos].requisition_state);
+				printf("\t%d\t", requests[pos].deadline);
+				print_typeLocal(requests[pos].devolution_local);
+				printf("\t");
+				print_date(requests[pos].requisition_date);
+				printf("\t");
+				// Print duration of requisition
+				if (requests[pos].requisition_state == DONE) {
+					print_date(requests[pos].devolution_date);
+					days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
+					printf("\t%d\t", days);
+				} else {
+					printf(" ---\t\t ---\t");
+				}
+				printf("\t   %.2f €\t", requests[pos].price);
+				print_typeUser(requests[pos].user_type);
+				printf("\t%s\n", requests[pos].user_name);
+			}
+		} while (pos == -1);
+	}else{
+		printf("\nATENÇÃO: Não existe nenhuma requisição registada!\n");
+	}
+
+
+
+}
+
 /**
  * @brief List requests by laptop_id
  * 
@@ -271,6 +312,9 @@ void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberReques
 				printf("\n");
 			}
 		}
+	}
+	else{
+		printf("ATENÇÃO: Não existem requisições.\n");
 	}
 }
 

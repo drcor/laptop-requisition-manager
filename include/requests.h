@@ -54,6 +54,8 @@ int search_request_by_code(typeRequest *requests, unsigned int numberRequests, c
 int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisition_date);
 /* List all requests */
 void list_request(typeRequest *requests, unsigned int numberRequests);
+/* List one request by code*/
+void list_one_request(typeRequest *requests, unsigned int *numberRequests);
 /* List requests by laptop_id */
 void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId, char *preMessage);
 /* Read a N number of requests from a file */

@@ -258,7 +258,7 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 	printf(" +------------------------------------------+\n");
 	printf(" |  [1] Requisitar portátil                 |\n");
 	printf(" |  [2] Listar Requisições                  |\n");
-	printf(" |  [3] Mostrar Requisição                  |\n");
+	printf(" |  [3] Mostrar uma Requisição              |\n");
 	printf(" |  [4] Renovar Requisição                  |\n");
 	printf(" |  [5] Devolução de portátil Requisitado   |\n");
 	printf(" |  [0] Anterior                            |\n");
@@ -276,7 +276,7 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 			break;
 		case 3:
 			printf("\nVer informações de uma requisição:\n");
-			// show 1 request
+			list_one_request(*requests, numberRequests);
 			break;
 		case 4:
 			printf("\nRenovar Requisição:\n");
