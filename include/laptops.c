@@ -89,6 +89,28 @@ void print_typeState(enum typeState state) {
 }
 
 /**
+ * @brief Count available laptops
+ * 
+ * @param laptops 
+ * @param numberLaptops 
+ * @return int 
+ */
+int count_laptops_availale(typeLaptop *laptops, unsigned int numberLaptops) {
+	int count = 0;
+	unsigned int pos;
+
+	if (laptops != NULL && numberLaptops > 0) {
+		for (pos = 0; pos < numberLaptops; pos++) {
+			if (laptops[pos].state == AVAILABLE) {
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+/**
  * @brief Get max laptop id
  * 
  * @param laptops 

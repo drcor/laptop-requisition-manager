@@ -42,6 +42,8 @@ typedef struct {
 	float price;		// euros
 } typeLaptop;
 
+/* Count available laptops */
+int count_laptops_availale(typeLaptop *laptops, unsigned int numberLaptops);
 /* Get max laptop id */
 int get_max_laptop_id(typeLaptop *laptops, unsigned int numberLaptops);
 /* Search laptop by id */
