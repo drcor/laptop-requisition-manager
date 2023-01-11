@@ -13,12 +13,13 @@ void save_data(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *b
 /* Menus de opções */
 int menu(void);
 void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
-void menu_requests(void);
+void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void menu_statistics(void);
 /* Aplicação de funcionalidades */
 void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void register_repair(typeBreakdown **breakdowns, unsigned int *numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
+void registerRequest(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
 
@@ -47,7 +48,7 @@ int main(void) {
 				menu_laptops(&laptops, &numberLaptops, breakdowns, numberBreakdowns, requests, numberRequests);
 				break;
 			case 2:
-				menu_requests();
+				menu_requests(&requests, &numberRequests, laptops, numberLaptops);
 				break;
 			case 3:
 				menu_breakdowns(&breakdowns, &numberBreakdowns, laptops, numberLaptops);
@@ -56,7 +57,7 @@ int main(void) {
 				menu_statistics();
 				break;
 			default:
-				printf("ATENÇÃO: Insira uma opção válida\n");
+				printf("\nATENÇÃO: Insira uma opção válida\n");
 				break;
 	   }
 	} while(opcao != 0);
@@ -135,7 +136,7 @@ int menu(void) {
 	printf(" +------------------------------------------+\n");
 	opcao = lerInteiro("Opção: ", 0, 4);
 
-	return opcao;  
+	return opcao; 
 }
 
 void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests) {
@@ -166,8 +167,9 @@ void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdo
 	}
 }
 
-void menu_requests() {
+void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
 	int opcao2;
+
 	printf("\n +------------------------------------------+\n");
 	printf(" |               Requisições                |\n");
 	printf(" +------------------------------------------+\n");
@@ -182,8 +184,10 @@ void menu_requests() {
 
 	switch (opcao2) {
 		case 1:
-			printf("\nteste\n\n");
-			// *op = lerInteiro("Deseja continuar no programa? Não/Sim", 0, 1);  // Asks if the user wants to coninue the program               
+			registerRequest(requests, numberRequests, laptops, numberLaptops);
+			break;
+		case 2:
+			list_request(*requests, *numberRequests);
 			break;
 		}
 }
@@ -234,7 +238,7 @@ void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdow
 			id = lerInteiro("Insira o ID do portátil avariado", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, id);	// TODO: search_breakdown_id()
 			if (pos == -1) {
-				printf("ATENÇÃO: Tem de inserir um ID existente\n");
+				printf("\nATENÇÃO: Tem de inserir um ID existente\n");
 			}
 		} while (pos == -1);
 
@@ -254,10 +258,10 @@ void register_repair(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 			id = lerInteiro("Insira o ID da avaria", 1, INT_MAX);
 			pos = search_breakdown_id(*breakdowns, *numberBreakdowns, id);
 			if (pos == -1) {
-				printf("ATENÇÃO: Tem de inserir um ID existente\n");
+				printf("\nATENÇÃO: Tem de inserir um ID existente\n");
 			}
 			if ((*breakdowns)[pos].duration != -1) {
-				printf("ATENÇÃO: Insira o ID de uma avaria ainda não reparada\n");
+				printf("\nATENÇÃO: Insira o ID de uma avaria ainda não reparada\n");
 			}
 		} while (pos == -1 || (*breakdowns)[pos].duration != -1);
 		
@@ -265,10 +269,41 @@ void register_repair(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		breakdowns[pos]->duration = lerInteiro("Insira a duração da reparação", 0, 90);
 		control = search_laptop_id(laptops, numberLaptops, breakdowns[pos]->laptop_id);
 		laptops[control].state = AVAILABLE;
-		// control = delete_breakdown(breakdowns, numberBreakdowns, id);
-		// if (control == 0) {
-		// 	laptops[pos].state = AVAILABLE;
-		// }
+	}
+}
+
+void registerRequest(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
+	int control, laptop_id, pos;
+	typeDate requisition_date;
+	// Check if exists requests and laptops
+	if (requests != NULL && laptops != NULL && numberLaptops > 0) {
+		do {
+			laptop_id = lerInteiro("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
+			pos = search_laptop_id(laptops, numberLaptops, laptop_id);
+			
+			if (pos == -1) {
+				printf("\nATENÇÃO: Insira o ID de um laptop existente\n");
+			}
+		} while (pos == -1);
+
+		// Get request date
+		do {
+			read_date("Insira a data de requisição", &(requisition_date));
+
+			pos = compare_date(laptops[laptop_id].date, requisition_date);
+
+			if (pos == -1) {	// if date is smaller than laptop date
+				printf("\nATENÇÃO: A data tem de ser igual ou superior à data de aquisição do portátil\n");
+			}
+		} while (pos == -1);	// while date is smaller than laptop date
+
+		control = insert_request(requests, numberRequests, laptop_id, requisition_date);
+		if (control == 0) {
+			// Set laptop state to taken
+			laptops[pos].state = TAKEN;
+		}
+
+		printf("Registo de requisição concluído com sucesso\n");
 	}
 }
 
@@ -285,7 +320,7 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
 		// printf("ID\tCPU\tMem.\tEstado\tLocal\tPreço\tID\tTipo\tDuração\tData\t\tDescrição\n");
-		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\tDescrição\n");
+		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\t\tDescrição\n");
 
 		for (unsigned int i = 0; i < numberBreakdowns; i++) {	// Get breakdow by breakdown
 			// Get position of laptop in vector of laptops
@@ -303,10 +338,10 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 			print_typeState(laptops[pos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
-			printf("\t%.2f€\t%s\n", laptops[pos].price, laptops[pos].description);
+			printf("\\t    %.2f €\\t%s\n", laptops[pos].price, laptops[pos].description);
 		}
 	} else {
-		printf("ATENÇÃO: Não existe nenhuma avaria registada!\n");
+		printf("\nATENÇÃO: Não existe nenhuma avaria registada!\n");
 	}
 }
 
@@ -314,7 +349,7 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 	int counted;
 	// Check if exist laptops
 	if (laptops != NULL && numberLaptops > 0) {
-		printf("ID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\tN.Avar\tN.Requi\tDescrição\n");
+		printf("ID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\t\tN.Avar\tN.Requi\tDescrição\n");
 
 		for (unsigned int i = 0; i < numberLaptops; i++) {	// Get laptop by laptop
 			// Print laptop data
@@ -324,17 +359,17 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 			print_typeState(laptops[i].state);
 			printf("\t");
 			print_typeLocal(laptops[i].location);
-			printf("\t%.2f€\t", laptops[i].price);
+			printf("\t    %.2f €\t", laptops[i].price);
 			
-			counted = count_breakdowns_from_laptop_id(breakdowns, numberBreakdowns, laptops[i].id);
+			counted = count_breakdowns_by_laptop_id(breakdowns, numberBreakdowns, laptops[i].id);
 			printf("%d\t", counted);
-			counted = count_requests_from_laptop_id(requests, numberRequests, laptops[i].id);
+			counted = count_requests_by_laptop_id(requests, numberRequests, laptops[i].id);
 			printf("%d\t", counted);
 			// TODO: Print type of user
 			// TODO: Print deadline for each request
 			printf("%s\n", laptops[i].description);
 		}
 	} else {
-		printf("ATENÇÃO: Não existe nenhum portátil registado!\n");
+		printf("\nATENÇÃO: Não existe nenhum portátil registado!\n");
 	}
 }

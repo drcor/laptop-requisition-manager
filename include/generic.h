@@ -5,6 +5,7 @@
 
 /* Enumeration of locations */
 enum typeLocal {
+	NONE=-1,
 	RESIDENCES=0,
 	CAMPUS1=1,
 	CAMPUS2=2,

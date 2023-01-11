@@ -124,11 +124,12 @@ int get_max_laptop_id(typeLaptop *laptops, unsigned int numberLaptops) {
  */
 int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id) {
 	int result = -1;
+	unsigned int pos;
 
-	for (unsigned int i = 0; i < numberLaptops; i++) {
-		if (laptops[i].id == id) {
-			result = i;
-			i = numberLaptops;	// Force loop to end
+	for (pos = 0; pos < numberLaptops; pos++) {
+		if (laptops[pos].id == id) {
+			result = pos;
+			pos = numberLaptops;	// Force loop to end
 		}
 	}
 
@@ -198,7 +199,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 
 	} else {
 		*laptops = save;
-		printf("Falha na alocação de memória!\n");
+		printf("ERRO: Falha na alocação de memória!\n");
 	}
 
 	return result;

@@ -1,5 +1,6 @@
 #include "requests.h"
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief Set type of user from a integer
@@ -97,7 +98,7 @@ void print_typeReqState(enum typeReqState req_state) {
  * @param laptopId 
  * @return int number of requests
  */
-int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
+int count_requests_by_laptop_id(typeRequest *requests, unsigned int numberRequests, int laptopId) {
 	int count = 0;
 
 	if (numberRequests > 0) {
@@ -109,6 +110,117 @@ int count_requests_from_laptop_id(typeRequest *requests, unsigned int numberRequ
 	}
 
 	return count;
+}
+
+/**
+ * @brief Search request by code
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param code 
+ * @return -1 if not found
+ * @return int position of id
+ */
+int search_request_by_code(typeRequest *requests, unsigned int numberRequests, char code[CODE_SIZE]){
+	int result = -1;
+	unsigned int pos;
+
+	for (pos = 0; pos < numberRequests; pos++) {
+		if (strcmp(requests[pos].code, code) == 0) {
+			result = pos;
+			pos = numberRequests;
+		}
+	}
+
+	return result;
+}
+
+/**
+ * @brief Insert a request in the vector
+ * 
+ * @param requests 
+ * @param numberRequests 
+ * @param laptopId 
+ * @return -1 failure to insert request
+ * @return 0 success to insert request
+ */
+int insert_request(typeRequest **requests, unsigned int *numberRequests, int laptopId, typeDate requisition_date) {
+	typeRequest request;
+	int tmp, control, result = -1;
+
+	// Backup in case something goes wrong
+	typeRequest *save = *requests;
+
+	*requests = realloc(*requests, (*numberRequests + 1) * sizeof(typeRequest));
+	if (*requests != NULL) {
+		// Inserts product code, already validated.
+		do {
+			lerString("Insira o código do produto", request.code, CODE_SIZE);
+			control = search_request_by_code(*requests, *numberRequests, request.code);
+			
+			if(control >= 0) {
+				printf("\nATENÇÃO: O código introduzido já está registado\n");
+			}
+		} while (control == 0);
+		
+		// Set client name
+		lerString("Insira o nome do cliente", request.user_name, USERNAME_SIZE);
+
+		// Set type of user
+		tmp = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Professor\n\t2 - Admininstração\n", 0, 2);
+		set_typeUser(&(request.user_type), tmp);
+
+		// User chooses deadline
+		request.deadline = lerInteiro("Insira o prazo de devolução do portátil em dias: ", 1, DEADLINE_LIMIT);
+
+		// Set the requisition state to active and store laptop ID
+		request.requisition_date = requisition_date;
+		request.requisition_state = ACTIVE;
+		request.laptop_id = laptopId;
+		request.price = 0.0;
+		request.devolution_local = NONE;
+
+		(*requests)[*numberRequests] = request;
+		(*numberRequests)++;
+		result = 0;
+	} else {
+		*requests = save;
+		printf("ERRO: Falha na alocação de memória!\n");
+	}
+
+	return result;
+}
+
+void list_request(typeRequest *requests, unsigned int numberRequests) {
+	unsigned int pos;
+	int days;
+
+	printf("\nRequisições:\n");
+	// Check if there are requests
+	if (requests != NULL && numberRequests > 0) {
+		printf("Code\tLID\tData requi.\tEstado\t\tPrazo\tLocal devolução\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
+
+		for (pos = 0; pos < numberRequests; pos++) {
+			printf("%s\t%d\t", requests[pos].code, requests[pos].laptop_id);
+			print_date(requests[pos].requisition_date);
+			printf("\t");
+			print_typeReqState(requests[pos].requisition_state);
+			printf("\t%d\t", requests[pos].deadline);
+			print_typeLocal(requests[pos].devolution_local);
+			// Print duration of requisition
+			if (requests[pos].requisition_state == DONE) {
+				days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
+				printf("\t%d\t", days);
+			} else {
+				printf("\t ---\t");
+			}
+			printf("\t    %.2f €\t", requests[pos].price);
+			print_typeUser(requests[pos].user_type);
+			printf("\t%s\n", requests[pos].user_name);
+		}
+	} else {
+		printf("\nATENÇÃO: Não existe nenhuma requisição registada!\n");
+	}
 }
 
 /**

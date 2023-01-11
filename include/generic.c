@@ -13,6 +13,9 @@
 int set_typeLocal(enum typeLocal *location, int num) {
 	int result = 0;
 	switch (num) {
+	case NONE:
+		*location = NONE;
+		break;
 	case RESIDENCES:
 		*location = RESIDENCES;
 		break;
@@ -40,17 +43,20 @@ int set_typeLocal(enum typeLocal *location, int num) {
  */
 void print_typeLocal(enum typeLocal location) {
 	switch (location) {
+	case NONE:
+		printf(" ---       ");
+		break;
 	case RESIDENCES:
 		printf("Residências");
 		break;
 	case CAMPUS1:
-		printf("Campus 1");
+		printf("Campus 1   ");
 		break;
 	case CAMPUS2:
-		printf("Campus 2");
+		printf("Campus 2   ");
 		break;
 	case CAMPUS5:
-		printf("Campus 5");
+		printf("Campus 5   ");
 		break;
 	}
 }
@@ -111,10 +117,10 @@ int lerInteiro(char *message, int min, int max) {
 
 		// Validate the input for a integer number
 		if (control == 0) {
-			printf("ATENÇÃO: Deverá inserir um número inteiro\n");
+			printf("\nATENÇÃO: Deverá inserir um número inteiro\n");
 		} else {
 			if (number < min || number > max) {
-				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+				printf("\nATENÇÃO: Número inválido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -142,10 +148,10 @@ float lerFloat(char *message, float min, float max) {
 
 		// Validate the input for a float number
 		if (control == 0) {
-			printf("ATENÇÃO: Deverá inserir um número decimal (float)\n");
+			printf("\nATENÇÃO: Deverá inserir um número decimal (float)\n");
 		} else {
 			if (number < min || max < number) {
-				printf("ATENÇÃO: Número inválido. Insira novamente: ");
+				printf("\nATENÇÃO: Número inválido. Insira novamente: ");
 			}
 		}
 	} while (number < min || max < number || control == 0);
@@ -170,7 +176,7 @@ void lerString(char *message, char *outputString, unsigned int maxChars) {
 		stringSize = strlen(outputString);
 
 		if (stringSize == 1) {	// Check if the user inserted a string
-			printf("ATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
+			printf("\nATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
 		}
 	} while (stringSize == 1);
 

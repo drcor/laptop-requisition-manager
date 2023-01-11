@@ -51,7 +51,7 @@ void print_typeBreak(enum typeBreak break_type) {
  * @param laptopId 
  * @return int number of breakdowns 
  */
-int count_breakdowns_from_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId) {
+int count_breakdowns_by_laptop_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int laptopId) {
 	int count = 0;
 
 	if (numberBreakdowns > 0) {
@@ -101,11 +101,12 @@ int get_max_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdown
  */
 int search_breakdown_id(typeBreakdown *breakdowns, unsigned int numberBreakdowns, int id) {
 	int result = -1;
+	unsigned int pos;
 
-	for (unsigned int i = 0; i < numberBreakdowns; i++) {
-		if (breakdowns[i].id == id) {
-			result = i;
-			i = numberBreakdowns;	// Force loop to end
+	for (pos = 0; pos < numberBreakdowns; pos++) {
+		if (breakdowns[pos].id == id) {
+			result = pos;
+			pos = numberBreakdowns;
 		}
 	}
 	
@@ -156,7 +157,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		result = 0;
 	} else {
 		*breakdowns = save;
-		printf("Falha na alocação de memória!\n");
+		printf("ERRO: Falha na alocação de memória!\n");
 	}
 	
 	return result;

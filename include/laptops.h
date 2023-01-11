@@ -44,7 +44,7 @@ typedef struct {
 
 /* Get max laptop id */
 int get_max_laptop_id(typeLaptop *laptops, unsigned int numberLaptops);
-/* Search for laptop ID */
+/* Search laptop by id */
 int search_laptop_id(typeLaptop *laptops, unsigned int numberLaptops, int id);
 /* Insert a laptop in the vector */
 int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops);
