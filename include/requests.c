@@ -241,7 +241,7 @@ void list_request(typeRequest *requests, unsigned int numberRequests) {
 			} else {
 				printf(" ---\t\t ---\t");
 			}
-			printf("\t   %.2f €\t", requests[pos].price);
+			printf("\t   %.2f $\t", requests[pos].price);
 			print_typeUser(requests[pos].user_type);
 			printf("\t%s\n", requests[pos].user_name);
 		}

@@ -208,7 +208,7 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			// Read date of aquisition
 			read_date("Insira a data de aquisição", &(laptop.date));
 			// Read price
-			laptop.price = lerFloat("Insira o preço do portátil em €", 0.0, 10000.0);
+			laptop.price = lerFloat("Insira o preço do portátil em $", 0.0, 10000.0);
 			// Read Description
 			lerString("Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
 		
@@ -237,23 +237,27 @@ int insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
  * @return -1 failure to update laptop location
  * @return int postion of laptop updated
  */
-int update_laptop_location(typeLaptop **laptops, unsigned int numberLaptops) {
-	int aux, pos, control;
+int update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops) {
+	int tmp, pos, control;
 
-	if (*laptops != NULL && numberLaptops != 0) {
-		aux = lerInteiro("Insira o ID do portátil", 1, MAX_LAPTOPS);
-		pos = search_laptop_id(*laptops, numberLaptops, aux);
+	if (laptops != NULL && numberLaptops != 0) {
 
-		if (pos != -1) {
-			do {	// Read location of laptop
-				aux = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
-				control = set_typeLocal(&((*laptops[pos]).location), aux);
+		do {
+			tmp = lerInteiro("Insira o id do laptop que deseja alterar a localização:", 1, MAX_LAPTOPS);
+			pos = search_laptop_id(laptops, numberLaptops, tmp);
+			
+			if (pos == -1 || laptops[pos].state != AVAILABLE) {
+				printf("\nATENÇÃO: Insira o ID de um laptop existente e disponível\n");
+			}
+		} while (pos == -1 || laptops[pos].state != AVAILABLE);
 
-				if (control != 0) {	// If not valid
-					printf("\nATENÇÃO: Insira uma localização válida\n");
-				}
-			} while (control != 0);
-		}
+		do {	// Read location of laptop
+			tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+			control = set_typeLocal(&(laptops[pos].location), tmp);
+			if (control != 0) {	// If not valid
+				printf("\nATENÇÃO: Insira uma localização válida\n");
+			}
+		} while (control != 0);
 	}
 
 	return pos;
