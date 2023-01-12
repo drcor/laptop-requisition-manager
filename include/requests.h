@@ -37,7 +37,7 @@ typedef struct {
 	char user_name[USERNAME_SIZE];
 	enum typeUser user_type;
 	typeDate requisition_date;
-	unsigned short deadline;
+	short deadline;
 	enum typeReqState requisition_state;
 	typeDate devolution_date;
 	enum typeLocal devolution_local;
