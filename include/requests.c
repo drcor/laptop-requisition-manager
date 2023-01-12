@@ -274,6 +274,9 @@ void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberReques
 			}
 		}
 	}
+	else{
+		printf("ATENÇÃO: Não existem requisições.\n");
+	}
 }
 
 /**

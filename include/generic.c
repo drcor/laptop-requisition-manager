@@ -44,7 +44,7 @@ int set_typeLocal(enum typeLocal *location, int num) {
 void print_typeLocal(enum typeLocal location) {
 	switch (location) {
 	case NONE:
-		printf(" ---       ");
+		printf("---        ");
 		break;
 	case RESIDENCES:
 		printf("Residências");

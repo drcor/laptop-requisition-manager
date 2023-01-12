@@ -25,6 +25,7 @@ void register_request(typeRequest **requests, unsigned int *numberRequests, type
 void renovate_request(typeRequest *requests, unsigned int numberRequests);
 void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+void list_one_request(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops);
 
 int main(void) {
 	unsigned int numberLaptops = 0;
@@ -254,7 +255,7 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 	printf(" +------------------------------------------+\n");
 	printf(" |  [1] Requisitar portátil                 |\n");
 	printf(" |  [2] Listar Requisições                  |\n");
-	printf(" |  [3] Mostrar Requisição                  |\n");
+	printf(" |  [3] Mostrar uma Requisição              |\n");
 	printf(" |  [4] Renovar Requisição                  |\n");
 	printf(" |  [5] Devolução de portátil Requisitado   |\n");
 	printf(" |  [0] Anterior                            |\n");
@@ -271,8 +272,8 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 			list_request(*requests, *numberRequests);
 			break;
 		case 3:
-			printf("\nVer informações de uma requisição:\n");
-			// show 1 request
+			printf("\nMostrar informações de uma requisição:\n");
+			list_one_request(*requests, *numberRequests, laptops, numberLaptops);
 			break;
 		case 4:
 			printf("\nRenovar Requisição:\n");
@@ -626,14 +627,14 @@ void renovate_request(typeRequest *requests, unsigned int numberRequests) {
  * @param numberLaptops 
  */
 void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops) {
-	unsigned int pos;
+	unsigned int pos, laptopPos;
 	// Check if exist laptops and breakdowns
 	if (breakdowns != NULL && numberBreakdowns > 0) {	// If exist breakdowns then have to exist at least a laptop
 		printf("ID\tTipo avaria\tData avaria\tDuraç.\tLID\tCPU\tMemor.\tEstado\t\tLocalização\tPreço\t\tDescrição\n");
 
 		for (pos = 0; pos < numberBreakdowns; pos++) {	// Get breakdow by breakdown
 			// Get position of laptop in vector of laptops
-			pos = search_laptop_id(laptops, numberLaptops, breakdowns[pos].laptop_id);
+			laptopPos = search_laptop_id(laptops, numberLaptops, breakdowns[pos].laptop_id);
 			// Print breakdown data
 			printf("%d\t", breakdowns[pos].id);
 			print_typeBreak(breakdowns[pos].break_type);
@@ -641,10 +642,10 @@ void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 			print_date(breakdowns[pos].date);
 			printf("\t%d\t", breakdowns[pos].duration);
 			// Print laptop data
-			printf("%d\t", laptops[pos].id);
-			print_typeCPU(laptops[pos].cpu);
-			printf("\t%dGB\t", laptops[pos].memory);
-			print_typeState(laptops[pos].state);
+			printf("%d\t", laptops[laptopPos].id);
+			print_typeCPU(laptops[laptopPos].cpu);
+			printf("\t%dGB\t", laptops[laptopPos].memory);
+			print_typeState(laptops[laptopPos].state);
 			printf("\t");
 			print_typeLocal(laptops[pos].location);
 			printf("\t  %5.2f $\t%s\n", laptops[pos].price, laptops[pos].description);
@@ -697,5 +698,51 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 		}
 	} else {
 		printf("\nATENÇÃO: Não existe nenhum portátil registado!\n");
+	}
+}
+
+void list_one_request(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
+	int pos, days, laptopPos;
+	typeRequest request;
+	
+	if (requests != NULL && numberRequests > 0) {
+		do {
+			lerString("Insira o código do produto", request.code, CODE_SIZE);
+			pos = search_request_by_code(requests, numberRequests, request.code);
+				
+			if (pos == -1) {
+				printf("\nATENÇÃO: Não existe nenhuma requisição com o código inserido\n");
+			}
+		} while (pos == -1);
+
+		printf("\nCódigo:\t\t\t%s\nEstado da requisição:\t", requests[pos].code);
+		print_typeReqState(requests[pos].requisition_state);
+		printf("\nPrazo da requisição:\t%d\nLocal da devolução:\t", requests[pos].deadline);
+		print_typeLocal(requests[pos].devolution_local);
+		printf("\nData da requisição:\t");
+		print_date(requests[pos].requisition_date);
+		printf("\nData da devolução:\t");
+		// Print duration of requisition
+		if (requests[pos].requisition_state == DONE) {
+			print_date(requests[pos].devolution_date);
+			days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
+			printf("\nDuração da requisição:\t%d\n", days);
+		} else {
+			printf("---\nDuração da requisição:\t---\n");
+		}
+		printf("Multa:\t\t\t%.2f $\n", requests[pos].price);
+		printf("Tipo de cliente:\t");
+		print_typeUser(requests[pos].user_type);
+		printf("\nNome do cliente:\t%s\n", requests[pos].user_name);
+
+		// Print laptop informations
+		laptopPos = search_laptop_id(laptops, numberLaptops, requests[pos].laptop_id);
+		printf("+-- Portátil --------\n");
+		printf("| ID:\t\t%d\n", laptops[laptopPos].id);
+		printf("| Estado:\t");
+		print_typeState(laptops[laptopPos].state);
+		printf("\n| Designação:\t%s\n\n", laptops[laptopPos].description);
+	} else {
+		printf("\nATENÇÃO: Não existe nenhuma requisição registada!\n");
 	}
 }
