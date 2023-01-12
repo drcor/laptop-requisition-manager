@@ -20,12 +20,12 @@ int check_range(int number, int min, int max);
 /* Compare two numbers */
 int compare_numbers(int number1, int number2);
 /* Limpa o buffer de input */
-void limparBufferStdin(void);
+void clean_stdin_buffer(void);
 /* Read a integer from the input */
-int lerInteiro(char *message, int min, int max);
+int read_integer(char *message, int min, int max);
 /* Read a float from the input */
-float lerFloat(char *message, float min, float max);
+float read_float(char *message, float min, float max);
 /* Read a string from the input */
-void lerString(char *message, char *outputString, unsigned int maxChars);
+void read_string(char *message, char *outputString, unsigned int maxChars);
 
 #endif // ELEMENTS_H_INCLUDED

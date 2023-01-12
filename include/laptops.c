@@ -180,7 +180,7 @@ void insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			laptop.id = get_max_laptop_id(*laptops, *numberLaptops) + 1;
 
 			do {	// Read type of CPU
-				tmp = lerInteiro("Insira o tipo de CPU\n\t3 - i3\n\t5 - i5\n\t7 - i7\n", 3, 7);
+				tmp = read_integer("Insira o tipo de CPU\n\t3 - i3\n\t5 - i5\n\t7 - i7\n", 3, 7);
 				control = set_typeCPU(&(laptop.cpu), tmp);
 
 				if (control != 0) {	// If not valid
@@ -189,13 +189,13 @@ void insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			} while (control != 0);
 
 			// Read memory of laptop
-			laptop.memory = lerInteiro("Insira o valor de memoria RAM em Gigabytes", 0, 256);
+			laptop.memory = read_integer("Insira o valor de memoria RAM em Gigabytes", 0, 256);
 
 			// Set state of laptop
 			laptop.state = AVAILABLE;
 
 			do {	// Read location of laptop
-				tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+				tmp = read_integer("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 				control = set_typeLocal(&(laptop.location), tmp);
 
 				if (control != 0) {	// If not valid
@@ -206,9 +206,9 @@ void insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops) {
 			// Read date of aquisition
 			read_date("Insira a data de aquisição", &(laptop.date));
 			// Read price
-			laptop.price = lerFloat("Insira o preço do portátil em $", 0.0, 10000.0);
+			laptop.price = read_float("Insira o preço do portátil em $", 0.0, 10000.0);
 			// Read Description
-			lerString("Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
+			read_string("Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
 		
 			(*laptops)[*numberLaptops] = laptop;
 			(*numberLaptops)++;
@@ -236,7 +236,7 @@ void update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops) {
 	if (laptops != NULL && numberLaptops != 0) {
 
 		do {
-			tmp = lerInteiro("Insira o id do laptop que deseja alterar a localização:", 1, MAX_LAPTOPS);
+			tmp = read_integer("Insira o id do laptop que deseja alterar a localização:", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, tmp);
 			
 			if (pos == -1 || laptops[pos].state != AVAILABLE) {
@@ -245,7 +245,7 @@ void update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops) {
 		} while (pos == -1 || laptops[pos].state != AVAILABLE);
 
 		do {	// Read location of laptop
-			tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+			tmp = read_integer("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 			control = set_typeLocal(&(laptops[pos].location), tmp);
 			if (control != 0) {	// If not valid
 				printf("\nATENÇÃO: Insira uma localização válida\n");

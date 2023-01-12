@@ -211,7 +211,7 @@ int menu(typeRequest *requests, unsigned int numberRequests, typeLaptop *laptops
 	printf(" |  [4] Dados Estatísticos                            |\n");
 	printf(" |  [0] Sair                                          |\n");
 	printf(" +----------------------------------------------------+\n");
-	opcao = lerInteiro("Opção: ", 0, 4);
+	opcao = read_integer("Opção: ", 0, 4);
 
 	return opcao; 
 }
@@ -227,7 +227,7 @@ void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdo
 	printf(" |  [3] Alterar localização do Portátil     |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
-	opcao2 = lerInteiro("Opção", 0, 3);
+	opcao2 = read_integer("Opção", 0, 3);
 
 	switch(opcao2) {
 		case 1:
@@ -260,7 +260,7 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 	printf(" |  [5] Devolução de portátil Requisitado   |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
-	opcao2 = lerInteiro("Opção", 0, 5);
+	opcao2 = read_integer("Opção", 0, 5);
 
 	switch (opcao2) {
 		case 1:
@@ -297,7 +297,7 @@ void menu_breakdowns(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 	printf(" |  [3] Listar Avarias                      |\n");
 	printf(" |  [0] Anterior                            |\n");
 	printf(" +------------------------------------------+\n");
-	opcao2 = lerInteiro("Opção", 0, 3);
+	opcao2 = read_integer("Opção", 0, 3);
 
 	switch (opcao2) {
 		case 1:
@@ -416,7 +416,7 @@ void register_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdow
 	if (breakdowns != NULL && laptops != NULL && numberLaptops > 0) {
 		// Read id
 		do {
-			id = lerInteiro("Insira o ID do portátil avariado", 1, MAX_LAPTOPS);
+			id = read_integer("Insira o ID do portátil avariado", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, id);
 			if (pos == -1 || laptops[pos].state != AVAILABLE) {	// if laptop ID dont exist or is not available
 				printf("ATENÇÃO: Insira o ID de um laptop existente e disponível\n");
@@ -461,7 +461,7 @@ void register_repair(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 	if (breakdowns != NULL && numberBreakdowns > 0 && laptops != NULL && numberLaptops > 0) {
 		// Get breakdown id
 		do {
-			id = lerInteiro("Insira o ID da avaria", 1, INT_MAX);
+			id = read_integer("Insira o ID da avaria", 1, INT_MAX);
 			pos = search_breakdown_id(breakdowns, numberBreakdowns, id);
 			if (pos == -1) {
 				printf("\nATENÇÃO: Tem de inserir um ID existente\n");
@@ -472,7 +472,7 @@ void register_repair(typeBreakdown *breakdowns, unsigned int numberBreakdowns, t
 		} while (pos == -1 || breakdowns[pos].duration != -1);
 		
 		// Set laptop available for requisition and set duration of reparation
-		breakdowns[pos].duration = lerInteiro("Insira a duração da reparação", 0, 90);
+		breakdowns[pos].duration = read_integer("Insira a duração da reparação", 0, 90);
 		control = search_laptop_id(laptops, numberLaptops, breakdowns[pos].laptop_id);
 		laptops[control].state = AVAILABLE;
 
@@ -488,7 +488,7 @@ void register_request(typeRequest **requests, unsigned int *numberRequests, type
 	// Check if exists requests and laptops
 	if (requests != NULL && laptops != NULL && numberLaptops > 0) {
 		do {
-			laptopId = lerInteiro("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
+			laptopId = read_integer("Insira o id do laptop que deseja requisitar:", 1, MAX_LAPTOPS);
 			pos = search_laptop_id(laptops, numberLaptops, laptopId);
 			
 			if (pos == -1 || laptops[pos].state != AVAILABLE) {
@@ -533,7 +533,7 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
 	// Check if exist breakdowns
 	if (requests != NULL && numberRequests > 0) {
 		do {	// Get request code
-			lerString("Insira o código da requisição", code, CODE_SIZE-1);
+			read_string("Insira o código da requisição", code, CODE_SIZE-1);
 			pos = search_request_by_code(requests, numberRequests, code);
 			if (pos == -1) {
 				printf("ATENÇÃO: Tem de inserir o código de uma requisição existente\n");
@@ -553,7 +553,7 @@ void register_devolution(typeRequest *requests, unsigned int numberRequests, typ
 		requests[pos].devolution_date = devolutionDate;
 
 		do {	// Read location of devolution
-			tmp = lerInteiro("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+			tmp = read_integer("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
 			control = set_typeLocal(&devolutionLocal, tmp);
 		
 			if (control != 0) {	// If not valid
@@ -599,7 +599,7 @@ void renovate_request(typeRequest *requests, unsigned int numberRequests) {
 	// Check if exist requests
 	if (requests != NULL && numberRequests > 0) {
 		do {	// Get request code
-			lerString("Insira o código da requisição", code, CODE_SIZE-1);
+			read_string("Insira o código da requisição", code, CODE_SIZE-1);
 			pos = search_request_by_code(requests, numberRequests, code);
 			if (pos == -1) {
 				printf("ATENÇÃO: Tem de inserir o código de uma requisição existente\n");
@@ -707,7 +707,7 @@ void list_one_request(typeRequest *requests, unsigned int numberRequests, typeLa
 	
 	if (requests != NULL && numberRequests > 0) {
 		do {
-			lerString("Insira o código do produto", request.code, CODE_SIZE);
+			read_string("Insira o código do produto", request.code, CODE_SIZE);
 			pos = search_request_by_code(requests, numberRequests, request.code);
 				
 			if (pos == -1) {

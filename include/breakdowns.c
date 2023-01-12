@@ -136,7 +136,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 		breakdown.id = get_max_breakdown_id(*breakdowns, *numberBreakdowns) + 1;
 
 		do {	// Read type of breakdown
-			tmp = lerInteiro("Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);
+			tmp = read_integer("Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);
 			control = set_typeBreak(&(breakdown.break_type), tmp);
 
 			if (control != 0) {	// If not valid

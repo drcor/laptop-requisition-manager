@@ -180,7 +180,7 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 	if (*requests != NULL) {
 		// Inserts product code, already validated.
 		do {
-			lerString("Insira o código do produto", request.code, CODE_SIZE);
+			read_string("Insira o código do produto", request.code, CODE_SIZE);
 			control = search_request_by_code(*requests, *numberRequests, request.code);
 			
 			if (control > -1) {
@@ -189,14 +189,14 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
 		} while (control > -1);
 		
 		// Set client name
-		lerString("Insira o nome do cliente", request.user_name, USERNAME_SIZE);
+		read_string("Insira o nome do cliente", request.user_name, USERNAME_SIZE);
 
 		// Set type of user
-		tmp = lerInteiro("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Docente\n\t2 - Técnico Administrativo\n", 0, 2);
+		tmp = read_integer("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Docente\n\t2 - Técnico Administrativo\n", 0, 2);
 		set_typeUser(&(request.user_type), tmp);
 
 		// User chooses deadline
-		request.deadline = lerInteiro("Insira o prazo de devolução do portátil em dias", 1, DEADLINE_LIMIT);
+		request.deadline = read_integer("Insira o prazo de devolução do portátil em dias", 1, DEADLINE_LIMIT);
 
 		// Set the requisition state to active and store laptop ID
 		request.requisition_date = requisitionDate;

@@ -105,7 +105,7 @@ void read_date(char *message, typeDate *date) {
 	do {
 		printf("%s superior a (01/01/2000): ", message);
 		control = scanf("%hhu/%hhu/%hu", &(date->day), &(date->month), &(date->year));
-		limparBufferStdin();
+		clean_stdin_buffer();
 
 		// Validate the input for the date number
 		if (control == 0 || validate_date(*date) != 0) {

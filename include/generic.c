@@ -113,7 +113,7 @@ int compare_numbers(int number1, int number2) {
 /**
  * @brief Limpa o buffer de input
  */
-void limparBufferStdin(void) {
+void clean_stdin_buffer(void) {
 	char chr;
 	do {
 		chr = getchar();
@@ -128,14 +128,14 @@ void limparBufferStdin(void) {
  * @param max 
  * @return int 
  */
-int lerInteiro(char *message, int min, int max) {
+int read_integer(char *message, int min, int max) {
 	int number, control;
 
 	// Get integer number
 	do {
 		printf("%s (%d a %d) : ", message, min, max);
 		control = scanf("%d", &number);
-		limparBufferStdin();
+		clean_stdin_buffer();
 
 		// Validate the input for a integer number
 		if (control == 0) {
@@ -158,7 +158,7 @@ int lerInteiro(char *message, int min, int max) {
  * @param max 
  * @return float 
  */
-float lerFloat(char *message, float min, float max) {
+float read_float(char *message, float min, float max) {
 	float number;
 	int control;
 
@@ -166,7 +166,7 @@ float lerFloat(char *message, float min, float max) {
 	do {
 		printf("%s (%.2f a %.2f) : ", message, min, max);
 		control = scanf("%f", &number);
-		limparBufferStdin();
+		clean_stdin_buffer();
 
 		// Validate the input for a float number
 		if (control == 0) {
@@ -188,7 +188,7 @@ float lerFloat(char *message, float min, float max) {
  * @param outputString 
  * @param maxChars 
  */
-void lerString(char *message, char *outputString, unsigned int maxChars) {
+void read_string(char *message, char *outputString, unsigned int maxChars) {
 	int stringSize;
 
 	do {
@@ -204,7 +204,7 @@ void lerString(char *message, char *outputString, unsigned int maxChars) {
 
 	// Clean the stdin buffer only if there are chars left
 	if (outputString[stringSize - 1] != '\n') {
-		limparBufferStdin();
+		clean_stdin_buffer();
 	} else {
 		outputString[stringSize - 1] = '\0';	// Deletes the \n stored in the vector
 	}
