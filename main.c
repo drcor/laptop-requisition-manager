@@ -25,6 +25,8 @@ void register_request(typeRequest **requests, unsigned int *numberRequests, type
 void renovate_request(typeRequest *requests, unsigned int numberRequests);
 void list_breakdowns(typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeLaptop *laptops, unsigned int numberLaptops);
 void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown *breakdowns, unsigned int numberBreakdowns, typeRequest *requests, unsigned int numberRequests);
+/* List one request by code*/
+void list_one_request(typeRequest *requests, unsigned int *numberRequests, typeLaptop *laptops);
 
 int main(void) {
 	unsigned int numberLaptops = 0;
@@ -251,7 +253,7 @@ void menu_laptops(typeLaptop **laptops, unsigned int *numberLaptops, typeBreakdo
 
 // Requests menu
 void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLaptop *laptops, unsigned int numberLaptops) {
-	int opcao2;
+	int opcao2, laptopId;
 
 	printf("\n +------------------------------------------+\n");
 	printf(" |               Requisições                |\n");
@@ -276,7 +278,7 @@ void menu_requests(typeRequest **requests, unsigned int *numberRequests, typeLap
 			break;
 		case 3:
 			printf("\nVer informações de uma requisição:\n");
-			list_one_request(*requests, numberRequests);
+			list_one_request(*requests, numberRequests, laptops);
 			break;
 		case 4:
 			printf("\nRenovar Requisição:\n");
@@ -692,5 +694,53 @@ void list_laptops(typeLaptop *laptops, unsigned int numberLaptops, typeBreakdown
 		}
 	} else {
 		printf("\nATENÇÃO: Não existe nenhum portátil registado!\n");
+	}
+}
+
+void list_one_request(typeRequest *requests, unsigned int *numberRequests, typeLaptop *laptops){
+	int pos, days, laptopId;
+	typeRequest request;
+	
+	if (requests != NULL && numberRequests > 0){
+		do {
+			lerString("Insira o código do produto", request.code, CODE_SIZE);
+			pos = search_request_by_code(requests, *numberRequests, request.code);
+				
+			if (pos == -1) {
+				printf("\nATENÇÃO: O código introduzido é inválido!\n");
+			}
+			else{
+				printf("Code\tLID\tEstado\t\tPrazo\tLocal devol.\tData requi.\tData devol.\tDias req.\tMulta\t\tTipo User\tUtilizador\n");
+				printf("%s\t%d\t", requests[pos].code, requests[pos].laptop_id);
+				print_typeReqState(requests[pos].requisition_state);
+				printf("\t%d\t", requests[pos].deadline);
+				print_typeLocal(requests[pos].devolution_local);
+				printf("\t");
+				print_date(requests[pos].requisition_date);
+				printf("\t");
+				// Print duration of requisition
+				if (requests[pos].requisition_state == DONE) {
+					print_date(requests[pos].devolution_date);
+					days = diff_date(requests[pos].requisition_date, requests[pos].devolution_date);
+					printf("\t%d\t", days);
+				} else {
+					printf(" ---\t\t ---\t");
+				}
+				printf("\t%.2f $\t", requests[pos].price);
+				printf("\t");
+				print_typeUser(requests[pos].user_type);
+				printf("\t%s\n", requests[pos].user_name);
+
+				laptopId = requests[pos].laptop_id;
+				printf("\n\t+--------------\n");
+				printf("\t|  ");
+				print_typeReqState(requests[pos].requisition_state);
+				printf("\n\t|  Total de dias requisitado: %d", requests[pos].deadline);
+				printf("\n\t|  Designacão: %s", laptops[laptopId].description);
+				printf("\n\t|\n\n");
+			}
+		} while (pos == -1);
+	}else{
+		printf("\nATENÇÃO: Não existe nenhuma requisição registada!\n");
 	}
 }
