@@ -56,56 +56,57 @@
 	"date.h"
 	<stdio.h>
 
-1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/breakdowns.c
+1673551611 source:/home/drcorreia/Git/laptop-requisition-manager/include/breakdowns.c
 	"breakdowns.h"
 	<stdlib.h>
 	<limits.h>
 
-1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/breakdowns.h
+1673550824 /home/drcorreia/Git/laptop-requisition-manager/include/breakdowns.h
 	"generic.h"
 	"date.h"
 	<stdio.h>
 
-1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/generic.h
+1673550940 /home/drcorreia/Git/laptop-requisition-manager/include/generic.h
 	<stdint.h>
 
-1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/date.h
+1673550937 /home/drcorreia/Git/laptop-requisition-manager/include/date.h
 	<stdint.h>
 	<stdbool.h>
 
-1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/date.c
+1673550922 source:/home/drcorreia/Git/laptop-requisition-manager/include/date.c
 	"date.h"
 	"generic.h"
 	<stdio.h>
 	<stdbool.h>
 
-1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/generic.c
+1673550925 source:/home/drcorreia/Git/laptop-requisition-manager/include/generic.c
 	"generic.h"
 	<stdio.h>
 	<string.h>
 
-1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/laptops.c
+1673550928 source:/home/drcorreia/Git/laptop-requisition-manager/include/laptops.c
 	"laptops.h"
 	"date.h"
 	"generic.h"
 	<stdlib.h>
 	<limits.h>
 
-1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/laptops.h
+1673550914 /home/drcorreia/Git/laptop-requisition-manager/include/laptops.h
 	"generic.h"
 	"date.h"
 	<stdio.h>
 
-1673042743 source:/home/drcorreia/Git/laptop-requisition-manager/include/requests.c
+1673552854 source:/home/drcorreia/Git/laptop-requisition-manager/include/requests.c
 	"requests.h"
 	<stdlib.h>
+	<string.h>
 
-1673042743 /home/drcorreia/Git/laptop-requisition-manager/include/requests.h
+1673550945 /home/drcorreia/Git/laptop-requisition-manager/include/requests.h
 	"generic.h"
 	"date.h"
 	<stdio.h>
 
-1673048683 source:/home/drcorreia/Git/laptop-requisition-manager/main.c
+1673552534 source:/home/drcorreia/Git/laptop-requisition-manager/main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>

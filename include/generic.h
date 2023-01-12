@@ -4,12 +4,13 @@
 #include <stdint.h>
 
 /* Enumeration of locations */
-enum typeLocal {
-	NONE=-1,
-	RESIDENCES=0,
-	CAMPUS1=1,
-	CAMPUS2=2,
-	CAMPUS5=5
+enum typeLocal
+{
+    NONE=-1,
+    RESIDENCES=0,
+    CAMPUS1=1,
+    CAMPUS2=2,
+    CAMPUS5=5
 };
 /* Set location from a integer */
 int set_typeLocal(enum typeLocal *location, int num);

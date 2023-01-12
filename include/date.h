@@ -7,10 +7,11 @@
 #define BEGIN_DATE 2000
 
 /* Date format */
-typedef struct {
-	uint8_t day;	// (1-31)
-	uint8_t month;	// (1-12)
-	uint16_t year;
+typedef struct
+{
+    uint8_t day;	// (1-31)
+    uint8_t month;	// (1-12)
+    uint16_t year;
 } typeDate;
 
 /* Check if 'year' is a leap year */

@@ -6,9 +6,10 @@
 #include <stdio.h>
 
 /* Enumeration of breakdown types */
-enum typeBreak {
-	TEMPORARY,	// 0
-	PERMANENT	// 1
+enum typeBreak
+{
+    TEMPORARY,	// 0
+    PERMANENT	// 1
 };
 /* Set type of breakdown from a integer */
 int set_typeBreak(enum typeBreak *break_type, int num);
@@ -16,12 +17,13 @@ int set_typeBreak(enum typeBreak *break_type, int num);
 void print_typeBreak(enum typeBreak break_type);
 
 /* Breakdowns information */
-typedef struct {
-	int id;
-	int laptop_id;
-	enum typeBreak break_type;
-	typeDate date;
-	int duration;
+typedef struct
+{
+    int id;
+    int laptop_id;
+    enum typeBreak break_type;
+    typeDate date;
+    int duration;
 } typeBreakdown;
 
 /* Count number of breakdowns with a laptop_id */

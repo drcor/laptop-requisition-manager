@@ -10,10 +10,11 @@
 #define DEADLINE_LIMIT 30
 
 /* Enumeration of type of user */
-enum typeUser {
-	STUDENT,		// 0
-	TEACHER,		// 1
-	ADMNISTRATIVE	// 2
+enum typeUser
+{
+    STUDENT,		// 0
+    TEACHER,		// 1
+    ADMNISTRATIVE	// 2
 };
 /* Set type of user from a integer */
 int set_typeUser(enum typeUser *user_type, int num);
@@ -21,9 +22,10 @@ int set_typeUser(enum typeUser *user_type, int num);
 void print_typeUser(enum typeUser user_type);
 
 /* Enumeration of type of requisition state */
-enum typeReqState {
-	ACTIVE,	// 0
-	DONE	// 1
+enum typeReqState
+{
+    ACTIVE,	// 0
+    DONE	// 1
 };
 /* Set type of requisition state from a number */
 int set_typeReqState(enum typeReqState *req_state, int num);
@@ -31,17 +33,18 @@ int set_typeReqState(enum typeReqState *req_state, int num);
 void print_typeReqState(enum typeReqState req_state);
 
 /* Requests information */
-typedef struct {
-	char code[CODE_SIZE];
-	int laptop_id;
-	char user_name[USERNAME_SIZE];
-	enum typeUser user_type;
-	typeDate requisition_date;
-	short deadline;
-	enum typeReqState requisition_state;
-	typeDate devolution_date;
-	enum typeLocal devolution_local;
-	float price;
+typedef struct
+{
+    char code[CODE_SIZE];
+    int laptop_id;
+    char user_name[USERNAME_SIZE];
+    enum typeUser user_type;
+    typeDate requisition_date;
+    short deadline;
+    enum typeReqState requisition_state;
+    typeDate devolution_date;
+    enum typeLocal devolution_local;
+    float price;
 } typeRequest;
 
 /* Count active requests */

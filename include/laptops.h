@@ -9,10 +9,11 @@
 #define DESCRIPTION_SIZE	100
 
 /* Enumeration of cpu's */
-enum typeCPU {
-	I3=3,		// 3
-	I5=5,		// 5
-	I7=7		// 7
+enum typeCPU
+{
+    I3=3,		// 3
+    I5=5,		// 5
+    I7=7		// 7
 };
 /* Set type of cpu from a integer */
 int set_typeCPU(enum typeCPU *cpu, int num);
@@ -20,10 +21,11 @@ int set_typeCPU(enum typeCPU *cpu, int num);
 void print_typeCPU(enum typeCPU cpu);
 
 /* Enumeration of laptop's states */
-enum typeState {
-	AVAILABLE,	// 0
-	TAKEN,		// 1
-	BROKEN		// 2
+enum typeState
+{
+    AVAILABLE,	// 0
+    TAKEN,		// 1
+    BROKEN		// 2
 };
 /* Set the state of laptop from a integer */
 int set_typeState(enum typeState *state, int num);
@@ -31,15 +33,16 @@ int set_typeState(enum typeState *state, int num);
 void print_typeState(enum typeState state);
 
 /* Laptop information */
-typedef struct {
-	int id;
-	char description[DESCRIPTION_SIZE];
-	enum typeCPU cpu;
-	int memory;			// GB
-	enum typeState state;
-	enum typeLocal location;
-	typeDate date;
-	float price;		// euros
+typedef struct
+{
+    int id;
+    char description[DESCRIPTION_SIZE];
+    enum typeCPU cpu;
+    int memory;			// GB
+    enum typeState state;
+    enum typeLocal location;
+    typeDate date;
+    float price;
 } typeLaptop;
 
 /* Count available laptops */
