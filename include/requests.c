@@ -93,7 +93,7 @@ void print_typeReqState(enum typeReqState req_state)
         printf("Ativo    ");
         break;
     case DONE:
-        printf("Concluído");
+        printf("Concluido");
         break;
     }
 }
@@ -202,12 +202,12 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
         // Inserts product code, already validated.
         do
         {
-            read_string("Insira o código da requisição", request.code, CODE_SIZE);
+            read_string("Insira o codigo da requisicao", request.code, CODE_SIZE);
             control = search_request_by_code(*requests, *numberRequests, request.code);
 
             if (control > -1)
             {
-                printf("\nATENÇÃO: O código introduzido já está registado\n");
+                printf("\nATENCAO: O codigo introduzido ja esta registado\n");
             }
         }
         while (control > -1);
@@ -216,11 +216,11 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
         read_string("Insira o nome do cliente", request.user_name, USERNAME_SIZE);
 
         // Set type of user
-        tmp = read_integer("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Docente\n\t2 - Técnico Administrativo\n", 0, 2);
+        tmp = read_integer("Insira o tipo de cliente\n\t0 - Estudante\n\t1 - Docente\n\t2 - Tecnico Administrativo\n", 0, 2);
         set_typeUser(&(request.user_type), tmp);
 
         // User chooses deadline
-        request.deadline = read_integer("Insira o prazo de devolução do portátil em dias", 1, DEADLINE_LIMIT);
+        request.deadline = read_integer("Insira o prazo de devolucao do portatil em dias", 1, DEADLINE_LIMIT);
 
         // Set the requisition state to active and store laptop ID
         request.requisition_date = requisitionDate;
@@ -234,12 +234,12 @@ int insert_request(typeRequest **requests, unsigned int *numberRequests, int lap
         (*numberRequests)++;
         result = 0;
 
-        printf("Registo de requisição concluído com sucesso\n");
+        printf("Registo de requisicao concluido com sucesso\n");
     }
     else
     {
         *requests = save;
-        printf("ERRO: Falha na alocação de memória!\n");
+        printf("ERRO: Falha na alocacao de memoria!\n");
     }
 
     return result;
@@ -259,7 +259,7 @@ void list_request(typeRequest *requests, unsigned int numberRequests)
     // Check if there are requests
     if (requests != NULL && numberRequests > 0)
     {
-        printf("Code\tLID\tEstado\t\tPrazo\tLocal devol.\tData requi.\tData devol.\tDuração req.\tMulta\t\tTipo User\tUtilizador\n");
+        printf("Code\tLID\tEstado\t\tPrazo\tLocal devol.\tData requi.\tData devol.\tDuracao req.\tMulta\t\tTipo User\tUtilizador\n");
 
         for (pos = 0; pos < numberRequests; pos++)
         {
@@ -288,7 +288,7 @@ void list_request(typeRequest *requests, unsigned int numberRequests)
     }
     else
     {
-        printf("\nATENÇÃO: Não existe nenhuma requisição registada!\n");
+        printf("\nATENCAO: Nao existe nenhuma requisicao registada!\n");
     }
 }
 
@@ -320,7 +320,7 @@ void list_requests_by_laptop_id(typeRequest *requests, unsigned int numberReques
     }
     else
     {
-        printf("ATENÇÃO: Não existem requisições.\n");
+        printf("ATENCAO: Nao existem requisicoes.\n");
     }
 }
 

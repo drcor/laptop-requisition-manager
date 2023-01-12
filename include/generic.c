@@ -51,7 +51,7 @@ void print_typeLocal(enum typeLocal location)
         printf("---        ");
         break;
     case RESIDENCES:
-        printf("Residências");
+        printf("Residencias");
         break;
     case CAMPUS1:
         printf("Campus 1   ");
@@ -161,13 +161,13 @@ int read_integer(char *message, int min, int max)
         // Validate the input for a integer number
         if (control == 0)
         {
-            printf("\nATENÇÃO: Deverá inserir um número inteiro\n");
+            printf("\nATENCAO: Devera inserir um numero inteiro\n");
         }
         else
         {
             if (number < min || number > max)
             {
-                printf("\nATENÇÃO: Número inválido. Insira novamente: ");
+                printf("\nATENCAO: Numero invalido. Insira novamente: ");
             }
         }
     }
@@ -199,13 +199,13 @@ float read_float(char *message, float min, float max)
         // Validate the input for a float number
         if (control == 0)
         {
-            printf("\nATENÇÃO: Deverá inserir um número decimal (float)\n");
+            printf("\nATENCAO: Devera inserir um numero decimal (float)\n");
         }
         else
         {
             if (number < min || max < number)
             {
-                printf("\nATENÇÃO: Número inválido. Insira novamente: ");
+                printf("\nATENCAO: Numero invalido. Insira novamente: ");
             }
         }
     }
@@ -234,7 +234,7 @@ void read_string(char *message, char *outputString, unsigned int maxChars)
 
         if (stringSize == 1)  	// Check if the user inserted a string
         {
-            printf("\nATENÇÃO: Não foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
+            printf("\nATENCAO: Nao foram introduzidos caracteres! Apenas carregou no ENTER\n\n");
         }
     }
     while (stringSize == 1);

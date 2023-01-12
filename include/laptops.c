@@ -87,7 +87,7 @@ void print_typeState(enum typeState state)
         printf("Avariado");
         break;
     case AVAILABLE:
-        printf("Disponível");
+        printf("Disponivel");
         break;
     case TAKEN:
         printf("Requisitado");
@@ -210,7 +210,7 @@ void insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops)
 
                 if (control != 0)  	// If not valid
                 {
-                    printf("\nATENÇÃO: Insira um CPU válido\n");
+                    printf("\nATENCAO: Insira um CPU valido\n");
                 }
             }
             while (control != 0);
@@ -223,37 +223,37 @@ void insert_laptop(typeLaptop **laptops, unsigned int *numberLaptops)
 
             do  	// Read location of laptop
             {
-                tmp = read_integer("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+                tmp = read_integer("Insira a localizacao do portatil\n\t0 - Residencias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
                 control = set_typeLocal(&(laptop.location), tmp);
 
                 if (control != 0)  	// If not valid
                 {
-                    printf("\nATENÇÃO: Insira uma localização válida\n");
+                    printf("\nATENCAO: Insira uma localizacao valida\n");
                 }
             }
             while (control != 0);
 
             // Read date of aquisition
-            read_date("Insira a data de aquisição", &(laptop.date));
+            read_date("Insira a data de aquisicao", &(laptop.date));
             // Read price
-            laptop.price = read_float("Insira o preço do portátil em $", 0.0, 10000.0);
+            laptop.price = read_float("Insira o preco do portatil em $", 0.0, 10000.0);
             // Read Description
-            read_string("Insira a descrição do portátil", laptop.description, DESCRIPTION_SIZE);
+            read_string("Insira a descricao do portatil", laptop.description, DESCRIPTION_SIZE);
 
             (*laptops)[*numberLaptops] = laptop;
             (*numberLaptops)++;
 
-            printf("Registo de portátil concluído com sucesso\n");
+            printf("Registo de portatil concluido com sucesso\n");
         }
         else
         {
-            printf("ATENÇÃO: Já atingiu o limite de máximo de portáteis\n");
+            printf("ATENCAO: Ja atingiu o limite de maximo de portateis\n");
         }
     }
     else
     {
         *laptops = save;
-        printf("ERRO: Falha na alocação de memória!\n");
+        printf("ERRO: Falha na alocacao de memoria!\n");
     }
 }
 
@@ -273,28 +273,28 @@ void update_laptop_location(typeLaptop *laptops, unsigned int numberLaptops)
 
         do
         {
-            tmp = read_integer("Insira o id do laptop que deseja alterar a localização:", 1, MAX_LAPTOPS);
+            tmp = read_integer("Insira o id do laptop que deseja alterar a localizacao:", 1, MAX_LAPTOPS);
             pos = search_laptop_id(laptops, numberLaptops, tmp);
 
             if (pos == -1 || laptops[pos].state != AVAILABLE)
             {
-                printf("\nATENÇÃO: Insira o ID de um laptop existente e disponível\n");
+                printf("\nATENCAO: Insira o ID de um laptop existente e disponivel\n");
             }
         }
         while (pos == -1 || laptops[pos].state != AVAILABLE);
 
         do  	// Read location of laptop
         {
-            tmp = read_integer("Insira a localização do portátil\n\t0 - Residências\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
+            tmp = read_integer("Insira a localizacao do portatil\n\t0 - Residencias\n\t1 - Campus 1\n\t2 - Campus 2\n\t5 - Campus 5\n", 0, 5);
             control = set_typeLocal(&(laptops[pos].location), tmp);
             if (control != 0)  	// If not valid
             {
-                printf("\nATENÇÃO: Insira uma localização válida\n");
+                printf("\nATENCAO: Insira uma localizacao valida\n");
             }
         }
         while (control != 0);
 
-        printf("Atualização da localização do portátil concluída com sucesso\n");
+        printf("Atualizacao da localizacao do portatil concluida com sucesso\n");
     }
 }
 

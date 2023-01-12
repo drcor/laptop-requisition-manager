@@ -39,7 +39,7 @@ void print_typeBreak(enum typeBreak break_type)
     switch (break_type)
     {
     case TEMPORARY:
-        printf("Temporário");
+        printf("Temporario");
         break;
     case PERMANENT:
         printf("Permanente");
@@ -157,12 +157,12 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
 
         do  	// Read type of breakdown
         {
-            tmp = read_integer("Insira o tipo de avaria do portátil\n\t0 - Temporária\n\t1 - Permanente\n", 0, 1);
+            tmp = read_integer("Insira o tipo de avaria do portatil\n\t0 - Temporaria\n\t1 - Permanente\n", 0, 1);
             control = set_typeBreak(&(breakdown.break_type), tmp);
 
             if (control != 0)  	// If not valid
             {
-                printf("\nATENÇÃO: Insira uma localização válida\n");
+                printf("\nATENCAO: Insira uma localizacao valida\n");
             }
         }
         while (control != 0);
@@ -184,7 +184,7 @@ int insert_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
     else
     {
         *breakdowns = save;
-        printf("ERRO: Falha na alocação de memória!\n");
+        printf("ERRO: Falha na alocacao de memoria!\n");
     }
 
     return result;
@@ -224,7 +224,7 @@ int delete_breakdown(typeBreakdown **breakdowns, unsigned int *numberBreakdowns,
         else
         {
             *breakdowns = save;
-            printf("Falha na alocação de memória!\n");
+            printf("ERRO: Falha na alocacao de memoria!\n");
         }
     }
 
