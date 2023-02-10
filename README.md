@@ -1,18 +1,14 @@
 # Laptop Requisition Manager
 
-Laptop requisition manager is a C application for dealing with laptop requisitions in the university.
+Laptop Requisition Manager is a C project for evaluation that manages requests for laptops at the university.
 
 ## Build
 
 Open project on CodeBlocks and compile.
-
-## Usage
-
-```bash
-> laptop-manager.exe
+Or run de command:
+```sh
+$ make
 ```
-
-
 
 ## License
 

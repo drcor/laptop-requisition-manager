@@ -31,9 +31,30 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/generic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/generic.h" />
+		<Unit filename="include/laptops.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/laptops.h" />
+		<Unit filename="include/requests.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/requests.h" />
+		<Unit filename="include/breakdowns.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/breakdowns.h" />
+		<Unit filename="include/date.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/date.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
